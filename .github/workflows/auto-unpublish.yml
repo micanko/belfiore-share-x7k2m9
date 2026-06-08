@@ -1,0 +1,42 @@
+name: auto-unpublish-expired
+
+# 毎日 日本時間0:00（UTC15:00）に自動実行。手動実行も可。
+on:
+  schedule:
+    - cron: '0 15 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpublish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 期限切れ資料を非公開化
+        run: |
+          export TZ=Asia/Tokyo
+          TODAY=$(date +%Y-%m-%d)
+          echo "今日(JST): $TODAY"
+          changed=0
+          for f in *.html; do
+            [ -e "$f" ] || continue
+            # ファイル名に日付(YYYY-MM-DD)を含むものだけ対象
+            d=$(echo "$f" | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' | head -1)
+            [ -z "$d" ] && continue
+            # 打ち合わせ日 < 今日（＝翌日以降）なら非公開
+            if [[ "$d" < "$TODAY" ]]; then
+              git rm "$f"
+              changed=1
+              echo "非公開にしました: $f （打ち合わせ日 $d）"
+            fi
+          done
+          if [ "$changed" = "1" ]; then
+            git config user.name "auto-unpublish"
+            git config user.email "actions@users.noreply.github.com"
+            git commit -m "期限切れの打ち合わせ資料を自動で非公開"
+            git push
+          else
+            echo "本日、非公開にする対象はありませんでした"
+          fi
