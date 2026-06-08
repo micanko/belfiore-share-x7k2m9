@@ -8,7 +8,7 @@
 <style>
   :root{
     --pink:#C9898E; --pink-d:#A96A70; --bg:#FDF8F6; --ink:#222; --line:#000;
-    --need:#F8DDE3; --green:#D9EAD3; --gray:#D9D9D9;
+    --need:#F8DDE3; --first:#CFE2F3; --green:#D9EAD3; --gray:#D9D9D9;
   }
   *{box-sizing:border-box;}
   body{margin:0; background:var(--bg); color:var(--ink);
@@ -21,11 +21,13 @@
   .legend{display:flex; gap:14px; flex-wrap:wrap; margin:14px 0 18px; font-size:13px;}
   .legend span{padding:5px 12px; border:1px solid var(--line); border-radius:6px; background:#fff;}
   .legend .need{background:var(--need);}
+  .legend .first{background:var(--first);}
   table{border-collapse:collapse; width:100%; margin:8px 0 14px; font-size:13.5px;}
   th,td{border:1px solid var(--line); padding:8px 11px; text-align:left; vertical-align:top;}
   th{background:var(--gray); font-weight:bold;}
   td.c{text-align:center; font-weight:bold; width:90px;}
   tr.need td{background:var(--need);}
+  tr.first td{background:var(--first);}
   .ok{color:#2e7d32;}
   .no{color:#c62828;}
   .part{color:#e65100;}
@@ -38,11 +40,12 @@
 <div class="wrap">
   <header class="hero">
     <h1>日報・GM/MGシート 数値比較表</h1>
-    <div class="sub">こちら（日報）で取れる数値と、GM/MGシートで取れている／いないの対照。先日いただいたご要望の項目を色分けしています。</div>
+    <div class="sub">こちら（日報）で取れる数値と、GM/MGシートで取れている／いないの対照。ご要望の項目を色分けしています。</div>
   </header>
 
   <div class="legend">
-    <span class="need">薄ピンク＝先日いただいたご要望（契約系）</span>
+    <span class="need">薄ピンク＝追加要望（契約系・6/7）</span>
+    <span class="first">薄い青＝最初のご要望（5/29打合せ）</span>
     <span>● ＝ 現在、新規カウンセリング契約率（個人）で取得中</span>
     <span><strong class="ok">○</strong> 現状すでに取れている</span>
     <span><strong class="part">△</strong> データはあるが追加集計・本番化後</span>
@@ -67,7 +70,7 @@
     <tr><th style="width:34%;">数値項目</th><th class="c">日報</th><th class="c">GM/MG</th><th>備考</th></tr>
     <tr class="need"><td>● <strong>契約件数</strong>（契約した数）</td><td class="c ok">○</td><td class="c ok">○</td><td>GM/MGは「契約者数」。新規/既存も日報は分かる</td></tr>
     <tr><td>● 入金件数（入金完了した数）</td><td class="c ok">○</td><td class="c part">△</td><td>個人契約率に「入金」列はあり</td></tr>
-    <tr><td>● カウンセリング件数（来店相談数）</td><td class="c ok">○</td><td class="c ok">○</td><td>GM/MGは「来店」（契約率の母数）</td></tr>
+    <tr class="first"><td>● カウンセリング件数（来店相談数）</td><td class="c ok">○</td><td class="c ok">○</td><td>GM/MGは「来店」（契約率の母数）</td></tr>
     <tr><td>体験件数 / 消化件数</td><td class="c ok">○</td><td class="c no">×</td><td>GM/MGに項目なし</td></tr>
     <tr><td>● 解約 / クーリングオフ / 手付金 件数</td><td class="c ok">○</td><td class="c part">△</td><td>クーリングオフ件数はあり・他は手薄</td></tr>
     <tr><td>未入金件数 / 入金完了件数</td><td class="c ok">○</td><td class="c ok">○</td><td>未入金管理表</td></tr>
@@ -89,7 +92,7 @@
     <tr><td>予約件数 / 予約率</td><td class="c ok">○</td><td class="c ok">○</td><td></td></tr>
     <tr><td>来店者数 / 来店率</td><td class="c ok">○</td><td class="c ok">○</td><td></td></tr>
     <tr><td><strong>契約者数 / 契約率</strong></td><td class="c ok">○</td><td class="c ok">○</td><td>問合せ→契約の流れの中核。両方にあり</td></tr>
-    <tr><td>未契約理由</td><td class="c ok">○</td><td class="c no">×</td><td>日報の問合せシートにテキストで残る</td></tr>
+    <tr class="first"><td>未契約理由</td><td class="c ok">○</td><td class="c no">×</td><td>日報の問合せシートにテキストで残る</td></tr>
   </table>
 
   <h2>5. 未入金管理</h2>
@@ -116,7 +119,7 @@
   </table>
 
   <div class="note">
-    <strong>ポイント：</strong>先日いただいたご要望の「契約系（契約売上・契約件数・契約率）」は、<strong>日報・GM/MG どちらにもすでにある項目</strong>です。今ご覧の画面で出ていないだけかもしれませんので、10日に「今どの数字をご覧になっているか」を伺えれば、何をお足しすればよいか整理させていただきます。
+    <strong>ポイント：</strong>追加要望の「契約系（契約売上・契約件数・契約率）」は、<strong>日報・GM/MG どちらにもすでにある項目</strong>です。今ご覧の画面で出ていないだけかもしれませんので、10日に「今どの数字をご覧になっているか」を伺えれば、何をお足しすればよいか整理させていただきます。
   </div>
   <div class="note">
     <strong>ご参考：</strong>体験売上・消化・手付金・未契約理由・入金ベースの数字など、GM/MGシートに無い・手薄な項目も、日報からお出しできます。ご要望に応じて対応させていただきます。
