@@ -49,6 +49,41 @@
   .check { background: #FFFFFF; border: 1px solid #000; padding: 14px 18px; }
   .check li { margin: 7px 0 7px 18px; }
   .small { font-size: 12px; color: #555; margin-top: 8px; }
+
+  /* === スマホ：表をカード型に切り替え（横スクロール不要で縦に読める） === */
+  @media (max-width: 700px) {
+    body { padding: 14px; font-size: 15px; }
+    .titlebar h1 { font-size: 16px; }
+
+    table { border: 0; margin-bottom: 20px; background: transparent; }
+    thead { display: none; }                 /* 見出し行は隠す */
+    tbody, tr, td { display: block; width: 100% !important; }
+
+    tr {
+      background: #FFFFFF; border: 1px solid #000;
+      border-radius: 4px; margin-bottom: 14px; padding: 4px 0;
+      overflow: hidden;
+    }
+    td { border: 0; border-bottom: 1px solid #E3D3D4; padding: 9px 14px; }
+    tr td:last-child { border-bottom: 0; }
+
+    /* #（番号）は項目の上に小さく */
+    td.num {
+      width: 100% !important; text-align: left; background: #000; color: #fff;
+      font-size: 12px; padding: 5px 14px;
+    }
+    td.num::before { content: "No."; margin-right: 4px; }
+
+    /* 項目名はカードの見出し */
+    td.item { width: 100% !important; background: #FBF1F2; font-size: 15px; }
+
+    /* 各列に見出しラベルを付ける */
+    td[data-label]::before {
+      content: attr(data-label);
+      display: block; font-size: 11px; font-weight: 700;
+      color: #9c5b60; margin-bottom: 3px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -79,42 +114,42 @@
       <tr>
         <td class="num">1</td>
         <td class="item">売上の数字の出し方<br>（解約・クーリングオフの返金の扱い）</td>
-        <td>純額<br>＝返金を引いた「手取り」の数字</td>
-        <td>総額<br>＝引く前の数字（解約・COは別の欄に表示）</td>
-        <td>純額<br>＝現行と同じ「手取り」</td>
-        <td><span class="yokakunin">※要確認</span>現行どおり「純額（手取り）」を推奨（先方が今この数字を使っており、移行しても数字が変わらない）。手取り／総額どちらで見たいかだけ確認。</td>
+        <td data-label="現行システム">純額<br>＝返金を引いた「手取り」の数字</td>
+        <td data-label="理想型シート">総額<br>＝引く前の数字（解約・COは別の欄に表示）</td>
+        <td data-label="改修版（日報・今）">純額<br>＝現行と同じ「手取り」</td>
+        <td data-label="推奨・どうすべきか"><span class="yokakunin">※要確認</span>現行どおり「純額（手取り）」を推奨（先方が今この数字を使っており、移行しても数字が変わらない）。手取り／総額どちらで見たいかだけ確認。</td>
       </tr>
       <tr>
         <td class="num">2</td>
         <td class="item">既存と再契約の分け方</td>
-        <td>別々に分ける</td>
-        <td>既存に再契約をまとめる</td>
-        <td>別々に分ける<br>（現行に合わせ済み）</td>
-        <td><span class="ok">対応済み。</span>現行どおり「分ける」で推奨。確認のみでOK。</td>
+        <td data-label="現行システム">別々に分ける</td>
+        <td data-label="理想型シート">既存に再契約をまとめる</td>
+        <td data-label="改修版（日報・今）">別々に分ける<br>（現行に合わせ済み）</td>
+        <td data-label="推奨・どうすべきか"><span class="ok">対応済み。</span>現行どおり「分ける」で推奨。確認のみでOK。</td>
       </tr>
       <tr>
         <td class="num">3</td>
         <td class="item">実績内訳の「契約数」の数え方</td>
-        <td>全契約<br>（日報の契約数）</td>
-        <td>問合せから契約までの流れ<br>（問合せ→予約→来店→契約）</td>
-        <td>問合せからの流れ<br>（GM／MG準拠）</td>
-        <td><span class="yokakunin">※要確認</span>GM／MG準拠（問合せからの流れ）のまま推奨。「全契約数も別に見たい」場合は追加検討。</td>
+        <td data-label="現行システム">全契約<br>（日報の契約数）</td>
+        <td data-label="理想型シート">問合せから契約までの流れ<br>（問合せ→予約→来店→契約）</td>
+        <td data-label="改修版（日報・今）">問合せからの流れ<br>（GM／MG準拠）</td>
+        <td data-label="推奨・どうすべきか"><span class="yokakunin">※要確認</span>GM／MG準拠（問合せからの流れ）のまま推奨。「全契約数も別に見たい」場合は追加検討。</td>
       </tr>
       <tr>
         <td class="num">4</td>
         <td class="item">物販の「その他」を売上に入れるか</td>
-        <td>入れない<br>（販売種別「物販契約」だけ）</td>
-        <td>（総額方式・別表示）</td>
-        <td>入れる<br>（物販を全部）</td>
-        <td><span class="yokakunin">※要確認</span>「その他」が何か（実売か／付属品・サンプルか）。実売なら入れる、そうでなければ入れない。先方の意図に合わせる。</td>
+        <td data-label="現行システム">入れない<br>（販売種別「物販契約」だけ）</td>
+        <td data-label="理想型シート">（総額方式・別表示）</td>
+        <td data-label="改修版（日報・今）">入れる<br>（物販を全部）</td>
+        <td data-label="推奨・どうすべきか"><span class="yokakunin">※要確認</span>「その他」が何か（実売か／付属品・サンプルか）。実売なら入れる、そうでなければ入れない。先方の意図に合わせる。</td>
       </tr>
       <tr>
         <td class="num">5</td>
         <td class="item">現行システムの数式の不具合<br>（参考・報告）</td>
-        <td>契約売上の数式に誤記（コロン抜け）→ 一部の契約が集計漏れ（水戸 etc…）</td>
-        <td>―</td>
-        <td>正しく集計<br>（改修版が正）</td>
-        <td><span class="yokakunin">※要確認</span>改修版が正しい。現行の数式を修正依頼（他店にも同じ誤記が無いか要チェック）。</td>
+        <td data-label="現行システム">契約売上の数式に誤記（コロン抜け）→ 一部の契約が集計漏れ（水戸 etc…）</td>
+        <td data-label="理想型シート">―</td>
+        <td data-label="改修版（日報・今）">正しく集計<br>（改修版が正）</td>
+        <td data-label="推奨・どうすべきか"><span class="yokakunin">※要確認</span>改修版が正しい。現行の数式を修正依頼（他店にも同じ誤記が無いか要チェック）。</td>
       </tr>
     </tbody>
   </table>
