@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>集計方法の比較（現行・理想型・改修版）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "游ゴシック", "Yu Gothic", "YuGothic", "Hiragino Kaku Gothic ProN", sans-serif;
+    color: #000000;
+    background: #FDF8F6;
+    padding: 28px;
+    line-height: 1.6;
+    font-size: 14px;
+  }
+  .doc { max-width: 1100px; margin: 0 auto; }
+  .titlebar {
+    background: #000000; color: #FFFFFF;
+    padding: 14px 18px; border-radius: 2px;
+  }
+  .titlebar h1 { font-size: 19px; font-weight: 700; }
+  .titlebar .sub { font-size: 12px; color: #EEDFE0; margin-top: 4px; }
+  .note { font-size: 12px; color: #555; margin: 12px 2px 16px; }
+
+  table { width: 100%; border-collapse: collapse; background: #FFFFFF; margin-bottom: 26px; }
+  th, td { border: 1px solid #000000; padding: 9px 10px; text-align: left; vertical-align: top; }
+  thead th { background: #CCCCCC; font-weight: 700; font-size: 13px; }
+  td.num { text-align: center; width: 34px; font-weight: 700; }
+  td.item { font-weight: 700; width: 210px; background: #FBF1F2; }
+  .col-genko  { width: 170px; }
+  .col-risou  { width: 160px; }
+  .col-kaishu { width: 170px; }
+  .yokakunin {
+    display: inline-block; background: #EDD5D7; color: #000;
+    font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 3px;
+    margin-right: 5px; white-space: nowrap;
+  }
+  .ok { color: #7a4f53; font-size: 12px; }
+
+  .section-h {
+    background: #C9898E; color: #FFFFFF; font-weight: 700;
+    padding: 8px 14px; border-radius: 2px; font-size: 14px; margin: 22px 0 10px;
+  }
+  .summary { background: #FFFFFF; border: 1px solid #000; padding: 14px 18px; }
+  .summary li { margin: 6px 0 6px 18px; }
+  .summary b { color: #9c5b60; }
+  .check { background: #FFFFFF; border: 1px solid #000; padding: 14px 18px; }
+  .check li { margin: 7px 0 7px 18px; }
+  .small { font-size: 12px; color: #555; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="titlebar">
+    <h1>集計方法の比較 ― 現行システム ／ 理想型シート ／ 改修版（日報）</h1>
+    <div class="sub">ベルフィオーレ 営業日報　2026年6月　／　3者でズレている部分のみ記載</div>
+  </div>
+
+  <div class="note">
+    ※「全部同じ」の項目は省略しています。<br>
+    ※改修版（日報）は現状、現行システムと同じ「純額方式」で作っています（理想型ではありません）。
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="num">#</th>
+        <th class="item" style="background:#CCCCCC;">項目</th>
+        <th class="col-genko">現行システム</th>
+        <th class="col-risou">理想型シート</th>
+        <th class="col-kaishu">改修版（日報・今）</th>
+        <th>推奨・どうすべきか</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="num">1</td>
+        <td class="item">売上の数字の出し方<br>（解約・クーリングオフの返金の扱い）</td>
+        <td>純額<br>＝返金を引いた「手取り」の数字</td>
+        <td>総額<br>＝引く前の数字（解約・COは別の欄に表示）</td>
+        <td>純額<br>＝現行と同じ「手取り」</td>
+        <td><span class="yokakunin">※要確認</span>現行どおり「純額（手取り）」を推奨（先方が今この数字を使っており、移行しても数字が変わらない）。手取り／総額どちらで見たいかだけ確認。</td>
+      </tr>
+      <tr>
+        <td class="num">2</td>
+        <td class="item">既存と再契約の分け方</td>
+        <td>別々に分ける</td>
+        <td>既存に再契約をまとめる</td>
+        <td>別々に分ける<br>（現行に合わせ済み）</td>
+        <td><span class="ok">対応済み。</span>現行どおり「分ける」で推奨。確認のみでOK。</td>
+      </tr>
+      <tr>
+        <td class="num">3</td>
+        <td class="item">実績内訳の「契約数」の数え方</td>
+        <td>全契約<br>（日報の契約数）</td>
+        <td>問合せから契約までの流れ<br>（問合せ→予約→来店→契約）</td>
+        <td>問合せからの流れ<br>（GM／MG準拠）</td>
+        <td><span class="yokakunin">※要確認</span>GM／MG準拠（問合せからの流れ）のまま推奨。「全契約数も別に見たい」場合は追加検討。</td>
+      </tr>
+      <tr>
+        <td class="num">4</td>
+        <td class="item">物販の「その他」を売上に入れるか</td>
+        <td>入れない<br>（販売種別「物販契約」だけ）</td>
+        <td>（総額方式・別表示）</td>
+        <td>入れる<br>（物販を全部）</td>
+        <td><span class="yokakunin">※要確認</span>「その他」が何か（実売か／付属品・サンプルか）。実売なら入れる、そうでなければ入れない。先方の意図に合わせる。</td>
+      </tr>
+      <tr>
+        <td class="num">5</td>
+        <td class="item">現行システムの数式の不具合<br>（参考・報告）</td>
+        <td>契約売上の数式に誤記（コロン抜け）→ 一部の契約が集計漏れ（水戸 etc…）</td>
+        <td>―</td>
+        <td>正しく集計<br>（改修版が正）</td>
+        <td><span class="yokakunin">※要確認</span>改修版が正しい。現行の数式を修正依頼（他店にも同じ誤記が無いか要チェック）。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-h">ひとことサマリー</div>
+  <div class="summary">
+    <ul>
+      <li><b>現行 ＝ 純額方式</b>（解約・クーリングオフを売上から引いた「手取り」を出す。別の欄にも金額を表示）。ただし契約売上の数式に種別リスト依存・誤記による集計漏れあり。</li>
+      <li><b>理想型 ＝ 総額方式</b>（解約・クーリングオフは別の欄に出すだけで、売上からは引かない）。現行とは方針が逆。</li>
+      <li><b>改修版 ＝ 現行に合わせた純額方式</b>。さらに現行のような数式の漏れ・誤記がないぶん、現行より正確。</li>
+    </ul>
+  </div>
+
+  <div class="section-h">社長に確認したいこと</div>
+  <div class="check">
+    <ul>
+      <li><span class="yokakunin">※要確認</span>売上は <b>純額（手取り・現行）</b> と <b>総額（理想型）</b> のどちらで見たいか（今は純額）。</li>
+      <li><span class="yokakunin">※要確認</span>物販の「その他」を売上に入れるか（「その他」とは何か）。</li>
+      <li><span class="yokakunin">※要確認</span>実績内訳は「問合せからの流れ（GM／MG準拠）」でよいか。</li>
+      <li><span class="yokakunin">※要確認</span>（報告）現行・契約売上の数式の誤記（水戸 etc…）＝修正依頼。</li>
+    </ul>
+    <div class="small">※ 既存／再契約（#2）は現行に合わせ済みのため、確認のみで対応不要です。</div>
+  </div>
+
+</div>
+</body>
+</html>
