@@ -189,7 +189,22 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 //   （8月＝439/653＝67.2%のうち44件が既存の再契約）、母数には既存の来店が入らないため率が上振れしていた。
 //   新定義：7月＝595/993＝59.9%、8月＝395/653＝60.5%。出典＝マスタ「全店個人データ」M列/N列。
 const RATE_D={"2026-07":{"熊谷　善江":[3,2],"大内　琴寧":[14,9],"田頭　愛未花":[4,2],"堤　小百合":[58,34],"形山　知見":[84,55],"須藤　海月":[3,2],"川村　志穂":[37,30],"河野　侑布子":[78,47],"藤澤　愛里":[20,15],"本多　晴愛":[4,1],"平野　華菜":[12,7],"齋藤　碧":[3,2],"吹越　美沙貴":[80,43],"細川　小百合":[89,47],"片桐　未来":[32,23],"山本　晴香":[89,63],"浅子　虹":[59,25],"奈良":[0,0],"後藤　美奈":[14,3],"山中　理香":[0,0],"沼澤　里美":[23,17],"及川 　颯月":[0,0],"梶川　奈可":[23,9],"石井　愛里紗":[0,0],"油座　麻衣":[16,8],"佐藤　美羽":[19,17],"菊池　愛莉":[14,7],"黒澤　悠菜":[1,1],"市川　愛純":[0,0],"石上　亜矢":[54,32],"与那嶺　蘭しく":[1,1],"田波　弓枝":[2,1],"舟守　麻衣":[0,0],"二瓶　かのん":[3,2],"藤倉　育美":[8,4],"廻谷　聡花":[0,0],"中嶋　千紗祈":[5,2],"𠮷田　遙南":[38,24],"谷田部　純代":[9,7],"柳澤　志萌":[1,1],"市川　絵理":[19,9],"佐藤　花恋":[0,0],"影山　綾音":[1,0],"進藤　歩":[7,4],"小山　雅子":[16,7],"阿部　千愛莉":[0,0],"本並　綾菜":[18,6],"藤澤":[1,1],"佐藤　瑠来":[6,3],"今野　凛香":[4,4],"小松　由佳":[5,2],"山本　陽菜":[2,2],"本岡　大実":[2,2],"宝家　シエラ":[11,11],"田﨑　里奈":[1,1]},"2026-08":{"田波　弓枝":[0,0],"谷田部　純代":[2,2],"柳澤　志萌":[1,1],"吹越　美沙貴":[35,18],"形山　知見":[63,42],"川村　志穂":[21,17],"山本　晴香":[57,34],"浅子　虹":[27,12],"河野　侑布子":[52,33],"堤　小百合":[51,39],"佐藤　花恋":[0,0],"佐藤　久美":[1,1],"二瓶　かのん":[0,0],"細川　小百合":[54,40],"奈良":[0,0],"廻谷　聡花":[2,1],"中嶋　千紗祈":[4,2],"藤倉　育美":[1,0],"藤澤　愛里":[39,19],"𠮷田　遙南":[36,27],"佐藤　瑠来":[2,2],"佐藤　美羽":[13,9],"進藤　歩":[2,1],"本並　綾菜":[9,5],"小松　由佳":[3,3],"阿部　千愛莉":[1,1],"菊池　愛莉":[3,3],"黒澤　悠菜":[2,1],"梶川　奈可":[8,4],"石井　愛里紗":[0,0],"油座　麻衣":[9,2],"片桐　未来":[5,3],"石上　亜矢":[58,26],"与那嶺　蘭しく":[1,1],"今野　凛香":[7,4],"影山　綾音":[1,0],"熊谷　善江":[0,0],"大内　琴寧":[9,2],"田頭　愛未花":[1,1],"山中　理香":[0,0],"後藤　美奈":[5,2],"須藤　海月":[0,0],"本多　晴愛":[4,2],"齋藤　碧":[2,2],"平野　華菜":[4,1],"沼澤　里美":[3,2],"及川 　颯月":[0,0],"山本　陽菜":[11,7],"本岡　大実":[6,4],"田﨑　里奈":[1,1],"小山　雅子":[20,4],"市川　絵理":[7,7],"伊藤　怜奈":[10,7]}};
-const RATE_LINE=0.60, RATE_MIN=5, DIV_LINE=0.60;   // ★0821 MICA指定：管轄別は達成率60%を境に赤／青   // ★0821 先方回答：5件以上を順位付き、4件以下は下段
+// ★0825 社長指示：赤／青の基準を整理した。
+//   ・契約率だけ 60% を境にする（0821 先方回答のまま）
+//   ・それ以外はすべて「その日までの日割り進捗に乗っているか」で判定する
+//     （月間目標 ÷ 月の日数 × 経過日数。社長の言葉＝「31日だったら31で割った額が進捗より上かどうか」）
+//   ・店舗別業績表の"達成率"の列だけは、月間目標に対する 100% 以上で判定する
+// ★0825 社長指示：上部サマリーに項目を追加（既存比率／新規脱毛契約率／新規痩身契約率／既存契約金額）。
+//   出典はいずれも日報の集計（マスタ）。月間の確定値なので日付では動かない。
+//   ・既存比率・既存契約金額 … マスタ「全店内訳データ」の契約金額。
+//       既存＝各カテゴリの「新規（既存）」＋「再契約」＋「物販（既存）」／新規＝各カテゴリの「新規合計」。
+//   ・新規脱毛契約率 … 下の契約率ランキングと同じ定義（脱毛新規のみ・RATE_D の全社合計）。
+//       ※0821に先方回答で「脱毛新規のみ」に統一したもの。BLOOMの個人実績（既存の再契約を含む）とは母数が違う。
+//   ・新規痩身契約率 … マスタ「全店内訳データ」の痩身新規合計（契約者数 ÷ 来店者数）。
+const SUMX={"2026-07": {"kizonKin": 34204996, "kizonRt": 0.1721, "sCn": 32, "sKy": 10}, "2026-08": {"kizonKin": 29093304, "kizonRt": 0.1873, "sCn": 10, "sKy": 4}};
+const RATE_LINE=0.60;      // 契約率の赤／青（60%ちょうども赤）
+const RATE_MIN=5;          // 契約率ランキングに順位を付ける最低件数（0821 先方回答）
+const TABLE_LINE=1.00;     // 店舗別業績表の"達成率"列：100%以上で赤
 const bl=n=>(RATE_D[ym]&&RATE_D[ym][n])||[0,0];
 const rateTxt=(k,c)=>c?(k/c*100).toFixed(1)+'%':'—';
 const rateCls=(k,c)=>!c?'':((k/c)>=RATE_LINE?'up':'down');   // ★0820：60%ちょうども赤
@@ -216,7 +231,8 @@ function render(){
   $('ttl').textContent=`ベルフィオーレ　営業日報　ランキング　${ym.slice(0,4)}年${+ym.slice(5)}月${day}日`;
   $('dayhint').textContent=`表示中：${label}／目標は月間目標を${isCum?`${day}日分`:'1日分'}に割ったもの`;
 
-  const S=D[ym].s.map(r=>({n:r[0],k:r[1],t:r[2]*tScale(),a:v('s',r[0])}));
+  // t＝その日までの日割り目標（按分後）／mt＝月間目標（按分前・店舗別業績表の達成率100%判定に使う）
+  const S=D[ym].s.map(r=>({n:r[0],k:r[1],t:r[2]*tScale(),mt:r[2],a:v('s',r[0])}));
   // p = [氏名, OL, 入金売上, 契約売上, 脱毛, エステ, 物販, カウンセ, 契約数, 目標, 店舗数]
   const P=D[ym].p.map(r=>{
     const a=v('p',(r[1]===1?'OL':'')+r[0]);
@@ -235,8 +251,26 @@ function render(){
   A(`<div class="kpi hl"><div class="lb">目標</div><div class="vl">${man(tgt)}</div><div class="sm">月間 ${man(D[ym].s.reduce((s,r)=>s+r[2],0))}</div></div>`);
   A(`<div class="kpi hl"><div class="lb">実績（入金売上）</div><div class="vl">${man(act)}</div><div class="sm">${yen(act)} 円</div></div>`);
   A(`<div class="kpi hl"><div class="lb">達成率</div><div class="vl ${tgt&&act>=tgt?'up':'down'}">${pct(act,tgt)}</div></div>`);
+  // ★0825 追加分。月間の確定値のため日付では動かない（下に注記）。
+  {
+    const x=SUMX[ym]||{kizonKin:0,kizonRt:0,sCn:0,sKy:0};
+    let dc=0,dk=0; const _rd=RATE_D[ym]||{};
+    Object.keys(_rd).forEach(n=>{ if(n==='合計')return; dc+=_rd[n][0]; dk+=_rd[n][1]; });
+    A(`<div class="kpi"><div class="lb">既存比率</div><div class="vl">${(x.kizonRt*100).toFixed(1)}%</div>
+      <div class="sm">既存 ${man(x.kizonKin)}</div></div>`);
+    A(`<div class="kpi"><div class="lb">新規脱毛契約率</div><div class="vl ${dc&&(dk/dc)>=RATE_LINE?'up':'down'}">${dc?(dk/dc*100).toFixed(1)+'%':'—'}</div>
+      <div class="sm">${dk} / ${dc} 件</div></div>`);
+    A(`<div class="kpi"><div class="lb">新規痩身契約率</div><div class="vl ${x.sCn&&(x.sKy/x.sCn)>=RATE_LINE?'up':'down'}">${x.sCn?(x.sKy/x.sCn*100).toFixed(1)+'%':'—'}</div>
+      <div class="sm">${x.sKy} / ${x.sCn} 件</div></div>`);
+    A(`<div class="kpi"><div class="lb">既存契約金額</div><div class="vl">${man(x.kizonKin)}</div>
+      <div class="sm">${yen(x.kizonKin)} 円</div></div>`);
+  }
   A(`<div class="kpi"><div class="lb">対象</div><div class="vl">${S.length}<span style="font-size:13px;font-weight:400">店</span></div><div class="sm">個人 ${P.length}名</div></div>`);
   A('</div>');
+  A('<div class="note">既存比率・新規脱毛契約率・新規痩身契約率・既存契約金額は<b>月間の確定値</b>です（日付では動きません）。'
+    +'既存＝各カテゴリの「新規（既存）」＋「再契約」＋「物販（既存）」の契約金額。'
+    +'新規脱毛契約率は下の契約率ランキングと同じ定義（脱毛新規のみ）、新規痩身契約率は痩身新規合計の契約者数÷来店者数です。'
+    +'契約率は60%以上を赤で表示しています。</div>');
 
   // 店舗ランキング2本
   const wt=S.filter(x=>x.t).sort((a,b)=>b.a/b.t-a.a/a.t);
@@ -272,9 +306,11 @@ function render(){
   const dm={};
   S.forEach(x=>{ if(x.k==='無し'||!x.t)return; (dm[x.k]??={t:0,a:0}); dm[x.k].t+=x.t; dm[x.k].a+=x.a; });
   A('<div class="mg-rank-card"><div class="mg-rank-list">');
+  // ★0825 社長指示：60%固定をやめ、その日までの日割り進捗に届いているかで赤／青を決める。
+  //   x.t は既に tScale() で日数按分済みなので、r>=1 が「進捗に乗っている」を意味する。
   Object.entries(dm).map(([k,d])=>({k,d,r:d.a/d.t})).sort((a,b)=>b.r-a.r).forEach(({k,d,r})=>{
     const w=Math.min(Math.max(r,0),2)/2*100;
-    const g=r>=DIV_LINE?'linear-gradient(90deg,#C0757B,#E0A6AA)':'linear-gradient(90deg,#7B9CC4,#B3C9E0)';
+    const g=r>=1?'linear-gradient(90deg,#C0757B,#E0A6AA)':'linear-gradient(90deg,#7B9CC4,#B3C9E0)';
     A(`<div class="mgr-row"><div class="mgr-nm">${esc(k)}</div>
       <div class="mgr-track"><div class="mgr-fill" style="width:${w.toFixed(1)}%;background:${g}"></div></div>
       <div class="mgr-val"><b>${Math.round(r*100)}%</b><span>¥${yen(d.a)} / ¥${yen(d.t)}</span></div></div>`);
@@ -291,10 +327,21 @@ function render(){
     const m=rows.length?rows[0].a:1;
     A(`<div><div class="sec-h"><span class="en">Staff Ranking</span><span class="jp">${title}</span>`+
       `<span class="tail">${rows.length<sorted.length?`上位${rows.length}名／全${sorted.length}名`:`全${sorted.length}名`}</span></div>`);
-    // 達成率は個人目標が入ってから。マスタに目標が入力されたら x.目標 で列を戻せる。
-    A('<div class="scroll"><table><tr><th>#</th><th>氏名</th><th class="n">入金売上</th><th class="barcell">　</th></tr>');
-    rows.forEach((x,i)=>A(`<tr${i===0?' class="top1"':''}><td class="rk">${i+1}</td><td>${esc(x.n)}</td>
-      <td class="n">${man(x.a)}</td><td class="barcell">${bar(m?x.a/m:0)}</td></tr>`));
+    // ★0825 社長指示：個人目標が入力されたら、その日までの日割り進捗を上回っていれば赤にする。
+    //   x.目標 は tScale() で日数按分済み。目標が未入力（0）の人は判定できないので色を付けない
+    //   （＝ローズのまま。マスタ⑥に個人目標が入れば、この行が自動で赤／青に切り替わる）。
+    const _hasMoku=rows.some(x=>x.目標>0);
+    A('<div class="scroll"><table><tr><th>#</th><th>氏名</th><th class="n">入金売上</th>'
+      +(_hasMoku?'<th class="n">目標</th><th class="n">達成率</th>':'')+'<th class="barcell">　</th></tr>');
+    rows.forEach((x,i)=>{
+      const ok=x.目標>0 ? (x.a>=x.目標) : null;                 // null＝目標未入力＝判定しない
+      const cls=ok===null?'':(ok?'ok':'ng');
+      A(`<tr${i===0?' class="top1"':''}><td class="rk">${i+1}</td><td>${esc(x.n)}</td>
+        <td class="n">${man(x.a)}</td>`
+        +(_hasMoku?`<td class="n">${x.目標>0?man(x.目標):'—'}</td>
+          <td class="n ${ok===null?'':(ok?'up':'down')}">${x.目標>0?pct(x.a,x.目標):'—'}</td>`:'')
+        +`<td class="barcell">${bar(m?x.a/m:0, cls)}</td></tr>`);
+    });
     A('</table></div></div>');
   });
   A('</div>');
@@ -338,10 +385,20 @@ function render(){
   // 店舗別業績表
   A(`<div class="sec-h"><span class="en">Store Table</span><span class="jp">店舗別 業績表</span><span class="tail">${esc(label)}</span></div>`);
   A('<div class="scrollhint">表は横にスクロールできます</div>');
+  // ★0825 社長指示：この表は列ごとに基準が違う。
+  //   ・入金売上 … その日までの日割り進捗に乗っていれば赤（x.t は按分済みなので x.a>=x.t）
+  //   ・達成率   … 月間目標に対して 100% 以上で赤（TABLE_LINE）
+  //   目標が未設定の店（新規OPEN）は判定できないため色を付けない。
   A('<div class="scroll"><table><tr><th>店舗</th><th>管轄</th><th class="n">目標</th><th class="n">入金売上</th><th class="n">達成率</th></tr>');
-  S.slice().sort((a,b)=>(b.t?b.a/b.t:-1)-(a.t?a.a/a.t:-1)).forEach(x=>
+  S.slice().sort((a,b)=>(b.t?b.a/b.t:-1)-(a.t?a.a/a.t:-1)).forEach(x=>{
+    const rate=x.t?x.a/x.t:null;                                  // 日割り進捗に対する比
+    const mRate=x.mt?x.a/x.mt:null;                               // 月間目標に対する達成率
+    const kinCls=rate===null?'':(rate>=1?'up':'down');            // 入金売上＝進捗判定
+    const rtCls =mRate===null?'':(mRate>=TABLE_LINE?'up':'down'); // 達成率＝100%判定
     A(`<tr><td>${esc(x.n)}</td><td>${esc(x.k==='無し'?'—':x.k)}</td><td class="n">${yen(x.t)}</td>
-      <td class="n">${yen(x.a)}</td><td class="n ${x.t&&x.a>=x.t?'up':'down'}">${pct(x.a,x.t)}</td></tr>`));
+      <td class="n ${kinCls}">${yen(x.a)}</td>
+      <td class="n ${rtCls}">${x.mt?pct(x.a,x.mt):'—'}</td></tr>`);
+  });
   A('</table></div>');
 
   // 個人別 業績表
