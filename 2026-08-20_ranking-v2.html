@@ -1,0 +1,294 @@
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ベルフィオーレ 営業日報 月間集計 2026年7月</title>
+<style>
+:root{--pink:#C9898E;--pink-d:#B06B72;--bg:#FDF8F6;--ink:#3a2f30;--sub:#8a7a7b;--line:#ecdfdc;--ok:#7FAF97;--ng:#C9898E;--card:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"游ゴシック",YuGothic,"Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;background:var(--bg);color:var(--ink);padding:0 0 60px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{background:linear-gradient(135deg,#fff 0%,#fbeeec 100%);border-bottom:1px solid var(--line);padding:26px 0 22px;margin-bottom:26px}
+h1{font-size:22px;letter-spacing:.08em;font-weight:700}
+.sub{color:var(--sub);font-size:12.5px;margin-top:6px}
+.sec-h{display:flex;align-items:baseline;gap:10px;margin:30px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--pink)}
+.sec-h .en{font-size:11px;letter-spacing:.18em;color:var(--pink-d);font-weight:700;text-transform:uppercase}
+.sec-h .jp{font-size:16px;font-weight:700}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi .lb{font-size:11.5px;color:var(--sub);letter-spacing:.04em}
+.kpi .vl{font-size:24px;font-weight:700;margin-top:6px;letter-spacing:.02em}
+.kpi .vl.sm{font-size:19px}
+.kpi.hl{background:linear-gradient(135deg,#fff 0%,#fbeeec 100%);border-color:var(--pink)}
+table{width:100%;border-collapse:collapse;background:var(--card);font-size:13px}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:middle}
+th{background:#f6ebe9;font-weight:700;font-size:12px;color:#6b5658;white-space:nowrap}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.rk{text-align:center;width:38px;color:var(--sub);font-weight:700}
+tr.top1 td{background:#fdf3f1}
+.barcell{min-width:150px;overflow:hidden}
+.bar{display:inline-block;height:9px;border-radius:5px;background:var(--pink);vertical-align:middle;max-width:100%}
+.bar.ok{background:var(--ok)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.scrollhint{display:none;font-size:10.5px;color:#b0a2a3;margin:-2px 0 6px}
+@media(max-width:820px){.two{grid-template-columns:1fr}}
+
+/* ★0819：スタッフはスマホで見るため、実機幅（375px）での見え方を優先する。
+   375px実測での問題を3点直す。
+   1) 管轄別のバーが73pxしか残らず達成率の差が読めない → 名前と数値を上段、バーを下段の2段組みに
+   2) 店舗別業績表631px／個人別業績表661px が横スクロールになる → 1列目（店舗名・氏名）を左に固定
+   3) 表の文字と余白が大きく、横スクロール量が増える → 少し詰める */
+@media(max-width:560px){
+  .wrap{padding:0 12px}
+  h1{font-size:18px;letter-spacing:.04em}
+  .sub{font-size:10.5px}
+  .kpi{padding:11px 12px}
+  .kpi .vl{font-size:21px}
+  .kpi .vl.sm{font-size:17px}
+  .kpis{gap:9px}
+
+  /* 管轄別：1行を2段にしてバーの長さを確保する */
+  .mgr-row{grid-template-columns:1fr auto;grid-template-areas:"nm val" "bar bar";gap:5px 9px;padding:9px 2px}
+  .mgr-nm{grid-area:nm}
+  .mgr-track{grid-area:bar}
+  .mgr-val{grid-area:val;text-align:right;white-space:nowrap}
+  .mgr-val b{font-size:14px}
+  .mgr-val span{display:inline;margin-left:7px;font-size:10px}
+
+  /* 表：文字と余白を詰め、1列目を左に固定して横スクロールでも行が分かるようにする */
+  table{font-size:12px}
+  /* 折り返すと店舗名が2〜3行になって行が縦に伸びるため、横スクロール前提で折り返さない */
+  th,td{padding:6px 7px;white-space:nowrap}
+  .scroll{-webkit-overflow-scrolling:touch}
+  .scroll table th:first-child,
+  .scroll table td:first-child{position:sticky;left:0;z-index:2;background:var(--card)}
+  .scroll table th:first-child{background:#f6ebe9;z-index:3}
+  .scroll table tr.top1 td:first-child{background:#fdf4f3}
+  .barcell{min-width:96px}
+  .scrollhint{display:block}
+}
+/* ★0819：管轄別はフル版ダッシュボード（belfiore_ダッシュボードA_実データ_7月_0805.html の
+   .mg-rank-list / renderMgRank）をそのまま再現。横棒＋右に達成率と実績/目標。 */
+.mg-rank-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px 14px;max-width:660px}
+.mg-rank-list{display:flex;flex-direction:column;gap:2px}
+.mgr-row{display:grid;grid-template-columns:86px 1fr 116px;align-items:center;gap:9px;padding:7px 2px}
+.mgr-nm{font-size:13px;font-weight:500;color:#4a3f40;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mgr-track{height:15px;background:#F1E7E4;border-radius:8px;overflow:hidden}
+.mgr-fill{height:100%;border-radius:8px}
+.mgr-val{text-align:right;font-variant-numeric:tabular-nums}
+.mgr-val b{font-size:13px;font-weight:500;color:#4a3f40}
+.mgr-val span{display:block;font-size:9px;color:#9A8A8C}
+.mgr-note{font-size:10px;color:#b0a2a3;margin-top:10px;line-height:1.6}
+.note{font-size:10.5px;color:#b0a2a3;margin-top:8px;line-height:1.7}
+.scroll{overflow-x:auto}
+.tag{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:9px;border:1px solid var(--line);color:var(--sub);margin-left:6px}
+</style>
+<header><div class="wrap">
+<h1>ベルフィオーレ　営業日報　月間集計　2026年7月</h1>
+<div class="sub">出典：日報の集計（ベルフィオーレ_マスタ）／氏名はマスタ表記に統一（改姓は名寄せ）／全21店</div>
+</div></header><div class="wrap">
+<div class="sec-h"><span class="en">Company</span><span class="jp">全社サマリー</span></div>
+<div class="kpis">
+<div class="kpi hl"><div class="lb">目標</div><div class="vl">1億3,820万</div></div>
+<div class="kpi hl"><div class="lb">実績（入金売上）</div><div class="vl">1億4,851万</div></div>
+<div class="kpi hl"><div class="lb">達成率</div><div class="vl">107.5%</div></div>
+<div class="kpi"><div class="lb">新規脱毛 契約率</div><div class="vl sm">62.3%</div></div>
+<div class="kpi"><div class="lb">新規脱毛 来店/契約</div><div class="vl sm">591/368</div></div>
+<div class="kpi"><div class="lb">新規痩身 契約率</div><div class="vl sm">31.2%</div></div>
+<div class="kpi"><div class="lb">新規痩身 来店/契約</div><div class="vl sm">32/10</div></div>
+<div class="kpi"><div class="lb">既存比率（契約金額）</div><div class="vl sm">17.0%</div></div>
+</div>
+<div class="note">※既存比率＝（既存＋再契約）÷ 全体の契約金額。BLOOMと同じ定義です。</div>
+<div class="two">
+<div>
+<div class="sec-h"><span class="en">Store Ranking</span><span class="jp">店舗 達成率ランキング</span></div>
+<div class="scroll"><table><tr><th>#</th><th>店舗</th><th class="n">達成率</th><th class="barcell">　</th></tr>
+<tr class="top1"><td class="rk">1</td><td>前橋</td><td class="n">259.2%</td><td class="barcell"><span class="bar ok" style="width:100.0%"></span></td></tr>
+<tr><td class="rk">2</td><td>太田</td><td class="n">132.5%</td><td class="barcell"><span class="bar ok" style="width:66.3%"></span></td></tr>
+<tr><td class="rk">3</td><td>つくば</td><td class="n">126.1%</td><td class="barcell"><span class="bar ok" style="width:63.0%"></span></td></tr>
+<tr><td class="rk">4</td><td>日立</td><td class="n">117.9%</td><td class="barcell"><span class="bar ok" style="width:58.9%"></span></td></tr>
+<tr><td class="rk">5</td><td>一関</td><td class="n">112.2%</td><td class="barcell"><span class="bar ok" style="width:56.1%"></span></td></tr>
+<tr><td class="rk">6</td><td>宇都宮東</td><td class="n">106.1%</td><td class="barcell"><span class="bar ok" style="width:53.0%"></span></td></tr>
+<tr><td class="rk">7</td><td>栃木藤岡</td><td class="n">104.1%</td><td class="barcell"><span class="bar ok" style="width:52.0%"></span></td></tr>
+<tr><td class="rk">8</td><td>岡山高屋</td><td class="n">102.5%</td><td class="barcell"><span class="bar ok" style="width:51.3%"></span></td></tr>
+<tr><td class="rk">9</td><td>北上</td><td class="n">95.5%</td><td class="barcell"><span class="bar " style="width:47.7%"></span></td></tr>
+<tr><td class="rk">10</td><td>福島</td><td class="n">86.9%</td><td class="barcell"><span class="bar " style="width:43.4%"></span></td></tr>
+<tr><td class="rk">11</td><td>秋田</td><td class="n">83.9%</td><td class="barcell"><span class="bar " style="width:42.0%"></span></td></tr>
+<tr><td class="rk">12</td><td>盛岡</td><td class="n">83.8%</td><td class="barcell"><span class="bar " style="width:41.9%"></span></td></tr>
+<tr><td class="rk">13</td><td>いわき小名浜</td><td class="n">82.1%</td><td class="barcell"><span class="bar " style="width:41.1%"></span></td></tr>
+<tr><td class="rk">14</td><td>熊本中央</td><td class="n">79.4%</td><td class="barcell"><span class="bar " style="width:39.7%"></span></td></tr>
+<tr><td class="rk">15</td><td>山形北</td><td class="n">78.2%</td><td class="barcell"><span class="bar " style="width:39.1%"></span></td></tr>
+<tr><td class="rk">16</td><td>八王子</td><td class="n">78.2%</td><td class="barcell"><span class="bar " style="width:39.1%"></span></td></tr>
+<tr><td class="rk">17</td><td>会津若松</td><td class="n">40.5%</td><td class="barcell"><span class="bar " style="width:20.2%"></span></td></tr>
+<tr><td class="rk">18</td><td>仙台八木山</td><td class="n">26.8%</td><td class="barcell"><span class="bar " style="width:13.4%"></span></td></tr>
+<tr><td class="rk">19</td><td>郡山大槻</td><td class="n">26.2%</td><td class="barcell"><span class="bar " style="width:13.1%"></span></td></tr>
+<tr><td class="rk">20</td><td>水戸</td><td class="n">-58.7%</td><td class="barcell"><span class="bar " style="width:0.0%"></span></td></tr>
+<tr><td class="rk">—</td><td>新潟青山</td><td class="n" style="color:#b0a2a3;font-size:11px">目標未設定</td><td class="barcell" style="color:var(--sub);font-size:11.5px">入金売上 2,391万</td></tr>
+</table></div></div>
+<div>
+<div class="sec-h"><span class="en">Store Ranking</span><span class="jp">店舗 入金売上ランキング</span></div>
+<div class="scroll"><table><tr><th>#</th><th>店舗</th><th class="n">入金売上</th><th class="barcell">　</th></tr>
+<tr class="top1"><td class="rk">1</td><td>新潟青山</td><td class="n">2,391万</td><td class="barcell"><span class="bar " style="width:100.0%"></span></td></tr>
+<tr><td class="rk">2</td><td>前橋</td><td class="n">1,296万</td><td class="barcell"><span class="bar " style="width:54.2%"></span></td></tr>
+<tr><td class="rk">3</td><td>一関</td><td class="n">1,077万</td><td class="barcell"><span class="bar " style="width:45.0%"></span></td></tr>
+<tr><td class="rk">4</td><td>つくば</td><td class="n">970万</td><td class="barcell"><span class="bar " style="width:40.6%"></span></td></tr>
+<tr><td class="rk">5</td><td>宇都宮東</td><td class="n">912万</td><td class="barcell"><span class="bar " style="width:38.1%"></span></td></tr>
+<tr><td class="rk">6</td><td>栃木藤岡</td><td class="n">791万</td><td class="barcell"><span class="bar " style="width:33.1%"></span></td></tr>
+<tr><td class="rk">7</td><td>岡山高屋</td><td class="n">758万</td><td class="barcell"><span class="bar " style="width:31.7%"></span></td></tr>
+<tr><td class="rk">8</td><td>北上</td><td class="n">739万</td><td class="barcell"><span class="bar " style="width:30.9%"></span></td></tr>
+<tr><td class="rk">9</td><td>いわき小名浜</td><td class="n">714万</td><td class="barcell"><span class="bar " style="width:29.9%"></span></td></tr>
+<tr><td class="rk">10</td><td>太田</td><td class="n">702万</td><td class="barcell"><span class="bar " style="width:29.4%"></span></td></tr>
+<tr><td class="rk">11</td><td>盛岡</td><td class="n">649万</td><td class="barcell"><span class="bar " style="width:27.2%"></span></td></tr>
+<tr><td class="rk">12</td><td>日立</td><td class="n">642万</td><td class="barcell"><span class="bar " style="width:26.9%"></span></td></tr>
+<tr><td class="rk">13</td><td>熊本中央</td><td class="n">619万</td><td class="barcell"><span class="bar " style="width:25.9%"></span></td></tr>
+<tr><td class="rk">14</td><td>福島</td><td class="n">564万</td><td class="barcell"><span class="bar " style="width:23.6%"></span></td></tr>
+<tr><td class="rk">15</td><td>秋田</td><td class="n">562万</td><td class="barcell"><span class="bar " style="width:23.5%"></span></td></tr>
+<tr><td class="rk">16</td><td>八王子</td><td class="n">445万</td><td class="barcell"><span class="bar " style="width:18.6%"></span></td></tr>
+<tr><td class="rk">17</td><td>山形北</td><td class="n">406万</td><td class="barcell"><span class="bar " style="width:17.0%"></span></td></tr>
+<tr><td class="rk">18</td><td>会津若松</td><td class="n">297万</td><td class="barcell"><span class="bar " style="width:12.4%"></span></td></tr>
+<tr><td class="rk">19</td><td>仙台八木山</td><td class="n">230万</td><td class="barcell"><span class="bar " style="width:9.6%"></span></td></tr>
+<tr><td class="rk">20</td><td>郡山大槻</td><td class="n">196万</td><td class="barcell"><span class="bar " style="width:8.2%"></span></td></tr>
+<tr><td class="rk">21</td><td>水戸</td><td class="n">−117万</td><td class="barcell"><span class="bar " style="width:0.0%"></span></td></tr>
+</table></div></div>
+</div>
+<div class="sec-h"><span class="en">Division</span><span class="jp">管轄別 達成率</span></div>
+<div class="mg-rank-card"><div class="mg-rank-list">
+<div class="mgr-row"><div class="mgr-nm">片桐</div><div class="mgr-track"><div class="mgr-fill" style="width:100.0%;background:linear-gradient(90deg,#7FAF97,#A9CEBA)"></div></div><div class="mgr-val"><b>359%</b><span>¥44,467,367 / ¥12,400,000</span></div></div>
+<div class="mgr-row"><div class="mgr-nm">本並LD</div><div class="mgr-track"><div class="mgr-fill" style="width:52.6%;background:linear-gradient(90deg,#7FAF97,#A9CEBA)"></div></div><div class="mgr-val"><b>105%</b><span>¥17,032,410 / ¥16,200,000</span></div></div>
+<div class="mgr-row"><div class="mgr-nm">大内LD</div><div class="mgr-track"><div class="mgr-fill" style="width:52.4%;background:linear-gradient(90deg,#7FAF97,#A9CEBA)"></div></div><div class="mgr-val"><b>105%</b><span>¥18,171,022 / ¥17,350,000</span></div></div>
+<div class="mgr-row"><div class="mgr-nm">堤GM</div><div class="mgr-track"><div class="mgr-fill" style="width:39.7%;background:linear-gradient(90deg,#C9898E,#E1B4B8)"></div></div><div class="mgr-val"><b>79%</b><span>¥6,191,010 / ¥7,800,000</span></div></div>
+<div class="mgr-row"><div class="mgr-nm">藤倉MG</div><div class="mgr-track"><div class="mgr-fill" style="width:39.4%;background:linear-gradient(90deg,#C9898E,#E1B4B8)"></div></div><div class="mgr-val"><b>79%</b><span>¥35,811,802 / ¥45,450,000</span></div></div>
+<div class="mgr-row"><div class="mgr-nm">小松MG</div><div class="mgr-track"><div class="mgr-fill" style="width:37.9%;background:linear-gradient(90deg,#C9898E,#E1B4B8)"></div></div><div class="mgr-val"><b>76%</b><span>¥28,016,886 / ¥37,000,000</span></div></div>
+</div>
+<div class="mgr-note">※片桐は新潟青山の目標が未設定のため参考値<br>※水戸は管轄未設定のため含みません</div>
+</div>
+<div class="sec-h"><span class="en">Store Table</span><span class="jp">店舗別 業績表</span></div>
+<div class="scrollhint">表は横にスクロールできます</div>
+<div class="scroll"><table><tr><th>店舗</th><th>管轄</th><th class="n">目標</th><th class="n">入金売上</th><th class="n">達成率</th><th class="n">契約金額</th><th class="n">未入金</th><th class="n">解約</th><th class="n">CO</th></tr>
+<tr><td>前橋</td><td>片桐</td><td class="n">5,000,000</td><td class="n">12,962,316</td><td class="n">259.2%</td><td class="n">18,213,636</td><td class="n">1,905,940</td><td class="n">0</td><td class="n">-1,773,540</td></tr>
+<tr><td>太田</td><td>藤倉MG</td><td class="n">5,300,000</td><td class="n">7,022,915</td><td class="n">132.5%</td><td class="n">10,710,335</td><td class="n">969,460</td><td class="n">0</td><td class="n">-2,614,080</td></tr>
+<tr><td>つくば</td><td>藤倉MG</td><td class="n">7,700,000</td><td class="n">9,706,944</td><td class="n">126.1%</td><td class="n">13,575,269</td><td class="n">1,661,984</td><td class="n">-150,085</td><td class="n">-1,908,556</td></tr>
+<tr><td>日立</td><td>小松MG</td><td class="n">5,450,000</td><td class="n">6,422,854</td><td class="n">117.9%</td><td class="n">7,683,922</td><td class="n">1,774,048</td><td class="n">0</td><td class="n">-765,540</td></tr>
+<tr><td>一関</td><td>大内LD</td><td class="n">9,600,000</td><td class="n">10,771,499</td><td class="n">112.2%</td><td class="n">12,250,255</td><td class="n">1,066,730</td><td class="n">0</td><td class="n">-471,714</td></tr>
+<tr><td>宇都宮東</td><td>本並LD</td><td class="n">8,600,000</td><td class="n">9,121,099</td><td class="n">106.1%</td><td class="n">13,276,104</td><td class="n">2,316,345</td><td class="n">-16,500</td><td class="n">-584,080</td></tr>
+<tr><td>栃木藤岡</td><td>本並LD</td><td class="n">7,600,000</td><td class="n">7,911,311</td><td class="n">104.1%</td><td class="n">10,212,451</td><td class="n">2,129,980</td><td class="n">0</td><td class="n">-1,103,820</td></tr>
+<tr><td>岡山高屋</td><td>片桐</td><td class="n">7,400,000</td><td class="n">7,587,580</td><td class="n">102.5%</td><td class="n">7,894,820</td><td class="n">64,700</td><td class="n">-13,200</td><td class="n">-554,160</td></tr>
+<tr><td>北上</td><td>大内LD</td><td class="n">7,750,000</td><td class="n">7,399,523</td><td class="n">95.5%</td><td class="n">10,498,371</td><td class="n">1,232,760</td><td class="n">-538,750</td><td class="n">-1,529,058</td></tr>
+<tr><td>福島</td><td>小松MG</td><td class="n">6,500,000</td><td class="n">5,648,213</td><td class="n">86.9%</td><td class="n">7,118,224</td><td class="n">552,280</td><td class="n">-302,106</td><td class="n">-749,040</td></tr>
+<tr><td>秋田</td><td>藤倉MG</td><td class="n">6,700,000</td><td class="n">5,621,584</td><td class="n">83.9%</td><td class="n">6,426,064</td><td class="n">444,240</td><td class="n">0</td><td class="n">-444,240</td></tr>
+<tr><td>盛岡</td><td>小松MG</td><td class="n">7,750,000</td><td class="n">6,497,964</td><td class="n">83.8%</td><td class="n">8,816,068</td><td class="n">1,469,960</td><td class="n">-191,796</td><td class="n">-597,980</td></tr>
+<tr><td>いわき小名浜</td><td>小松MG</td><td class="n">8,700,000</td><td class="n">7,144,816</td><td class="n">82.1%</td><td class="n">10,246,660</td><td class="n">802,204</td><td class="n">0</td><td class="n">-1,964,360</td></tr>
+<tr><td>熊本中央</td><td>堤GM</td><td class="n">7,800,000</td><td class="n">6,191,010</td><td class="n">79.4%</td><td class="n">8,029,410</td><td class="n">1,027,400</td><td class="n">0</td><td class="n">-734,960</td></tr>
+<tr><td>山形北</td><td>藤倉MG</td><td class="n">5,200,000</td><td class="n">4,065,831</td><td class="n">78.2%</td><td class="n">5,057,841</td><td class="n">369,540</td><td class="n">-200,030</td><td class="n">-271,140</td></tr>
+<tr><td>八王子</td><td>藤倉MG</td><td class="n">5,700,000</td><td class="n">4,455,057</td><td class="n">78.2%</td><td class="n">7,076,797</td><td class="n">950,440</td><td class="n">-135,142</td><td class="n">-750,080</td></tr>
+<tr><td>会津若松</td><td>藤倉MG</td><td class="n">7,350,000</td><td class="n">2,973,401</td><td class="n">40.5%</td><td class="n">4,104,559</td><td class="n">0</td><td class="n">-581,790</td><td class="n">-865,688</td></tr>
+<tr><td>仙台八木山</td><td>小松MG</td><td class="n">8,600,000</td><td class="n">2,303,039</td><td class="n">26.8%</td><td class="n">3,270,519</td><td class="n">338,000</td><td class="n">-13,200</td><td class="n">-595,280</td></tr>
+<tr><td>郡山大槻</td><td>藤倉MG</td><td class="n">7,500,000</td><td class="n">1,966,070</td><td class="n">26.2%</td><td class="n">3,165,430</td><td class="n">779,480</td><td class="n">-240,040</td><td class="n">-246,840</td></tr>
+<tr><td>水戸</td><td>—</td><td class="n">2,000,000</td><td class="n">-1,174,160</td><td class="n">-58.7%</td><td class="n">315,632</td><td class="n">0</td><td class="n">-1,489,792</td><td class="n">0</td></tr>
+<tr><td>新潟青山</td><td>片桐</td><td class="n">0</td><td class="n">23,917,471</td><td class="n">—</td><td class="n">33,773,943</td><td class="n">3,573,914</td><td class="n">-702,558</td><td class="n">-3,073,940</td></tr>
+</table></div>
+<div class="two">
+<div>
+<div class="sec-h"><span class="en">Staff Ranking</span><span class="jp">個人実績ランキング（オンライン）</span></div>
+<div class="scroll"><table><tr><th>#</th><th>氏名</th><th class="n">総売上</th><th class="barcell">　</th></tr>
+<tr class="top1"><td class="rk">1</td><td>山本　晴香</td><td class="n">1,152万</td><td class="barcell"><span class="bar " style="width:100.0%"></span></td></tr>
+<tr><td class="rk">2</td><td>形山　知見</td><td class="n">1,140万</td><td class="barcell"><span class="bar " style="width:99.0%"></span></td></tr>
+<tr><td class="rk">3</td><td>河野　侑布子</td><td class="n">975万</td><td class="barcell"><span class="bar " style="width:84.7%"></span></td></tr>
+<tr><td class="rk">4</td><td>細川　小百合</td><td class="n">825万</td><td class="barcell"><span class="bar " style="width:71.6%"></span></td></tr>
+<tr><td class="rk">5</td><td>堤　小百合</td><td class="n">713万</td><td class="barcell"><span class="bar " style="width:61.9%"></span></td></tr>
+<tr><td class="rk">6</td><td>吹越　美沙貴</td><td class="n">626万</td><td class="barcell"><span class="bar " style="width:54.4%"></span></td></tr>
+<tr><td class="rk">7</td><td>浅子　虹</td><td class="n">499万</td><td class="barcell"><span class="bar " style="width:43.3%"></span></td></tr>
+<tr><td class="rk">8</td><td>川村　志穂</td><td class="n">353万</td><td class="barcell"><span class="bar " style="width:30.7%"></span></td></tr>
+<tr><td class="rk">9</td><td>藤澤　愛里</td><td class="n">260万</td><td class="barcell"><span class="bar " style="width:22.6%"></span></td></tr>
+<tr><td class="rk">10</td><td>佐藤　美羽</td><td class="n">152万</td><td class="barcell"><span class="bar " style="width:13.3%"></span></td></tr>
+<tr><td class="rk">11</td><td>藤倉　育美</td><td class="n">85万</td><td class="barcell"><span class="bar " style="width:7.4%"></span></td></tr>
+<tr><td class="rk">12</td><td>藤澤</td><td class="n">30万</td><td class="barcell"><span class="bar " style="width:2.6%"></span></td></tr>
+<tr><td class="rk">13</td><td>小松　海月</td><td class="n">7万</td><td class="barcell"><span class="bar " style="width:0.7%"></span></td></tr>
+<tr><td class="rk">14</td><td>片桐　未来</td><td class="n">1万</td><td class="barcell"><span class="bar " style="width:0.1%"></span></td></tr>
+</table></div><div class="note">オンラインの担当者として日報に入力された実績のみ。14名中の上位15名。</div></div>
+<div>
+<div class="sec-h"><span class="en">Staff Ranking</span><span class="jp">個人実績ランキング（店舗）</span></div>
+<div class="scroll"><table><tr><th>#</th><th>氏名</th><th class="n">総売上</th><th class="barcell">　</th></tr>
+<tr class="top1"><td class="rk">1</td><td>石上　亜矢</td><td class="n">833万</td><td class="barcell"><span class="bar " style="width:100.0%"></span></td></tr>
+<tr><td class="rk">2</td><td>片桐　未来</td><td class="n">534万</td><td class="barcell"><span class="bar " style="width:64.1%"></span></td></tr>
+<tr><td class="rk">3</td><td>沼澤　里美</td><td class="n">504万</td><td class="barcell"><span class="bar " style="width:60.6%"></span></td></tr>
+<tr><td class="rk">4</td><td>𠮷田　遙南</td><td class="n">473万</td><td class="barcell"><span class="bar " style="width:56.8%"></span></td></tr>
+<tr><td class="rk">5</td><td>大内　琴寧</td><td class="n">409万</td><td class="barcell"><span class="bar " style="width:49.1%"></span></td></tr>
+<tr><td class="rk">6</td><td>川村　志穂</td><td class="n">389万</td><td class="barcell"><span class="bar " style="width:46.8%"></span></td></tr>
+<tr><td class="rk">7</td><td>油座　麻衣</td><td class="n">375万</td><td class="barcell"><span class="bar " style="width:45.0%"></span></td></tr>
+<tr><td class="rk">8</td><td>佐藤　美羽</td><td class="n">367万</td><td class="barcell"><span class="bar " style="width:44.1%"></span></td></tr>
+<tr><td class="rk">9</td><td>菊池　愛莉</td><td class="n">305万</td><td class="barcell"><span class="bar " style="width:36.6%"></span></td></tr>
+<tr><td class="rk">10</td><td>熊谷　善江</td><td class="n">300万</td><td class="barcell"><span class="bar " style="width:36.0%"></span></td></tr>
+<tr><td class="rk">11</td><td>田頭　愛未花</td><td class="n">263万</td><td class="barcell"><span class="bar " style="width:31.6%"></span></td></tr>
+<tr><td class="rk">12</td><td>平野　華菜</td><td class="n">243万</td><td class="barcell"><span class="bar " style="width:29.2%"></span></td></tr>
+<tr><td class="rk">13</td><td>小山　雅子</td><td class="n">232万</td><td class="barcell"><span class="bar " style="width:27.9%"></span></td></tr>
+<tr><td class="rk">14</td><td>梶川　奈可</td><td class="n">213万</td><td class="barcell"><span class="bar " style="width:25.6%"></span></td></tr>
+<tr><td class="rk">15</td><td>本並　綾菜</td><td class="n">213万</td><td class="barcell"><span class="bar " style="width:25.6%"></span></td></tr>
+</table></div><div class="note">店舗の担当者として日報に入力された実績のみ。47名中の上位15名。</div></div>
+</div>
+<div class="sec-h"><span class="en">Staff Table</span><span class="jp">個人別 業績表</span><span class="tag">全61名</span></div>
+<div class="scrollhint">表は横にスクロールできます</div>
+<div class="scroll"><table><tr><th>区分</th><th>氏名</th><th>店舗</th><th class="n">総売上</th><th class="n">契約売上</th><th class="n">脱毛</th><th class="n">エステ</th><th class="n">物販</th><th class="n">新規脱毛 来店/契約</th></tr>
+<tr><td>オンライン</td><td>山本　晴香</td><td>16店舗</td><td class="n">11,524,020</td><td class="n">19,338,360</td><td class="n">11,524,020</td><td class="n">0</td><td class="n">0</td><td class="n">83/63</td></tr>
+<tr><td>オンライン</td><td>形山　知見</td><td>15店舗</td><td class="n">11,404,316</td><td class="n">16,083,960</td><td class="n">11,404,316</td><td class="n">0</td><td class="n">0</td><td class="n">82/55</td></tr>
+<tr><td>オンライン</td><td>河野　侑布子</td><td>17店舗</td><td class="n">9,757,596</td><td class="n">14,417,176</td><td class="n">9,757,596</td><td class="n">0</td><td class="n">0</td><td class="n">73/47</td></tr>
+<tr><td>店舗</td><td>石上　亜矢</td><td>4店舗</td><td class="n">8,336,979</td><td class="n">10,864,579</td><td class="n">8,241,227</td><td class="n">80,200</td><td class="n">15,552</td><td class="n">57/36</td></tr>
+<tr><td>オンライン</td><td>細川　小百合</td><td>18店舗</td><td class="n">8,253,980</td><td class="n">14,720,280</td><td class="n">8,253,980</td><td class="n">0</td><td class="n">0</td><td class="n">85/47</td></tr>
+<tr><td>オンライン</td><td>堤　小百合</td><td>12店舗</td><td class="n">7,131,926</td><td class="n">9,082,526</td><td class="n">7,131,926</td><td class="n">0</td><td class="n">0</td><td class="n">59/35</td></tr>
+<tr><td>オンライン</td><td>吹越　美沙貴</td><td>16店舗</td><td class="n">6,268,760</td><td class="n">12,054,780</td><td class="n">6,268,760</td><td class="n">0</td><td class="n">0</td><td class="n">80/43</td></tr>
+<tr><td>店舗</td><td>片桐　未来</td><td>3店舗</td><td class="n">5,345,500</td><td class="n">10,245,398</td><td class="n">5,345,500</td><td class="n">0</td><td class="n">0</td><td class="n">38/29</td></tr>
+<tr><td>店舗</td><td>沼澤　里美</td><td>盛岡</td><td class="n">5,048,504</td><td class="n">7,277,108</td><td class="n">4,477,220</td><td class="n">478,804</td><td class="n">92,480</td><td class="n">24/18</td></tr>
+<tr><td>オンライン</td><td>浅子　虹</td><td>12店舗</td><td class="n">4,990,220</td><td class="n">9,678,860</td><td class="n">4,990,220</td><td class="n">0</td><td class="n">0</td><td class="n">55/25</td></tr>
+<tr><td>店舗</td><td>𠮷田　遙南</td><td>4店舗</td><td class="n">4,735,904</td><td class="n">7,616,868</td><td class="n">4,278,850</td><td class="n">3,000</td><td class="n">454,054</td><td class="n">39/26</td></tr>
+<tr><td>店舗</td><td>大内　琴寧</td><td>一関・北上</td><td class="n">4,096,888</td><td class="n">5,469,290</td><td class="n">2,135,300</td><td class="n">1,060,800</td><td class="n">900,788</td><td class="n">13/9</td></tr>
+<tr><td>店舗</td><td>川村　志穂</td><td>北上</td><td class="n">3,899,042</td><td class="n">4,612,762</td><td class="n">3,405,660</td><td class="n">199,800</td><td class="n">293,582</td><td class="n">14/14</td></tr>
+<tr><td>店舗</td><td>油座　麻衣</td><td>いわき小名浜</td><td class="n">3,751,480</td><td class="n">6,555,480</td><td class="n">1,038,080</td><td class="n">2,713,400</td><td class="n">0</td><td class="n">3/2</td></tr>
+<tr><td>店舗</td><td>佐藤　美羽</td><td>秋田</td><td class="n">3,678,816</td><td class="n">4,342,096</td><td class="n">3,422,080</td><td class="n">158,000</td><td class="n">98,736</td><td class="n">9/8</td></tr>
+<tr><td>オンライン</td><td>川村　志穂</td><td>10店舗</td><td class="n">3,539,177</td><td class="n">5,804,774</td><td class="n">3,377,740</td><td class="n">74,000</td><td class="n">87,437</td><td class="n">21/15</td></tr>
+<tr><td>店舗</td><td>菊池　愛莉</td><td>日立・水戸</td><td class="n">3,052,171</td><td class="n">5,467,605</td><td class="n">1,817,160</td><td class="n">979,800</td><td class="n">255,211</td><td class="n">6/5</td></tr>
+<tr><td>店舗</td><td>熊谷　善江</td><td>一関</td><td class="n">3,001,440</td><td class="n">3,550,634</td><td class="n">605,001</td><td class="n">1,378,650</td><td class="n">1,017,789</td><td class="n">4/4</td></tr>
+<tr><td>店舗</td><td>田頭　愛未花</td><td>一関・福島</td><td class="n">2,632,771</td><td class="n">3,109,491</td><td class="n">473,895</td><td class="n">667,300</td><td class="n">1,491,576</td><td class="n">5/5</td></tr>
+<tr><td>オンライン</td><td>藤澤　愛里</td><td>10店舗</td><td class="n">2,608,700</td><td class="n">4,298,540</td><td class="n">2,608,700</td><td class="n">0</td><td class="n">0</td><td class="n">20/15</td></tr>
+<tr><td>店舗</td><td>平野　華菜</td><td>仙台八木山・福島</td><td class="n">2,438,353</td><td class="n">2,852,168</td><td class="n">1,914,960</td><td class="n">405,015</td><td class="n">118,378</td><td class="n">12/9</td></tr>
+<tr><td>店舗</td><td>小山　雅子</td><td>新潟青山・秋田</td><td class="n">2,323,040</td><td class="n">3,211,520</td><td class="n">2,098,740</td><td class="n">224,300</td><td class="n">0</td><td class="n">12/7</td></tr>
+<tr><td>店舗</td><td>梶川　奈可</td><td>いわき小名浜</td><td class="n">2,135,220</td><td class="n">3,760,820</td><td class="n">1,159,620</td><td class="n">975,600</td><td class="n">0</td><td class="n">11/7</td></tr>
+<tr><td>店舗</td><td>本並　綾菜</td><td>宇都宮東・栃木藤岡</td><td class="n">2,135,127</td><td class="n">3,982,862</td><td class="n">1,304,372</td><td class="n">573,980</td><td class="n">256,775</td><td class="n">20/10</td></tr>
+<tr><td>店舗</td><td>小松　由佳</td><td>栃木藤岡</td><td class="n">2,017,639</td><td class="n">2,442,331</td><td class="n">902,380</td><td class="n">919,800</td><td class="n">195,459</td><td class="n">7/7</td></tr>
+<tr><td>店舗</td><td>柳澤　志萌</td><td>つくば</td><td class="n">1,595,558</td><td class="n">2,460,103</td><td class="n">389,764</td><td class="n">1,059,670</td><td class="n">146,124</td><td class="n">4/4</td></tr>
+<tr><td>オンライン</td><td>佐藤　美羽</td><td>8店舗</td><td class="n">1,527,624</td><td class="n">2,115,020</td><td class="n">1,487,584</td><td class="n">0</td><td class="n">40,040</td><td class="n">9/8</td></tr>
+<tr><td>店舗</td><td>本多　晴愛</td><td>福島</td><td class="n">1,523,857</td><td class="n">1,757,447</td><td class="n">475,880</td><td class="n">820,920</td><td class="n">227,057</td><td class="n">5/5</td></tr>
+<tr><td>店舗</td><td>山中　理香</td><td>北上</td><td class="n">1,483,518</td><td class="n">2,129,686</td><td class="n">674,428</td><td class="n">438,396</td><td class="n">370,694</td><td class="n">5/5</td></tr>
+<tr><td>店舗</td><td>谷田部　純代</td><td>つくば</td><td class="n">1,331,040</td><td class="n">1,844,280</td><td class="n">819,980</td><td class="n">471,300</td><td class="n">39,760</td><td class="n">11/11</td></tr>
+<tr><td>店舗</td><td>黒澤　悠菜</td><td>日立</td><td class="n">1,330,103</td><td class="n">1,702,877</td><td class="n">454,880</td><td class="n">759,480</td><td class="n">115,743</td><td class="n">2/2</td></tr>
+<tr><td>店舗</td><td>山本　陽菜</td><td>岡山高屋</td><td class="n">1,283,160</td><td class="n">1,624,140</td><td class="n">1,022,840</td><td class="n">28,260</td><td class="n">232,060</td><td class="n">4/4</td></tr>
+<tr><td>店舗</td><td>進藤　歩</td><td>秋田</td><td class="n">1,221,348</td><td class="n">1,221,348</td><td class="n">922,340</td><td class="n">148,000</td><td class="n">151,008</td><td class="n">7/4</td></tr>
+<tr><td>店舗</td><td>本岡　大実</td><td>岡山高屋</td><td class="n">1,173,520</td><td class="n">1,247,520</td><td class="n">447,360</td><td class="n">148,000</td><td class="n">578,160</td><td class="n">3/3</td></tr>
+<tr><td>店舗</td><td>佐藤　瑠来</td><td>山形北</td><td class="n">1,127,341</td><td class="n">1,419,541</td><td class="n">39,600</td><td class="n">567,600</td><td class="n">520,141</td><td class="n">6/5</td></tr>
+<tr><td>オンライン</td><td>藤倉　育美</td><td>3店舗</td><td class="n">851,100</td><td class="n">935,200</td><td class="n">657,420</td><td class="n">193,680</td><td class="n">0</td><td class="n">6/3</td></tr>
+<tr><td>店舗</td><td>藤倉　育美</td><td>3店舗</td><td class="n">826,440</td><td class="n">826,440</td><td class="n">559,440</td><td class="n">267,000</td><td class="n">0</td><td class="n">3/2</td></tr>
+<tr><td>店舗</td><td>市川　絵理</td><td>つくば・前橋</td><td class="n">788,960</td><td class="n">2,514,520</td><td class="n">781,160</td><td class="n">0</td><td class="n">7,800</td><td class="n">19/9</td></tr>
+<tr><td>店舗</td><td>齋藤　碧</td><td>仙台八木山・福島</td><td class="n">784,092</td><td class="n">1,280,470</td><td class="n">601,462</td><td class="n">4,800</td><td class="n">177,830</td><td class="n">6/6</td></tr>
+<tr><td>店舗</td><td>中嶋　千紗祈</td><td>太田</td><td class="n">782,180</td><td class="n">1,531,700</td><td class="n">13,200</td><td class="n">746,100</td><td class="n">22,880</td><td class="n">6/3</td></tr>
+<tr><td>店舗</td><td>阿部　千愛莉</td><td>宇都宮東</td><td class="n">669,214</td><td class="n">624,374</td><td class="n">283,840</td><td class="n">295,000</td><td class="n">90,374</td><td class="n">1/1</td></tr>
+<tr><td>店舗</td><td>今野　凛香</td><td>郡山大槻</td><td class="n">658,630</td><td class="n">1,565,990</td><td class="n">493,840</td><td class="n">2,400</td><td class="n">162,390</td><td class="n">6/6</td></tr>
+<tr><td>店舗</td><td>与那嶺　蘭しく</td><td>八王子</td><td class="n">503,138</td><td class="n">516,338</td><td class="n">480,458</td><td class="n">0</td><td class="n">22,680</td><td class="n">3/3</td></tr>
+<tr><td>店舗</td><td>田波　弓枝</td><td>つくば・会津若松</td><td class="n">481,456</td><td class="n">600,416</td><td class="n">361,120</td><td class="n">71,280</td><td class="n">49,056</td><td class="n">3/2</td></tr>
+<tr><td>店舗</td><td>田﨑　里奈</td><td>熊本中央</td><td class="n">454,960</td><td class="n">468,160</td><td class="n">454,960</td><td class="n">0</td><td class="n">0</td><td class="n">5/5</td></tr>
+<tr><td>店舗</td><td>小松　海月</td><td>日立</td><td class="n">427,000</td><td class="n">427,000</td><td class="n">427,000</td><td class="n">0</td><td class="n">0</td><td class="n">1/1</td></tr>
+<tr><td>オンライン</td><td>藤澤</td><td>宇都宮東</td><td class="n">300,000</td><td class="n">415,640</td><td class="n">300,000</td><td class="n">0</td><td class="n">0</td><td class="n">1/1</td></tr>
+<tr><td>店舗</td><td>後藤　美奈</td><td>北上</td><td class="n">298,020</td><td class="n">1,595,620</td><td class="n">0</td><td class="n">83,850</td><td class="n">214,170</td><td class="n">5/1</td></tr>
+<tr><td>店舗</td><td>廻谷　聡花</td><td>太田</td><td class="n">254,255</td><td class="n">254,255</td><td class="n">192,010</td><td class="n">0</td><td class="n">62,245</td><td class="n">1/1</td></tr>
+<tr><td>店舗</td><td>及川 　颯月</td><td>盛岡</td><td class="n">229,280</td><td class="n">325,860</td><td class="n">96,580</td><td class="n">70,000</td><td class="n">62,700</td><td class="n">1/1</td></tr>
+<tr><td>店舗</td><td>石井　愛里紗</td><td>いわき小名浜</td><td class="n">157,040</td><td class="n">157,040</td><td class="n">150,440</td><td class="n">0</td><td class="n">6,600</td><td class="n">1/1</td></tr>
+<tr><td>店舗</td><td>宝家　シエラ</td><td>熊本中央</td><td class="n">127,050</td><td class="n">465,450</td><td class="n">105,600</td><td class="n">0</td><td class="n">21,450</td><td class="n">12/12</td></tr>
+<tr><td>オンライン</td><td>小松　海月</td><td>一関・日立</td><td class="n">76,200</td><td class="n">76,200</td><td class="n">76,200</td><td class="n">0</td><td class="n">0</td><td class="n">1/1</td></tr>
+<tr><td>店舗</td><td>佐藤　花恋</td><td>つくば</td><td class="n">43,030</td><td class="n">43,030</td><td class="n">0</td><td class="n">0</td><td class="n">43,030</td><td class="n">0/0</td></tr>
+<tr><td>オンライン</td><td>片桐　未来</td><td>3店舗</td><td class="n">17,093</td><td class="n">26,133</td><td class="n">7,093</td><td class="n">10,000</td><td class="n">0</td><td class="n">0/0</td></tr>
+<tr><td>店舗</td><td>影山　綾音</td><td>つくば</td><td class="n">13,200</td><td class="n">13,200</td><td class="n">0</td><td class="n">0</td><td class="n">13,200</td><td class="n">0/0</td></tr>
+<tr><td>店舗</td><td>二瓶　かのん</td><td>会津若松</td><td class="n">-44,609</td><td class="n">1,030,231</td><td class="n">299,007</td><td class="n">-396,900</td><td class="n">53,284</td><td class="n">2/2</td></tr>
+<tr><td>店舗</td><td>舟守　麻衣</td><td>会津若松</td><td class="n">-76,836</td><td class="n">122,512</td><td class="n">-76,836</td><td class="n">0</td><td class="n">0</td><td class="n">1/1</td></tr>
+<tr><td>店舗</td><td>市川　愛純</td><td>水戸</td><td class="n">-446,668</td><td class="n">0</td><td class="n">-446,668</td><td class="n">0</td><td class="n">0</td><td class="n">0/0</td></tr>
+<tr><td>店舗</td><td>合計</td><td>栃木藤岡</td><td class="n">-700,520</td><td class="n">0</td><td class="n">-700,520</td><td class="n">0</td><td class="n">0</td><td class="n">0/0</td></tr>
+<tr><td>店舗</td><td>奈良</td><td>4店舗</td><td class="n">-1,328,726</td><td class="n">115,552</td><td class="n">-868,278</td><td class="n">-476,000</td><td class="n">15,552</td><td class="n">0/0</td></tr>
+</table></div>
+<div class="note">氏名はマスタの表記に統一。改姓により別名で入力されているものは名寄せして1人に合算（古澤　小百合＝堤　小百合／須藤　海月＝小松　海月）。オンラインと店舗を兼任している方は、それぞれの実績を別々に集計しているため両方に出ます。</div>
+</div>

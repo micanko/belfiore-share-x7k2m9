@@ -1,0 +1,374 @@
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ベルフィオーレ 日別ランキング</title>
+<style>
+/* 昨日つくったランキング（ランキング_営業日報再現版_v2_0818.html）と同じトークン・同じ構成。
+   足したのは上部の日付だけ。中身のレイアウトは変えていない。 */
+:root{--pink:#C9898E;--pink-d:#B06B72;--bg:#FDF8F6;--ink:#3a2f30;--sub:#8a7a7b;--line:#ecdfdc;--card:#fff;--pinklight:#f6ecee;
+  /* ★0820 先方指定：目標の進捗に乗っている＝赤／乗っていない＝青 */
+  --up:#C0757B;--up-l:#E0A6AA;--down:#7B9CC4;--down-l:#B3C9E0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"游ゴシック",YuGothic,"Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;background:var(--bg);color:var(--ink);padding:0 0 56px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{background:linear-gradient(135deg,#fff 0%,#fbeeec 100%);border-bottom:1px solid var(--line);padding:22px 0 18px;margin-bottom:20px}
+h1{font-size:21px;letter-spacing:.07em;font-weight:700;overflow-wrap:anywhere;line-height:1.45}
+.sub{color:var(--sub);font-size:12px;margin-top:6px;overflow-wrap:anywhere;line-height:1.7}
+
+/* 断り書き（このページはイメージであることを明示） */
+.lede{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--pink);border-radius:0 10px 10px 0;
+  padding:13px 16px;margin:0 0 18px;font-size:11.5px;line-height:1.85;color:var(--sub);overflow-wrap:anywhere}
+.lede b{color:var(--ink)}
+
+/* 上部に足した日付まわり */
+.daybar{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:6px}
+.daytop{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+select{font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--ink)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.seg button{font:inherit;font-size:12.5px;padding:6px 14px;border:0;background:#fff;color:var(--sub);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--pink);color:#fff}
+.seg button:focus-visible{outline:2px solid var(--pink-d);outline-offset:-2px}
+.dayrow{display:flex;align-items:center;gap:12px;margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}
+.daylab{font-size:11.5px;color:var(--sub);white-space:nowrap}
+.dayval{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;min-width:60px}
+input[type=range]{flex:1;min-width:0;accent-color:var(--pink);height:22px}
+input[type=range]:focus-visible{outline:2px solid var(--pink-d);outline-offset:3px}
+.dayhint{font-size:10.5px;color:#b0a2a3;margin:0 0 20px 2px;overflow-wrap:anywhere;line-height:1.7}
+
+.sec-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:30px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--pink)}
+.sec-h .jp{overflow-wrap:anywhere}
+.sec-h .en{font-size:11px;letter-spacing:.18em;color:var(--pink-d);font-weight:700;text-transform:uppercase}
+.sec-h .jp{font-size:16px;font-weight:700}
+.sec-h .tail{margin-left:auto;font-size:11px;color:#b0a2a3}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi .lb{font-size:11.5px;color:var(--sub);letter-spacing:.04em;overflow-wrap:anywhere}
+.kpi .vl{font-size:24px;font-weight:700;margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi .sm{font-size:10.5px;color:#b0a2a3;margin-top:3px}
+.kpi.hl{background:linear-gradient(135deg,#fff 0%,#fbeeec 100%);border-color:var(--pink)}
+
+table{width:100%;border-collapse:collapse;background:var(--card);font-size:13px}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:middle}
+th{background:#f6ebe9;font-weight:700;font-size:12px;color:#6b5658;white-space:nowrap}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.rk{text-align:center;width:38px;color:var(--sub);font-weight:700}
+tr.top1 td{background:#fdf3f1}
+/* 未入金管理・新ヨミ表と同じ行ホバー */
+table tr:hover td{background:var(--pinklight)}
+table tr.top1:hover td{background:#fbe4e2}
+.barcell{min-width:150px;overflow:hidden}
+/* ★0821：赤／青は「目標に届いたか」を示す色。達成率を判定していないバー（売上の大小順）に
+   青を使うと全員が未達のように見えるため、既定はローズ系のニュートラルにする。 */
+.bar{display:inline-block;height:9px;border-radius:5px;background:linear-gradient(90deg,var(--pink),#E5BFC1);max-width:100%;transition:width .18s ease}
+.bar.ok{background:linear-gradient(90deg,var(--up),var(--up-l))}
+.bar.ng{background:linear-gradient(90deg,var(--down),var(--down-l))}
+.up{color:var(--up);font-weight:700}
+.down{color:var(--down);font-weight:700}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
+.two>div{min-width:0}
+/* ★0821：契約率ランキングは5件以上を順位付き、4件以下は順位なしで下段に。
+   ※既定値は必ず @media より前（後ろに書くと後勝ちでスマホ指定が消える）。 */
+.subhead{font-size:11.5px;color:var(--sub);margin:16px 0 7px;padding-left:9px;border-left:3px solid var(--pinklight);font-weight:500}
+.sub-t{font-size:11.5px}
+.sub-t th{color:#b0a2a3;font-weight:500}
+.sub-t td{color:var(--sub);padding-top:5px;padding-bottom:5px}
+.sub-t td.up{color:var(--up)}
+.sub-t td.down{color:var(--down)}
+.scroll{overflow-x:auto}
+.scrollhint{display:none;font-size:10.5px;color:#b0a2a3;margin:-2px 0 6px}
+.note{font-size:10.5px;color:#b0a2a3;margin-top:8px;line-height:1.7;overflow-wrap:anywhere}
+.tag{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:9px;border:1px solid var(--line);color:var(--sub);margin-left:6px}
+
+/* 管轄別（ダッシュボードA と同じ横棒） */
+.mg-rank-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px 14px;max-width:660px}
+.mg-rank-list{display:flex;flex-direction:column;gap:2px}
+.mgr-row{display:grid;grid-template-columns:86px minmax(0,1fr) 116px;align-items:center;gap:9px;padding:7px 2px}
+.mgr-nm{font-size:13px;font-weight:500;color:#4a3f40;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mgr-track{height:15px;background:#F1E7E4;border-radius:8px;overflow:hidden}
+.mgr-fill{height:100%;border-radius:8px;transition:width .18s ease}
+.mgr-val{text-align:right;font-variant-numeric:tabular-nums}
+.mgr-val b{font-size:13px;font-weight:500;color:#4a3f40}
+.mgr-val span{display:block;font-size:9px;color:#9A8A8C}
+
+@media(max-width:820px){.two{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:560px){
+  .wrap{padding:0 12px}
+  h1{font-size:17px;letter-spacing:.04em}
+  .kpi{padding:11px 12px}.kpi .vl{font-size:21px}.kpis{gap:9px}
+  .sec-h{gap:3px 8px;margin:24px 0 10px}
+  .sec-h .en{font-size:9.5px;letter-spacing:.14em}
+  .sec-h .jp{font-size:14.5px}
+  .sec-h .tail{font-size:10px;flex-basis:100%;margin-left:0}
+  .mgr-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"nm val" "bar bar";gap:5px 9px;padding:9px 2px}
+  .mgr-nm{grid-area:nm}.mgr-track{grid-area:bar}
+  .mgr-val{grid-area:val;white-space:nowrap}
+  .mgr-val b{font-size:14px}
+  .mgr-val span{display:inline;margin-left:7px;font-size:10px}
+  table{font-size:12px}
+  th,td{padding:6px 7px;white-space:nowrap}
+  .scroll{-webkit-overflow-scrolling:touch}
+  .scroll table th:first-child,.scroll table td:first-child{position:sticky;left:0;z-index:2;background:var(--card)}
+  .scroll table th:first-child{background:#f6ebe9;z-index:3}
+  .scroll table tr.top1 td:first-child{background:#fdf4f3}
+  .barcell{min-width:96px}
+  .scrollhint{display:block}
+  .dayrow{flex-wrap:wrap}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header><div class="wrap">
+  <h1 id="ttl">ベルフィオーレ　営業日報　ランキング</h1>
+  <div class="sub" id="sub">出典：日報の集計（ベルフィオーレ_マスタ）／氏名はマスタ表記に統一（改姓は名寄せ）</div>
+</div></header>
+
+<div class="wrap">
+
+<div class="lede">
+  月間集計版に<b>日付を足した</b>ものです。項目とレイアウトは同じで、日を選ぶとその日時点の順位に切り替わります。<br>
+  <b>月の合計は日報の実データ</b>です（7月・8月／8月は8月20日時点まで）。<br>
+  <b>日ごとの内訳は仮の数字</b>です。日別の集計はこれから実装するため、いまは月の合計を日割りして表示しています。実装後は実際の数字に置き換わります。
+</div>
+
+<div class="daybar">
+  <div class="daytop">
+    <select id="ym"></select>
+    <span class="seg" role="group" aria-label="集計の単位">
+      <button id="mCum" aria-pressed="true">累計</button>
+      <button id="mDay" aria-pressed="false">18日のみ</button>
+    </span>
+  </div>
+  <div class="dayrow">
+    <span class="daylab">日付</span>
+    <span class="dayval" id="dayTxt">31日</span>
+    <input type="range" id="day" min="1" max="31" value="31" aria-label="日付を選ぶ">
+  </div>
+</div>
+<div class="dayhint" id="dayhint"></div>
+
+<div id="body"></div>
+
+</div>
+
+<script>
+const D={"2026-07":{"s":[["一関","大内LD",9600000.0,10771499.0],["福島","須藤MG",6500000.0,5648213.0],["北上","大内LD",7750000.0,7399523.0],["盛岡","須藤MG",7750000.0,6497964.0],["仙台八木山","須藤MG",8600000.0,2303039.0],["いわき小名浜","須藤MG",8700000.0,7144816.0],["日立","須藤MG",5450000.0,6422854.0],["水戸","無し",2000000.0,-1174160.0],["八王子","藤倉MG",5700000.0,4455057.0],["会津若松","藤倉MG",7350000.0,2973401.0],["太田","藤倉MG",5300000.0,7022915.0],["つくば","藤倉MG",7700000.0,9706944.0],["秋田","藤倉MG",6700000.0,5621584.0],["宇都宮東","本並LD",8600000.0,9121099.0],["山形北","藤倉MG",5200000.0,4065831.0],["郡山大槻","藤倉MG",7500000.0,1966070.0],["栃木藤岡","本並LD",7600000.0,7911311.0],["岡山高屋","片桐",7400000.0,7587580.0],["熊本中央","堤GM",7800000.0,6191010.0],["前橋","片桐",5000000.0,12962316.0],["新潟青山","片桐",0,23917471.0]],"p":[["熊谷　善江",0,3001440,3550634,605001,1378650,1017789,3,2,0,1],["大内　琴寧",0,4096888,5469290,2135300,1060800,900788,14,9,0,2],["田頭　愛未花",0,2632771,3109491,473895,667300,1491576,4,2,0,2],["堤　小百合",1,7131926,9082526,7131926,0,0,58,34,0,12],["形山　知見",1,11404316,16083960,11404316,0,0,84,55,0,15],["須藤　海月",1,76200,76200,76200,0,0,2,1,0,2],["川村　志穂",1,3539177,5804774,3377740,74000,87437,21,15,0,10],["河野　侑布子",1,9757596,14417176,9757596,0,0,78,47,0,17],["藤澤　愛里",1,2908700,4714180,2908700,0,0,21,16,0,11],["本多　晴愛",0,1523857,1757447,475880,820920,227057,4,1,0,1],["平野　華菜",0,2438353,2852168,1914960,405015,118378,12,7,0,2],["齋藤　碧",0,784092,1280470,601462,4800,177830,3,2,0,2],["吹越　美沙貴",1,6268760,12054780,6268760,0,0,80,43,0,16],["細川　小百合",1,8253980,14720280,8253980,0,0,89,47,0,18],["片桐　未来",1,17093,26133,7093,10000,0,0,0,0,3],["山本　晴香",1,11524020,19338360,11524020,0,0,89,63,0,16],["浅子　虹",1,4990220,9678860,4990220,0,0,59,25,0,12],["奈良",0,-1328726,115552,-868278,-476000,15552,0,0,0,4],["川村　志穂",0,3899042,4612762,3405660,199800,293582,16,15,0,1],["後藤　美奈",0,298020,1595620,0,83850,214170,14,3,0,1],["山中　理香",0,1483518,2129686,674428,438396,370694,0,0,0,1],["沼澤　里美",0,5048504,7277108,4477220,478804,92480,23,17,0,1],["及川 　颯月",0,229280,325860,96580,70000,62700,0,0,0,1],["梶川　奈可",0,2135220,3760820,1159620,975600,0,23,9,0,1],["石井　愛里紗",0,157040,157040,150440,0,6600,0,0,0,1],["油座　麻衣",0,3751480,6555480,1038080,2713400,0,16,8,0,1],["佐藤　美羽",1,1527624,2115020,1487584,0,40040,10,9,0,8],["菊池　愛莉",0,3052171,5467605,1817160,979800,255211,14,7,0,2],["黒澤　悠菜",0,1330103,1702877,454880,759480,115743,1,1,0,1],["須藤　海月",0,427000,427000,427000,0,0,1,1,0,1],["市川　愛純",0,-446668,0,-446668,0,0,0,0,0,1],["石上　亜矢",0,8336979,10864579,8241227,80200,15552,54,32,0,4],["与那嶺　蘭しく",0,503138,516338,480458,0,22680,1,1,0,1],["田波　弓枝",0,481456,600416,361120,71280,49056,2,1,0,2],["舟守　麻衣",0,-76836,122512,-76836,0,0,0,0,0,1],["二瓶　かのん",0,-44609,1030231,299007,-396900,53284,3,2,0,1],["藤倉　育美",0,826440,826440,559440,267000,0,3,2,0,3],["藤倉　育美",1,851100,935200,657420,193680,0,5,2,0,3],["廻谷　聡花",0,254255,254255,192010,0,62245,0,0,0,1],["中嶋　千紗祈",0,782180,1531700,13200,746100,22880,5,2,0,1],["𠮷田　遙南",0,4735904,7616868,4278850,3000,454054,38,24,0,4],["谷田部　純代",0,1331040,1844280,819980,471300,39760,9,7,0,1],["柳澤　志萌",0,1595558,2460103,389764,1059670,146124,1,1,0,1],["市川　絵理",0,788960,2514520,781160,0,7800,19,9,0,2],["佐藤　花恋",0,43030,43030,0,0,43030,0,0,0,1],["影山　綾音",0,13200,13200,0,0,13200,1,0,0,1],["佐藤　美羽",0,3678816,4342096,3422080,158000,98736,9,8,0,1],["進藤　歩",0,1221348,1221348,922340,148000,151008,7,4,0,1],["小山　雅子",0,2323040,3211520,2098740,224300,0,16,7,0,2],["阿部　千愛莉",0,669214,624374,283840,295000,90374,0,0,0,1],["本並　綾菜",0,2135127,3982862,1304372,573980,256775,18,6,0,2],["佐藤　瑠来",0,1127341,1419541,39600,567600,520141,6,3,0,1],["今野　凛香",0,658630,1565990,493840,2400,162390,4,4,0,1],["小松　由佳",0,2017639,2442331,902380,919800,195459,5,2,0,1],["山本　陽菜",0,1283160,1624140,1022840,28260,232060,2,2,0,1],["本岡　大実",0,1173520,1247520,447360,148000,578160,2,2,0,1],["宝家　シエラ",0,127050,465450,105600,0,21450,11,11,0,1],["田﨑　里奈",0,454960,468160,454960,0,0,1,1,0,1],["片桐　未来",0,5345500,10245398,5345500,0,0,32,23,0,3],["藤本　綾",1,0,0,0,0,0,0,0,0,0]]},"2026-08":{"s":[["つくば","藤倉MG",9300000.0,4205607.0],["会津若松","藤倉MG",7650000.0,1755572.0],["太田","藤倉MG",6700000.0,3587633.0],["山形北","藤倉MG",4900000.0,2312805.0],["秋田","藤倉MG",6700000.0,2652120.0],["栃木藤岡","本並LD",7450000.0,1551931.0],["宇都宮東","本並LD",9400000.0,5426500.0],["水戸","無し",0,-1876858.0],["日立","須藤MG",7700000.0,3786823.0],["いわき小名浜","須藤MG",9300000.0,3009600.0],["八王子","藤倉MG",5250000.0,5147201.0],["郡山大槻","藤倉MG",7800000.0,1604820.0],["一関","大内LD",9600000.0,1883199.0],["福島","須藤MG",6100000.0,2584212.0],["北上","大内LD",8500000.0,4392706.0],["仙台八木山","須藤MG",8200000.0,2643070.0],["盛岡","須藤MG",8200000.0,3468161.0],["岡山高屋","片桐",7800000.0,3201360.0],["熊本中央","堤GM",7200000.0,474180.0],["新潟青山","片桐",10000000.0,8156926.0],["前橋","片桐",10000000.0,7260125.0],["松本あずみ野","無し",10000000.0,31304909.0]],"p":[["田波　弓枝",0,156442,156442,0,2200,154242,0,0,0,2],["谷田部　純代",0,416452,784452,230600,150000,35852,2,2,0,1],["柳澤　志萌",0,529493,661653,210580,194310,124603,1,1,0,1],["吹越　美沙貴",1,1914020,5590300,1914020,0,0,35,18,0,13],["形山　知見",1,8042680,10317460,8042680,0,0,63,42,0,13],["川村　志穂",1,1530507,1750540,1530507,0,0,11,7,0,7],["山本　晴香",1,6583340,8486000,6583340,0,0,57,34,0,14],["浅子　虹",1,1276750,3066200,1276750,0,0,27,12,0,9],["河野　侑布子",1,5980740,7535300,5980740,0,0,52,33,0,16],["堤　小百合",1,7417916,10946212,7417916,0,0,51,39,0,14],["佐藤　花恋",0,694169,975825,50000,282000,362169,0,0,0,2],["佐藤　久美",0,9240,9240,0,0,9240,1,1,0,1],["二瓶　かのん",0,405300,405300,0,405300,0,0,0,0,1],["細川　小百合",1,8813460,11804820,8813460,0,0,54,40,0,15],["奈良",0,-1847306,29552,-803722,-1064536,20952,0,0,0,2],["廻谷　聡花",0,1042480,1412760,748780,275880,17820,2,1,0,1],["中嶋　千紗祈",0,1059740,2136906,1156680,-144100,47160,4,2,0,1],["藤倉　育美",0,-355240,0,-355240,0,0,1,0,0,1],["藤澤　愛里",1,4579520,6542000,4579520,0,0,39,19,0,10],["𠮷田　遙南",0,7569656,10846876,6896960,523800,148896,36,27,0,4],["佐藤　瑠来",0,1684125,2587965,667255,994870,22000,2,2,0,1],["佐藤　美羽",0,1314960,1516100,1269360,0,45600,6,5,0,1],["進藤　歩",0,575280,575280,345280,230000,0,2,1,0,1],["藤倉　育美",1,-96830,118960,-96830,0,0,0,0,0,2],["本並　綾菜",0,2019400,2588399,1869400,150000,0,9,5,0,2],["小松　由佳",0,830251,958851,606520,154800,68931,3,3,0,1],["阿部　千愛莉",0,26400,26400,13200,0,13200,1,1,0,1],["菊池　愛莉",0,2350094,3129734,926820,1248400,174874,3,3,0,1],["黒澤　悠菜",0,460620,610620,240040,150000,70580,2,1,0,1],["梶川　奈可",0,1134980,1650980,465980,669000,0,8,4,0,1],["石井　愛里紗",0,9240,9240,0,0,9240,0,0,0,1],["油座　麻衣",0,1465280,2621320,519040,926800,19440,9,2,0,1],["片桐　未来",1,26133,26133,16133,10000,0,0,0,0,2],["石上　亜矢",0,8476686,13294152,8313900,8400,154386,58,26,0,2],["与那嶺　蘭しく",0,953991,1435950,573581,347890,32520,1,1,0,1],["今野　凛香",0,171025,502640,126625,44400,0,7,4,0,1],["影山　綾音",0,346748,619496,0,346748,0,1,0,0,1],["熊谷　善江",0,89000,89000,89000,0,0,0,0,0,1],["大内　琴寧",0,763428,911528,465980,229100,68348,9,2,0,1],["田頭　愛未花",0,759116,1102606,81948,526610,150558,1,1,0,1],["山中　理香",0,217711,217711,115200,16500,86011,0,0,0,2],["後藤　美奈",0,736777,1406457,558640,-184200,362337,5,2,0,2],["須藤　海月",1,28000,28000,28000,0,0,0,0,0,1],["本多　晴愛",0,1606299,2445365,306966,1063000,236333,4,2,0,1],["齋藤　碧",0,1035190,1480330,980040,0,55150,2,2,0,2],["川村　志穂",0,2724560,3411933,2432207,0,292353,10,10,0,2],["平野　華菜",0,443690,443690,0,426200,17490,4,1,0,1],["佐藤　美羽",1,461280,896160,461280,0,0,7,4,0,3],["沼澤　里美",0,1168834,1168834,397844,662090,108900,3,2,0,1],["及川 　颯月",0,17820,17820,0,0,17820,0,0,0,1],["山本　陽菜",0,1090103,1609143,638440,74000,377663,11,7,0,3],["本岡　大実",0,2366500,2997400,1545360,794080,27060,6,4,0,1],["田﨑　里奈",0,13200,13200,13200,0,0,1,1,0,1],["片桐　未来",0,1632406,2324764,1574286,36300,21820,5,3,0,2],["小山　雅子",0,1320300,1852540,1317100,0,3200,20,4,0,1],["市川　絵理",0,1929506,3228192,1298336,0,631170,7,7,0,1],["伊藤　怜奈",0,2603720,2944760,2420080,148000,35640,10,7,0,1],["藤本　綾",1,0,0,0,0,0,0,0,0,0]]}};
+</script>
+<script>
+const $=id=>document.getElementById(id);
+const DIM={"2026-07":31,"2026-08":31};
+const LAST={"2026-07":31,"2026-08":20};      // 8月は進行中。マスタ取得（8/21朝）＝8/20 23時の集計まで
+
+// 日ごとの内訳はダミー。決定論的に作り、合計がその月の実績と必ず一致するよう正規化する。
+function seed(n){let s=n>>>0;return()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296}}
+function build(total,idx,ym){
+  const dim=DIM[ym], last=LAST[ym], rnd=seed(idx*7919+ym.charCodeAt(6)*131);
+  const w=[]; let sum=0;
+  for(let d=1;d<=last;d++){ const wk=(d%7===6||d%7===0)?1.5:1, tail=d>dim-5?1.5:1;
+    const v=(0.5+rnd())*wk*tail; w.push(v); sum+=v; }
+  const arr=[]; let run=0;
+  for(let d=1;d<=dim;d++){ if(d<=last){ run+=total*w[d-1]/sum; arr.push(run); } else arr.push(null); }
+  return arr;
+}
+const CUM={};
+for(const ym in D){
+  CUM[ym]={s:{},p:{}};
+  D[ym].s.forEach((r,i)=>CUM[ym].s[r[0]]=build(r[3],i,ym));
+  D[ym].p.forEach((r,i)=>CUM[ym].p[(r[1]===1?'OL':'')+r[0]]=build(r[2],i+500,ym));
+}
+
+let ym=Object.keys(D).sort().reverse()[0], mode='cum', day=LAST[ym];
+
+const yen=v=>(Math.round(v)||0).toLocaleString();
+const man=v=>{const n=Math.round(v||0),g=n<0,a=Math.abs(n),o=Math.floor(a/1e8),m=Math.floor((a%1e8)/1e4);
+  return (g?'−':'')+(o?o+'億'+m.toLocaleString()+'万':m.toLocaleString()+'万')};
+const pct=(a,b,d=1)=>b?(a/b*100).toFixed(d)+'%':'—';
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+// ★0821 先方回答：契約率は「脱毛新規のみ」。母数＝新規のお客様の来店数、分子＝そのうち契約に至った人数。
+//   0820まで使っていたBLOOM「個人実績」の脱毛カウンセ／脱毛契約数は、分子に既存のお客様の再契約が入っており
+//   （8月＝439/653＝67.2%のうち44件が既存の再契約）、母数には既存の来店が入らないため率が上振れしていた。
+//   新定義：7月＝595/993＝59.9%、8月＝395/653＝60.5%。出典＝マスタ「全店個人データ」M列/N列。
+const RATE_D={"2026-07":{"熊谷　善江":[3,2],"大内　琴寧":[14,9],"田頭　愛未花":[4,2],"堤　小百合":[58,34],"形山　知見":[84,55],"須藤　海月":[3,2],"川村　志穂":[37,30],"河野　侑布子":[78,47],"藤澤　愛里":[20,15],"本多　晴愛":[4,1],"平野　華菜":[12,7],"齋藤　碧":[3,2],"吹越　美沙貴":[80,43],"細川　小百合":[89,47],"片桐　未来":[32,23],"山本　晴香":[89,63],"浅子　虹":[59,25],"奈良":[0,0],"後藤　美奈":[14,3],"山中　理香":[0,0],"沼澤　里美":[23,17],"及川 　颯月":[0,0],"梶川　奈可":[23,9],"石井　愛里紗":[0,0],"油座　麻衣":[16,8],"佐藤　美羽":[19,17],"菊池　愛莉":[14,7],"黒澤　悠菜":[1,1],"市川　愛純":[0,0],"石上　亜矢":[54,32],"与那嶺　蘭しく":[1,1],"田波　弓枝":[2,1],"舟守　麻衣":[0,0],"二瓶　かのん":[3,2],"藤倉　育美":[8,4],"廻谷　聡花":[0,0],"中嶋　千紗祈":[5,2],"𠮷田　遙南":[38,24],"谷田部　純代":[9,7],"柳澤　志萌":[1,1],"市川　絵理":[19,9],"佐藤　花恋":[0,0],"影山　綾音":[1,0],"進藤　歩":[7,4],"小山　雅子":[16,7],"阿部　千愛莉":[0,0],"本並　綾菜":[18,6],"藤澤":[1,1],"佐藤　瑠来":[6,3],"今野　凛香":[4,4],"小松　由佳":[5,2],"山本　陽菜":[2,2],"本岡　大実":[2,2],"宝家　シエラ":[11,11],"田﨑　里奈":[1,1]},"2026-08":{"田波　弓枝":[0,0],"谷田部　純代":[2,2],"柳澤　志萌":[1,1],"吹越　美沙貴":[35,18],"形山　知見":[63,42],"川村　志穂":[21,17],"山本　晴香":[57,34],"浅子　虹":[27,12],"河野　侑布子":[52,33],"堤　小百合":[51,39],"佐藤　花恋":[0,0],"佐藤　久美":[1,1],"二瓶　かのん":[0,0],"細川　小百合":[54,40],"奈良":[0,0],"廻谷　聡花":[2,1],"中嶋　千紗祈":[4,2],"藤倉　育美":[1,0],"藤澤　愛里":[39,19],"𠮷田　遙南":[36,27],"佐藤　瑠来":[2,2],"佐藤　美羽":[13,9],"進藤　歩":[2,1],"本並　綾菜":[9,5],"小松　由佳":[3,3],"阿部　千愛莉":[1,1],"菊池　愛莉":[3,3],"黒澤　悠菜":[2,1],"梶川　奈可":[8,4],"石井　愛里紗":[0,0],"油座　麻衣":[9,2],"片桐　未来":[5,3],"石上　亜矢":[58,26],"与那嶺　蘭しく":[1,1],"今野　凛香":[7,4],"影山　綾音":[1,0],"熊谷　善江":[0,0],"大内　琴寧":[9,2],"田頭　愛未花":[1,1],"山中　理香":[0,0],"後藤　美奈":[5,2],"須藤　海月":[0,0],"本多　晴愛":[4,2],"齋藤　碧":[2,2],"平野　華菜":[4,1],"沼澤　里美":[3,2],"及川 　颯月":[0,0],"山本　陽菜":[11,7],"本岡　大実":[6,4],"田﨑　里奈":[1,1],"小山　雅子":[20,4],"市川　絵理":[7,7],"伊藤　怜奈":[10,7]}};
+const RATE_LINE=0.60, RATE_MIN=5, DIV_LINE=0.60;   // ★0821 MICA指定：管轄別は達成率60%を境に赤／青   // ★0821 先方回答：5件以上を順位付き、4件以下は下段
+const bl=n=>(RATE_D[ym]&&RATE_D[ym][n])||[0,0];
+const rateTxt=(k,c)=>c?(k/c*100).toFixed(1)+'%':'—';
+const rateCls=(k,c)=>!c?'':((k/c)>=RATE_LINE?'up':'down');   // ★0820：60%ちょうども赤
+const bar=(r,c)=>`<span class="bar ${c||''}" style="width:${Math.max(0,Math.min(100,r*100)).toFixed(1)}%"></span>`;
+
+// その日の値。「その日まで」＝累計、「その日だけ」＝単日。
+function v(map,name){
+  const a=CUM[ym][map][name]; if(!a) return 0;
+  if(mode==='cum') return a[day-1]||0;
+  return day===1?(a[0]||0):((a[day-1]||0)-(a[day-2]||0));
+}
+// 目標も同じ物差しに合わせる（月目標をその日までの日数で按分）
+const tScale=()=>mode==='cum'?day/DIM[ym]:1/DIM[ym];
+
+// 個人の内訳は、総売上の進み具合と同じ比率で按分する（日次データが入れば実値に置き換わる）
+function pRatio(name,total){ if(!total) return 0; return v('p',name)/total; }
+
+function render(){
+  const last=LAST[ym]; day=Math.min(day,last);
+  $('day').max=last; $('day').value=day; $('dayTxt').textContent=day+'日';
+  $('mDay').textContent=day+'日のみ';
+  const isCum=mode==='cum';
+  const label=isCum?`1日〜${day}日の累計`:`${day}日の1日分`;
+  $('ttl').textContent=`ベルフィオーレ　営業日報　ランキング　${ym.slice(0,4)}年${+ym.slice(5)}月${day}日`;
+  $('dayhint').textContent=`表示中：${label}／目標は月間目標を${isCum?`${day}日分`:'1日分'}に割ったもの`;
+
+  const S=D[ym].s.map(r=>({n:r[0],k:r[1],t:r[2]*tScale(),a:v('s',r[0])}));
+  // p = [氏名, OL, 入金売上, 契約売上, 脱毛, エステ, 物販, カウンセ, 契約数, 目標, 店舗数]
+  const P=D[ym].p.map(r=>{
+    const a=v('p',(r[1]===1?'OL':'')+r[0]);
+    const k=r[2]?a/r[2]:0;              // その日までの進み具合。内訳もこの比率で按分する
+    return {n:r[0],ol:r[1]===1,a:a, 店舗数:r[10],
+      目標:r[9]*tScale(),               // 店舗と同じ物差し（月目標を日数で按分）
+      契約:r[3]*k, 脱毛:r[4]*k, エステ:r[5]*k, 物販:r[6]*k,
+      カウンセ:Math.round(r[7]*k), 契約数:Math.round(r[8]*k)};
+  });
+  const out=[], A=s=>out.push(s);
+  let tgt=0,act=0; S.forEach(x=>{tgt+=x.t;act+=x.a});
+
+  // 全社サマリー
+  A(`<div class="sec-h"><span class="en">Company</span><span class="jp">全社サマリー</span><span class="tail">${esc(label)}</span></div>`);
+  A('<div class="kpis">');
+  A(`<div class="kpi hl"><div class="lb">目標</div><div class="vl">${man(tgt)}</div><div class="sm">月間 ${man(D[ym].s.reduce((s,r)=>s+r[2],0))}</div></div>`);
+  A(`<div class="kpi hl"><div class="lb">実績（入金売上）</div><div class="vl">${man(act)}</div><div class="sm">${yen(act)} 円</div></div>`);
+  A(`<div class="kpi hl"><div class="lb">達成率</div><div class="vl ${tgt&&act>=tgt?'up':'down'}">${pct(act,tgt)}</div></div>`);
+  A(`<div class="kpi"><div class="lb">対象</div><div class="vl">${S.length}<span style="font-size:13px;font-weight:400">店</span></div><div class="sm">個人 ${P.length}名</div></div>`);
+  A('</div>');
+
+  // 店舗ランキング2本
+  const wt=S.filter(x=>x.t).sort((a,b)=>b.a/b.t-a.a/a.t);
+  const nt=S.filter(x=>!x.t).sort((a,b)=>b.a-a.a);
+  const amt=S.slice().sort((a,b)=>b.a-a.a);
+  const mx=amt.length?amt[0].a:1;
+  // 店舗ランキングは全店を出す（自分の店の順位が見えるように）
+  A('<div class="two">');
+  A(`<div><div class="sec-h"><span class="en">Store Ranking</span><span class="jp">店舗 達成率ランキング</span>`+
+    `<span class="tail">全${S.length}店</span></div>`);
+  A('<div class="scroll"><table><tr><th>#</th><th>店舗</th><th class="n">達成率</th><th class="barcell">　</th></tr>');
+  wt.forEach((x,i)=>{const r=x.a/x.t;
+    A(`<tr${i===0?' class="top1"':''}><td class="rk">${i+1}</td><td>${esc(x.n)}</td>
+      <td class="n ${r>=1?'up':'down'}">${pct(x.a,x.t)}</td><td class="barcell">${bar(Math.min(Math.max(r,0),2)/2,r>=1?'ok':'ng')}</td></tr>`)});
+  // 目標未設定の店（新規OPEN店）は達成率が出せないため、順位を付けず末尾に置く
+  nt.forEach(x=>A(`<tr><td class="rk">—</td><td>${esc(x.n)}</td>
+    <td class="n" style="color:#b0a2a3;font-size:11px">目標未設定</td>
+    <td class="barcell" style="color:var(--sub);font-size:11.5px">入金売上 ${man(x.a)}</td></tr>`));
+  A('</table></div></div>');
+  A(`<div><div class="sec-h"><span class="en">Store Ranking</span><span class="jp">店舗 入金売上ランキング</span>`+
+    `<span class="tail">全${S.length}店</span></div>`);
+  A('<div class="scroll"><table><tr><th>#</th><th>店舗</th><th class="n">入金売上</th><th class="barcell">　</th></tr>');
+  // ★0821 MICA指定：入金売上ランキングも、その日までの日割り目標に届いているかで赤／青にする。
+  //   目標未設定の店（新規OPEN）は判定できないため色を付けない。
+  amt.forEach((x,i)=>A(`<tr${i===0?' class="top1"':''}><td class="rk">${i+1}</td><td>${esc(x.n)}</td>
+    <td class="n">${man(x.a)}</td>
+    <td class="barcell">${bar(mx?x.a/mx:0, x.t?(x.a>=x.t?'ok':'ng'):'')}</td></tr>`));
+  A('</table></div></div>');
+  A('</div>');
+
+  // 管轄別
+  A(`<div class="sec-h"><span class="en">Division</span><span class="jp">管轄別 達成率</span><span class="tail">${esc(label)}</span></div>`);
+  const dm={};
+  S.forEach(x=>{ if(x.k==='無し'||!x.t)return; (dm[x.k]??={t:0,a:0}); dm[x.k].t+=x.t; dm[x.k].a+=x.a; });
+  A('<div class="mg-rank-card"><div class="mg-rank-list">');
+  Object.entries(dm).map(([k,d])=>({k,d,r:d.a/d.t})).sort((a,b)=>b.r-a.r).forEach(({k,d,r})=>{
+    const w=Math.min(Math.max(r,0),2)/2*100;
+    const g=r>=DIV_LINE?'linear-gradient(90deg,#C0757B,#E0A6AA)':'linear-gradient(90deg,#7B9CC4,#B3C9E0)';
+    A(`<div class="mgr-row"><div class="mgr-nm">${esc(k)}</div>
+      <div class="mgr-track"><div class="mgr-fill" style="width:${w.toFixed(1)}%;background:${g}"></div></div>
+      <div class="mgr-val"><b>${Math.round(r*100)}%</b><span>¥${yen(d.a)} / ¥${yen(d.t)}</span></div></div>`);
+  });
+  A('</div></div>');
+
+  // 個人ランキング（オンライン／店舗）
+  A('<div class="two">');
+  // オンラインは人数が少ないので全員。店舗は上位15名まで。
+  const TOPN=15;
+  [['個人実績ランキング（オンライン）',P.filter(x=>x.ol),0],
+   ['個人実績ランキング（店舗）',P.filter(x=>!x.ol),TOPN]].forEach(([title,all,lim])=>{
+    const sorted=all.sort((a,b)=>b.a-a.a), rows=lim?sorted.slice(0,lim):sorted;
+    const m=rows.length?rows[0].a:1;
+    A(`<div><div class="sec-h"><span class="en">Staff Ranking</span><span class="jp">${title}</span>`+
+      `<span class="tail">${rows.length<sorted.length?`上位${rows.length}名／全${sorted.length}名`:`全${sorted.length}名`}</span></div>`);
+    // 達成率は個人目標が入ってから。マスタに目標が入力されたら x.目標 で列を戻せる。
+    A('<div class="scroll"><table><tr><th>#</th><th>氏名</th><th class="n">入金売上</th><th class="barcell">　</th></tr>');
+    rows.forEach((x,i)=>A(`<tr${i===0?' class="top1"':''}><td class="rk">${i+1}</td><td>${esc(x.n)}</td>
+      <td class="n">${man(x.a)}</td><td class="barcell">${bar(m?x.a/m:0)}</td></tr>`));
+    A('</table></div></div>');
+  });
+  A('</div>');
+
+  // 個人実績（脱毛新規契約率）ランキング ★0820 先方指定：オンラインと店舗は合算
+  // ★0821 先方回答：母数は新規のお客様の来店。5件以上を順位付き、4件以下は順位なしで下段に。
+  const _mg={};
+  P.forEach(x=>{ const m=_mg[x.n] || (_mg[x.n]={n:x.n, c:0, k:0, kind:{}});
+    m.kind[x.ol?'オンライン':'店舗']=1; });
+  Object.keys(RATE_D[ym]||{}).forEach(n=>{ if(n==='合計') return;
+    const m=_mg[n]||(_mg[n]={n:n,c:0,k:0,kind:{}});
+    m.c=RATE_D[ym][n][0]; m.k=RATE_D[ym][n][1]; });
+  const _all=Object.values(_mg).filter(x=>x.c>0).sort((a,b)=>(b.k/b.c)-(a.k/a.c)||(b.c-a.c));
+  const rateRows=_all.filter(x=>x.c>=RATE_MIN), fewRows=_all.filter(x=>x.c<RATE_MIN);
+  A(`<div class="sec-h"><span class="en">Staff Ranking</span><span class="jp">個人実績ランキング（脱毛新規契約率）</span>`+
+    `<span class="tail">オンライン・店舗 合算</span></div>`);
+  A('<div class="scroll"><table><tr><th>#</th><th>氏名</th><th>区分</th>'+
+    '<th class="n">来店</th><th class="n">契約</th><th class="n">契約率</th><th class="barcell">　</th></tr>');
+  rateRows.forEach((x,i)=>{
+    const v=x.k/x.c;
+    A(`<tr${i===0?' class="top1"':''}><td class="rk">${i+1}</td><td>${esc(x.n)}</td>
+      <td>${Object.keys(x.kind).sort().join('・')}</td>
+      <td class="n">${x.c}</td><td class="n">${x.k}</td>
+      <td class="n ${rateCls(x.k,x.c)}">${rateTxt(x.k,x.c)}</td>
+      <td class="barcell">${bar(Math.min(v,1), v>=RATE_LINE?'ok':'ng')}</td></tr>`);
+  });
+  A('</table></div>');
+  if(fewRows.length){
+    A(`<div class="subhead">担当${RATE_MIN}件未満の方（${fewRows.length}名・順位なし）</div>`);
+    A('<div class="scroll"><table class="sub-t"><tr><th>氏名</th><th>区分</th>'+
+      '<th class="n">来店</th><th class="n">契約</th><th class="n">契約率</th></tr>');
+    fewRows.forEach(x=>A(`<tr><td>${esc(x.n)}</td><td>${Object.keys(x.kind).sort().join('・')}</td>
+      <td class="n">${x.c}</td><td class="n">${x.k}</td>
+      <td class="n ${rateCls(x.k,x.c)}">${rateTxt(x.k,x.c)}</td></tr>`));
+    A('</table></div>');
+  }
+  A(`<div class="note">脱毛新規契約率＝契約数÷来店数。新規のお客様のうち契約に至った割合です（既存のお客様の再契約は含みません）。`+
+    `担当${RATE_MIN}件以上の${rateRows.length}名を順位付きで、${RATE_MIN}件未満の${fewRows.length}名を下段に表示しています。`+
+    `60%以上を赤、60%未満を青で表示。※契約率は月間の確定値で、日付では動きません。</div>`);
+
+  // 店舗別業績表
+  A(`<div class="sec-h"><span class="en">Store Table</span><span class="jp">店舗別 業績表</span><span class="tail">${esc(label)}</span></div>`);
+  A('<div class="scrollhint">表は横にスクロールできます</div>');
+  A('<div class="scroll"><table><tr><th>店舗</th><th>管轄</th><th class="n">目標</th><th class="n">入金売上</th><th class="n">達成率</th></tr>');
+  S.slice().sort((a,b)=>(b.t?b.a/b.t:-1)-(a.t?a.a/a.t:-1)).forEach(x=>
+    A(`<tr><td>${esc(x.n)}</td><td>${esc(x.k==='無し'?'—':x.k)}</td><td class="n">${yen(x.t)}</td>
+      <td class="n">${yen(x.a)}</td><td class="n ${x.t&&x.a>=x.t?'up':'down'}">${pct(x.a,x.t)}</td></tr>`));
+  A('</table></div>');
+
+  // 個人別 業績表
+  A(`<div class="sec-h"><span class="en">Staff Table</span><span class="jp">個人別 業績表</span>`+
+    `<span class="tag">全${P.length}名</span><span class="tail">${esc(label)}</span></div>`);
+  A('<div class="scrollhint">表は横にスクロールできます</div>');
+  // 目標・達成率の列は、マスタに個人目標が入るまで出さない（今は全員未入力で「—」が並ぶだけのため）。
+  A('<div class="scroll"><table><tr><th>区分</th><th>氏名</th><th class="n">店舗数</th><th class="n">入金売上</th><th class="n">契約売上</th>'+
+    '<th class="n">脱毛</th><th class="n">エステ</th><th class="n">物販</th><th class="n">契約率</th></tr>');
+  P.slice().sort((a,b)=>b.a-a.a).forEach(x=>
+    A(`<tr><td>${x.ol?'オンライン':'店舗'}</td><td>${esc(x.n)}</td><td class="n">${x.店舗数}</td>
+      <td class="n">${yen(x.a)}</td><td class="n">${yen(x.契約)}</td>
+      <td class="n">${yen(x.脱毛)}</td><td class="n">${yen(x.エステ)}</td><td class="n">${yen(x.物販)}</td>
+      <td class="n ${rateCls(bl(x.n)[1],bl(x.n)[0])}">${rateTxt(bl(x.n)[1],bl(x.n)[0])}</td></tr>`));
+  A('</table></div>');
+
+  A('<div class="note">氏名はマスタの表記に統一。改姓により別名で入力されているものは名寄せして1人に合算（古澤　小百合＝堤　小百合／小松　海月＝須藤　海月）。オンラインと店舗を兼任している方は、それぞれの実績を別々に集計しているため両方に出ます。目標が未設定の店は新規OPEN店のため、達成率の対象から外しています。</div>');
+  $('body').innerHTML=out.join('\n');
+  $('sub').textContent=`出典：日報の集計（ベルフィオーレ_マスタ）／氏名はマスタ表記に統一（改姓は名寄せ）／全${S.length}店`;
+}
+
+$('ym').innerHTML=Object.keys(D).sort().reverse()
+  .map(k=>`<option value="${k}">${k.slice(0,4)}年${+k.slice(5)}月</option>`).join('');
+$('ym').value=ym;
+$('ym').onchange=e=>{ ym=e.target.value; day=LAST[ym]; render(); };
+$('day').oninput=e=>{ day=+e.target.value; render(); };
+$('mCum').onclick=()=>{mode='cum';$('mCum').setAttribute('aria-pressed','true');$('mDay').setAttribute('aria-pressed','false');render()};
+$('mDay').onclick=()=>{mode='day';$('mCum').setAttribute('aria-pressed','false');$('mDay').setAttribute('aria-pressed','true');render()};
+render();
+</script>
