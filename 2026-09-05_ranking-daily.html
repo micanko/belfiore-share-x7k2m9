@@ -206,23 +206,39 @@ let ym=Object.keys(D).sort().reverse()[0], mode='cum', day=LAST[ym];
 let kanS='', kanP='';
 // その月に存在する管轄を、マスタの並び順のまま拾う
 const kanList=()=>{const o=[];D[ym].s.forEach(r=>{if(r[1]&&o.indexOf(r[1])<0)o.push(r[1])});return o;};
-const kanLabel=k=>k==='無し'?'管轄なし':k;
+//   「無し」の意味が表ごとに違う。店舗別＝管轄が決まっていない店（水戸）／個人別＝複数店舗にまたがる方の置き場所。
+const kanLabel=(k,forP)=>k==='無し'?(forP?'兼任・管轄なし':'管轄なし'):k;
 function kanSelect(id,cur,withOL){
   const o=['<option value="">全社</option>'];
-  kanList().forEach(k=>o.push(`<option value="${esc(k)}"${k===cur?' selected':''}>${esc(kanLabel(k))}</option>`));
+  // 個人別（withOL=true）は、複数管轄の方が入るので「管轄なし」を必ず選べるようにする
+  const list=withOL?[...new Set([...kanList(),'無し'])]:kanList();
+  list.forEach(k=>o.push(`<option value="${esc(k)}"${k===cur?' selected':''}>${esc(kanLabel(k,withOL))}</option>`));
   if(withOL) o.push(`<option value="OL"${cur==='OL'?' selected':''}>オンライン</option>`);
   return `<div class="tblsel"><label for="${id}">管轄</label><select id="${id}">${o.join('')}</select></div>`;
 }
-// 個人を管轄で絞る。全社はそのまま、管轄を選ぶとその管轄で上げた実績だけになる。
+// ★0826 先方要望：複数の管轄にまたがる方は管轄ごとに分けず、1人1行にまとめて「管轄なし」に置く。
+//   金額はその方の全社分（管轄で割らない）。1つの管轄だけの方は、従来どおりその管轄に入る。
+// ★0826 先方回答：オンラインと店舗を兼任している方のうち、MGご本人は自分の管轄に置く。
+//   スタッフとして兼任している方（川村さん・佐藤さん）は「兼任・管轄なし」のまま。
+//   出典＝マスタ①店舗・組織情報のMG列（その管轄の責任者）。
+//   ※「伊藤　玲奈」はマスタ①の表記。日報は「伊藤　怜奈」で字が違うため、日報の表記も入れておく。
+const MG_OF={"藤倉　育美":"藤倉MG","本並　綾菜":"本並LD","須藤　海月":"須藤MG","大内　琴寧":"大内LD","片桐　未来":"片桐","伊藤　玲奈":"伊藤MG","伊藤　怜奈":"伊藤MG"};
+const pKanOf=x=>{
+  if(x.both){ const k=MG_OF[x.n]; return (k&&x.kan[k])?k:'無し'; }   // 兼任：MG本人は自分の管轄へ
+  const ks=Object.keys(x.kan);
+  return ks.length===1?ks[0]:'無し';
+};
+// 個人を管轄で絞る。
 function pInKan(x,kan){
   if(!kan) return x;                                  // 全社
-  if(kan==='OL') return x.ol?x:null;                  // オンラインだけ
-  if(x.ol) return null;                               // 管轄には店舗スタッフだけ出す
-  const d=x.kan[kan]; if(!d) return null;
-  const k=x.ratio;                                    // 日別は全社と同じ比率で按分する
-  return {n:x.n,ol:x.ol,a:d[0]*k,店舗数:d[7],目標:0,
-    契約:d[1]*k,脱毛:d[2]*k,エステ:d[3]*k,物販:d[4]*k,
-    カウンセ:Math.round(d[5]*k),契約数:Math.round(d[6]*k),
+  if(kan==='OL') return (x.ol&&!x.both)?x:null;        // オンライン専任だけ（兼任は複数店舗・管轄なしへ）
+  if(x.ol&&!x.both) return null;                      // 管轄にはオンライン専任を出さない
+  if(pKanOf(x)!==kan) return null;
+  if(x.both||Object.keys(x.kan).length>1) return x;   // 兼任／複数管轄＝全社の値のまま1行
+  const d=x.kan[kan];                                 // 金額は P を作るときに按分済み
+  return {n:x.n,ol:x.ol,both:x.both,a:d[0],店舗数:d[7],目標:0,
+    契約:d[1],脱毛:d[2],エステ:d[3],物販:d[4],
+    カウンセ:d[5],契約数:d[6],
     rate:[d[5],d[6]]};                                // 管轄別の契約率はこの内訳から出す
 }
 // ★0826：全社を選んでいるときは、管轄ごとにまとめて並べる。
@@ -301,15 +317,37 @@ function render(){
   // p = [氏名, OL, 入金売上, 契約売上, 脱毛, エステ, 物販, カウンセ, 契約数, 目標, 店舗数, 管轄別内訳]
   //   管轄別内訳 = {管轄名:[入金, 契約, 脱毛, エステ, 物販, カウンセ, 契約数, 店舗数]}
   //   出典はどちらもマスタ「全店個人データ」。全社の値は管轄別を足したものなので必ず一致する。
-  const P=D[ym].p.map(r=>{
+  const P0=D[ym].p.map(r=>{
     const a=v('p',(r[1]===1?'OL':'')+r[0]);
     const k=r[2]?a/r[2]:0;              // その日までの進み具合。内訳もこの比率で按分する
+    // 管轄別の金額も同じ比率で按分しておく（0〜4が金額／5,6はカウンセ・契約数＝月間の確定値なので按分しない／7は店舗数）
+    const kan={};
+    Object.keys(r[11]||{}).forEach(kk=>{ kan[kk]=r[11][kk].map((n,i)=>i<5?n*k:n); });
     return {n:r[0],ol:r[1]===1,a:a, 店舗数:r[10],
       目標:r[9]*tScale(),               // 店舗と同じ物差し（月目標を日数で按分）
       契約:r[3]*k, 脱毛:r[4]*k, エステ:r[5]*k, 物販:r[6]*k,
       カウンセ:Math.round(r[7]*k), 契約数:Math.round(r[8]*k),
-      kan:r[11]||{}, ratio:k};
+      kan:kan, ratio:k};
   });
+  // ★0826 先方要望：1人1行。オンラインと店舗を兼任している方も合算して1行にする。
+  //   兼任の方は区分を「兼任」と表示し、管轄はまたがるので「複数店舗・管轄なし」に入る。
+  const P=(()=>{
+    const by={}, order=[];
+    P0.forEach(x=>{
+      let e=by[x.n];
+      if(!e){ e=by[x.n]={n:x.n,ol:x.ol,both:false,a:0,店舗数:0,目標:0,
+        契約:0,脱毛:0,エステ:0,物販:0,カウンセ:0,契約数:0,kan:{}}; order.push(e); }
+      else if(e.ol!==x.ol) e.both=true;               // オンラインと店舗の両方にいた
+      e.a+=x.a; e.店舗数+=x.店舗数; e.目標+=x.目標;
+      e.契約+=x.契約; e.脱毛+=x.脱毛; e.エステ+=x.エステ; e.物販+=x.物販;
+      e.カウンセ+=x.カウンセ; e.契約数+=x.契約数;
+      Object.keys(x.kan).forEach(kk=>{
+        const src=x.kan[kk], dst=e.kan[kk]||(e.kan[kk]=[0,0,0,0,0,0,0,0]);
+        for(let i=0;i<8;i++) dst[i]+=src[i];
+      });
+    });
+    return order;
+  })();
   const out=[], A=s=>out.push(s);
   let tgt=0,act=0; S.forEach(x=>{tgt+=x.t;act+=x.a});
 
@@ -488,9 +526,9 @@ function render(){
   const PF=P.map(x=>pInKan(x,kanP)).filter(Boolean);
   // 全社は管轄ごとに分けて並べるため、複数の管轄で実績がある方は複数の行に出る（金額の合計は変わらない）。
   //   タグには実人数と行数の両方を出して、数え違いが起きないようにする。
-  const rowN=kanP?PF.length:(kanOrder(S).reduce((s,k)=>s+P.map(x=>pInKan(x,k)).filter(Boolean).length,0)+P.filter(x=>x.ol).length);
+  const rowN=kanP?PF.length:([...new Set([...kanOrder(S),'無し'])].reduce((s,k)=>s+P.map(x=>pInKan(x,k)).filter(Boolean).length,0)+P.filter(x=>x.ol&&!x.both).length);
   A(`<div class="sec-h"><span class="en">Staff Table</span><span class="jp">個人別 業績表</span>`+
-    `<span class="tag">${kanP==='OL'?'オンライン':(kanP?esc(kanLabel(kanP)):'全社')} ${PF.length}名`+
+    `<span class="tag">${kanP==='OL'?'オンライン':(kanP?esc(kanLabel(kanP,true)):'全社')} ${PF.length}名`+
     `${(!kanP&&rowN!==PF.length)?`（${rowN}行）`:''}</span>`+
     `<span class="tail">${esc(label)}</span></div>`);
   A(kanSelect('kanSelP',kanP,true));
@@ -500,33 +538,40 @@ function render(){
     '<th class="n">脱毛</th><th class="n">エステ</th><th class="n">物販</th><th class="n">契約率</th></tr>');
   const staffRow=x=>{
     const rt=x.rate||bl(x.n);   // 管轄を選んでいるときはその管轄の分だけで率を出す
-    A(`<tr><td>${x.ol?'オンライン':'店舗'}</td><td>${esc(x.n)}</td><td class="n">${x.店舗数}</td>
+    A(`<tr><td>${x.both?'兼任':(x.ol?'オンライン':'店舗')}</td><td>${esc(x.n)}</td><td class="n">${x.店舗数}</td>
       <td class="n">${yen(x.a)}</td><td class="n">${yen(x.契約)}</td>
       <td class="n">${yen(x.脱毛)}</td><td class="n">${yen(x.エステ)}</td><td class="n">${yen(x.物販)}</td>
       <td class="n ${rateCls(rt[1],rt[0])}">${rateTxt(rt[1],rt[0])}</td></tr>`);
   };
   const byKin=(a,b)=>b.a-a.a;
+  // ★0826：管轄の中では、その管轄のMGご本人を一番上に置く（MICA指示）。以降は入金売上順。
+  const byKinMG=k=>(a,b)=>{
+    const am=(MG_OF[a.n]===k)?1:0, bm=(MG_OF[b.n]===k)?1:0;
+    if(am!==bm) return bm-am;
+    return b.a-a.a;
+  };
   if(kanP){
-    PF.slice().sort(byKin).forEach(staffRow);
+    PF.slice().sort(byKinMG(kanP)).forEach(staffRow);
   }else{
     // 全社：店舗スタッフを管轄ごとにまとめ（複数管轄の人はその管轄の分だけ各所に出る）、
     //       オンラインは全店を担当するため最後に全社分をまとめて置く。合計は全社と一致する。
-    kanOrder(S).forEach(k=>{
-      const g=P.map(x=>pInKan(x,k)).filter(Boolean).sort(byKin); if(!g.length) return;
-      A(grpRow(9,kanLabel(k),`${g.length}名　${yenM(g.reduce((s,x)=>s+x.a,0))}`));
+    // 「管轄なし」は複数管轄の方の置き場所なので、管轄なしの店が無くても必ず候補に入れる
+    [...new Set([...kanOrder(S),'無し'])].forEach(k=>{
+      const g=P.map(x=>pInKan(x,k)).filter(Boolean).sort(byKinMG(k)); if(!g.length) return;
+      A(grpRow(9,kanLabel(k,true),`${g.length}名`));
       g.forEach(staffRow);
     });
-    const ols=P.filter(x=>x.ol).sort(byKin);
+    const ols=P.filter(x=>x.ol&&!x.both).sort(byKin);   // 兼任は「複数店舗・管轄なし」に入るのでここには出さない
     if(ols.length){
-      A(grpRow(9,'オンライン',`${ols.length}名　${yenM(ols.reduce((s,x)=>s+x.a,0))}　全店の合計`));
+      A(grpRow(9,'オンライン',`${ols.length}名`));
       ols.forEach(staffRow);
     }
   }
   A('</table></div>');
 
   A('<div class="note">氏名はマスタの表記に統一。改姓により別名で入力されているものは名寄せして1人に合算（古澤　小百合＝堤　小百合／小松　海月＝須藤　海月）。オンラインと店舗を兼任している方は、それぞれの実績を別々に集計しているため両方に出ます。目標が未設定の店は新規OPEN店のため、達成率の対象から外しています。'+
-    '<br>管轄を選ぶと、その管轄の店舗で上げた実績だけを表示します。オンラインスタッフは全店を担当するため管轄では表示せず、「オンライン」を選んだときに全社分をまとめて表示します。契約率も選んだ管轄の分だけで計算します。'+
-    '<br>全社のときは管轄ごとにまとめて並べています（順番は上の「管轄別 達成率」と同じ）。複数の管轄で実績がある方はそれぞれの管轄に分けて出るため、行数は実人数より多くなりますが、金額の合計は全社と一致します。</div>');
+    '<br>個人別業績表は1人1行です。1つの管轄だけで実績がある方はその管轄に、複数の店舗にまたがる方は「兼任・管轄なし」にまとめています（金額はその方の全社分）。オンラインと店舗を兼任されている方は、MGご本人はご自身の管轄に、それ以外は「兼任・管轄なし」に表示します。オンライン専任の方は「オンライン」です。管轄を選んだときは、その管轄の店舗で上げた実績だけを表示し、契約率もその分だけで計算します。'+
+    '<br>全社のときは管轄ごとにまとめて並べています（順番は上の「管轄別 達成率」と同じ）。</div>');
   $('body').innerHTML=out.join('\n');
   // innerHTML を差し替えた後なので、ここでイベントを付け直す
   const bindKan=(id,set)=>{const el=$(id); if(el) el.onchange=()=>{set(el.value); render();};};
