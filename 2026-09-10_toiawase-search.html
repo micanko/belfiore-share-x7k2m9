@@ -159,7 +159,8 @@ tr.cxl td{color:#827374}
 <div id="body"></div>
 
 <div class="note">
-  並び順は、予約確定が上・予約が下・キャンセルが最後です。<b>その中は同じ店舗が続けて並び</b>（店舗の並びはマスタの登録順）、店舗の中は時間順です。<br>
+  並び順は、予約確定が上・予約が下・キャンセルが最後です。その中は<b>脱毛→痩身→フェイシャル</b>の順、
+  さらに<b>同じ店舗が続けて並び</b>（店舗の並びはマスタの登録順）、店舗の中は時間順です。<br>
   予約状況は<b>押したボタンの分だけ表示されます</b>。「予約確定」を押すとその分だけになり、
   続けて「予約」も押せば両方が出ます（キャンセルを除いた予約ありの方だけ。9月からの日報の予約件数と同じ数え方です）。
   「すべて」を押すと元に戻ります。<br>
@@ -250,8 +251,9 @@ function render(){
   const nOk=rows.filter(r=>r[7]===0).length, nWait=rows.filter(r=>r[7]===1).length, nCxl=rows.filter(r=>r[7]===2).length;
   if(anySel()) rows=rows.filter(r=>sel[r[7]]);   // 何か選んでいるときだけ絞る
 
-  // 予約確定 → 予約 → キャンセル、その中は店舗ごとにまとめ（マスタの登録順）、店舗の中は時間順
-  rows.sort((a,b)=> a[7]-b[7] || stFix(a[3]).i-stFix(b[3]).i
+  // 予約確定 → 予約 → キャンセル、その中はメニュー順（脱毛→痩身→フェイシャル・0825先方「脱毛が先でよい」）、
+  // さらに店舗ごと（マスタの登録順）、店舗の中は時間順
+  rows.sort((a,b)=> a[7]-b[7] || a[0]-b[0] || stFix(a[3]).i-stFix(b[3]).i
     || String(a[3]).localeCompare(String(b[3]),'ja') || String(a[5]).localeCompare(String(b[5])));
 
   // 見出しは「いつの・何を・何件」が一目で分かるように、日付＋条件＋件数の3段で出す
@@ -278,7 +280,7 @@ function render(){
     return;
   }
   const out=[];
-  out.push(`<div class="sec-h"><span class="en">Visit List</span><span class="jp">来店予定</span><span class="tail">予約確定が上・予約が下・キャンセルが最後／店舗ごと・時間順</span></div>`);
+  out.push(`<div class="sec-h"><span class="en">Visit List</span><span class="jp">来店予定</span><span class="tail">予約確定→予約→キャンセル／脱毛→痩身→フェイシャル／店舗ごと・時間順</span></div>`);
   out.push('<div class="scrollhint">表は横にスクロールできます</div>');
   out.push('<div class="scroll"><table><tr><th>時間</th><th>お客様名</th><th>店舗</th><th>予約状況</th><th>メニュー</th><th>種別</th><th>識別キー</th></tr>');
   let cur=-1;
