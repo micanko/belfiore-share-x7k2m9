@@ -64,6 +64,12 @@ table tr:hover td{background:var(--pinklight)}
 .b-ok{background:#fbeced;color:var(--ok)}
 .b-wait{background:#eaf0f7;color:var(--wait)}
 .b-cxl{background:#ededed;color:var(--cxl)}
+/* メニューの色分け。予約状況（塗り）と見分けられるよう、こちらは枠線つきの淡いチップにする。
+   色はローズ #C9898E と同じくすんだトーンで色相だけ変えた（彩度を上げず、印象を変えない）。 */
+.mn{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:9px;white-space:nowrap;border:1px solid}
+.m-0{background:#f7f2ed;color:#957050;border-color:#e4d5c6}
+.m-1{background:#edf7f3;color:#487a63;border-color:#c9e2d6}
+.m-2{background:#f6edf7;color:#97639c;border-color:#e2cfe4}
 tr.cxl td{color:#827374}
 .grp td{background:#F6EBE9;font-size:11.5px;font-weight:700;color:#7A5F62;padding:7px 10px;letter-spacing:.03em}
 .grp td span{font-weight:400;color:#A08A8C;margin-left:10px;font-size:10.5px}
@@ -295,7 +301,7 @@ function render(){
       +`<td>${escBr(r[6])}</td>`
       +`<td>${esc(r[3])}</td>`
       +`<td><span class="badge ${CLS[r[7]]}">${JO[r[7]]}</span></td>`
-      +`<td>${CAT[r[0]]}</td>`
+      +`<td><span class="mn m-${r[0]}">${CAT[r[0]]}</span></td>`
       +`<td>${esc(r[2])}</td>`
       +`<td>${esc(r[1])||'—'}</td></tr>`);
   });
