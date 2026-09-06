@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>オンラインシフト表 確認事項</title>
+<style>
+  /* 明るいときの色（既定）。ベルフィオーレのローズ #C9898E を基準に、
+     同じ彩度・明度帯でニュートラルをローズ寄りに振っている */
+  :root{
+    --rose:#C9898E;
+    --rose-deep:#A96A70;
+    --rose-bg:#FAF3F3;
+    --rose-line:#E8D3D4;
+    --ground:#FFFFFF;
+    --panel:#FCFAFA;
+    --ink:#332C2D;
+    --sub:#7A6C6D;
+    --warn-bg:#FDF4F2;
+    --warn-line:#E5B5AC;
+    --head-fg:#FFFFFF;
+  }
+  /* 端末が暗いとき（明るい指定がされていなければ） */
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --rose:#D9A0A4;
+      --rose-deep:#E4B4B7;
+      --rose-bg:#2B2223;
+      --rose-line:#493A3C;
+      --ground:#1B1617;
+      --panel:#221C1D;
+      --ink:#EDE4E4;
+      --sub:#A99A9B;
+      --warn-bg:#2E2220;
+      --warn-line:#7A4E48;
+      --head-fg:#1B1617;
+    }
+  }
+  /* 明示的に暗いを選んだとき */
+  :root[data-theme="dark"]{
+    --rose:#D9A0A4;
+    --rose-deep:#E4B4B7;
+    --rose-bg:#2B2223;
+    --rose-line:#493A3C;
+    --ground:#1B1617;
+    --panel:#221C1D;
+    --ink:#EDE4E4;
+    --sub:#A99A9B;
+    --warn-bg:#2E2220;
+    --warn-line:#7A4E48;
+    --head-fg:#1B1617;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0 auto; padding:28px 24px 48px;
+    background:var(--ground); color:var(--ink);
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",system-ui,sans-serif;
+    font-size:16px; line-height:1.75;
+    max-width:880px;
+    font-feature-settings:"palt" 1;
+  }
+  h1{ font-size:22px; margin:0 0 6px; font-weight:700; letter-spacing:.02em; text-wrap:balance; }
+  .date{ color:var(--sub); font-size:14px; margin:0 0 30px; }
+
+  section{ margin:0 0 36px; }
+  h2{
+    font-size:18px; margin:0 0 14px; padding:10px 15px;
+    background:var(--rose); color:var(--head-fg); font-weight:600; border-radius:4px;
+    text-wrap:balance;
+  }
+  h3{
+    font-size:16px; margin:22px 0 8px; padding-left:11px;
+    border-left:4px solid var(--rose); font-weight:600;
+  }
+  p{ margin:0 0 12px; }
+  .lead{ margin:0 0 14px; }
+
+  .tw{ overflow-x:auto; margin:0 0 8px; }
+  table{
+    border-collapse:collapse; width:100%; font-size:15px;
+    font-variant-numeric:tabular-nums;
+  }
+  th,td{ border:1px solid var(--rose-line); padding:8px 12px; text-align:left; vertical-align:top; }
+  th{ background:var(--rose-bg); font-weight:600; white-space:nowrap; }
+  td.store{ white-space:nowrap; width:120px; }
+  td.name{ white-space:nowrap; width:150px; }
+  tbody tr:nth-child(even) td{ background:var(--panel); }
+
+  .note{ font-size:14px; color:var(--sub); margin:6px 0 0; }
+  .box{
+    background:var(--warn-bg); border:1px solid var(--warn-line);
+    border-radius:5px; padding:15px 17px; margin:0 0 16px;
+  }
+  .box .ttl{ font-weight:700; margin:0 0 6px; color:var(--rose-deep); }
+  .done{ color:var(--rose-deep); font-weight:700; }
+  .num{ font-weight:700; }
+  .card{
+    border:1px solid var(--rose-line); border-radius:5px;
+    padding:13px 17px; background:var(--panel); font-size:15px;
+  }
+  .card dl{ margin:0; display:grid; grid-template-columns:112px 1fr; row-gap:4px; }
+  .card dt{ color:var(--sub); }
+  .card dd{ margin:0; }
+  ul{ margin:6px 0 12px; padding-left:22px; }
+  li{ margin:4px 0; }
+  .small{ font-size:14px; }
+  strong{ font-weight:700; }
+</style>
+</head>
+<body>
+
+<h1>オンラインシフト表　対応のご報告と確認事項</h1>
+<p class="date">2026年9月6日</p>
+
+<!-- 1 -->
+<section>
+<h2>1. 8月後半のご予約が9月シートに移っていない件</h2>
+<p class="lead"><span class="done">対応済みです。</span>ご指摘の1959行目以降を含め、<span class="num">116件すべて</span>9月シートへ移動しました。</p>
+
+<div class="tw"><table>
+  <tr><th>8月度シフト表で「予約月＝9月」</th><td>306件（脱毛）</td></tr>
+  <tr><th>うち9月度シフト表に来ていた</th><td>190件</td></tr>
+  <tr><th>今回移動した</th><td><span class="num">116件</span>　← ご指摘の分</td></tr>
+</table></div>
+
+<h3>原因</h3>
+<p>前月ファイルから当月ファイルへ「予約月が当月の行」を移す処理が、<strong>毎月1日の1回しか動かない</strong>作りになっておりました。9月1日を過ぎてから予約月を「9」に変更された行が、どの自動処理でも拾われない状態でした。</p>
+
+<h3>対応</h3>
+<p>本日より、<strong>毎日21時の自動更新</strong>で、前月シートから当月シートへ移すようにいたしました。</p>
+<div class="tw"><table style="margin-top:10px">
+  <thead><tr><th style="width:170px">タイミング</th><th>行われること</th></tr></thead>
+  <tbody>
+    <tr><td><strong>毎日 21時</strong></td><td>8月度シフト表で「予約月＝9月」の行を、9月シートへ移します</td></tr>
+    <tr><td><strong>毎日 22時</strong></td><td>⭕（前月繰越）の行を9月シートへ移します（従来どおり）</td></tr>
+    <tr><td><strong>毎朝 7時台</strong></td><td>日報の来店・契約を、9月シートへ反映します</td></tr>
+  </tbody>
+</table></div>
+<p style="margin-top:10px">8月度シフト表で予約月を「9」とご入力いただくと、<strong>その日の21時の更新で9月シートへ移り、翌朝7時台の更新で日報の実績が入ります。</strong></p>
+<p class="note">※今回移動した17名については、実績の反映まで完了しております。</p>
+</section>
+
+<!-- 2 -->
+<section>
+<h2>2. 日報の実績が反映できなかった方（21名）</h2>
+<p class="lead">日報に来店・契約の記録がありますが、シフト表に該当の行が見つかりません。</p>
+
+<h3>① 予約月をご記入いただければ自動で反映されます（10名）</h3>
+<p class="small">8月度シフト表に行はありますが、<strong>予約月が空欄</strong>のため9月シートへ移れません。<strong>予約月に「9」とご記入ください。</strong>その日の21時の更新で9月シートへ移り、翌朝7時台の更新で日報の来店・契約が入ります。</p>
+<div class="tw"><table>
+  <thead><tr><th>店舗</th><th>お客様名</th></tr></thead>
+  <tbody>
+    <tr><td class="store">鹿児島</td><td>ふくながらいむ</td></tr>
+    <tr><td class="store">鹿児島</td><td>おおのさやか</td></tr>
+    <tr><td class="store">鹿児島</td><td>すぎむらちか</td></tr>
+    <tr><td class="store">鹿児島</td><td>こぞのまな</td></tr>
+    <tr><td class="store">松本あずみ野</td><td>しのはらかなこ</td></tr>
+    <tr><td class="store">松本あずみ野</td><td>こやすながみゆき</td></tr>
+    <tr><td class="store">日立</td><td>こばしくみこ</td></tr>
+    <tr><td class="store">仙台八木山</td><td>かみやまゆあ</td></tr>
+    <tr><td class="store">岡山高屋</td><td>たつはらあいり</td></tr>
+    <tr><td class="store">熊本中央</td><td>すぎむらみう</td></tr>
+  </tbody>
+</table></div>
+
+<h3>② 予約月が8月のままになっています（2名）</h3>
+<p class="small">シフト表では<strong>8月のご予約</strong>として登録されていますが、日報では<strong>9月にご来店・ご契約</strong>の記録があります。</p>
+<div class="tw"><table>
+  <thead><tr><th>店舗</th><th>お客様名</th><th>シフト表</th><th>日報</th></tr></thead>
+  <tbody>
+    <tr><td class="store">松本あずみ野</td><td class="name">いしいみつこ</td><td>8月22日 予約</td><td>9月5日 来店・契約（345,280円）</td></tr>
+    <tr><td class="store">岡山高屋</td><td class="name">みやけえりか</td><td>8月3日 予約</td><td>9月3日 来店・契約（13,200円）</td></tr>
+  </tbody>
+</table></div>
+<p class="small" style="margin-top:10px">日報の顧客分類はどちらも「新規」でしたので、<strong>8月のご予約に来店されず、9月に改めてご来店された</strong>ものと思われます。シフト表の<strong>予約月を「9」、予約日を実際にご来店された日</strong>にご修正いただけますでしょうか。ご修正いただければ、その日の21時の更新で9月シートへ移ります。</p>
+
+<h3>③ シフト表に行がありません（9名）</h3>
+<p class="small">8月度・9月度のどちらにもお名前がないため、行の追加をお願いいたします。</p>
+<div class="tw"><table>
+  <thead><tr><th>店舗</th><th>お客様名</th></tr></thead>
+  <tbody>
+    <tr><td class="store">前橋</td><td>かみやまみな</td></tr>
+    <tr><td class="store">松本あずみ野</td><td>こしろみゆ</td></tr>
+    <tr><td class="store">日立</td><td>わだあき</td></tr>
+    <tr><td class="store">宇都宮東</td><td>しのはらひおり</td></tr>
+    <tr><td class="store">宇都宮東</td><td>ほしのこはく</td></tr>
+    <tr><td class="store">つくば</td><td>しおたことみ</td></tr>
+    <tr><td class="store">会津若松</td><td>えびさわあや</td></tr>
+    <tr><td class="store">秋田</td><td>すずきゆうか</td></tr>
+    <tr><td class="store">盛岡</td><td>うえばやしくみ</td></tr>
+  </tbody>
+</table></div>
+</section>
+
+<!-- 3 -->
+<section>
+<h2>3. 同じお名前が複数行あるもの（18名）</h2>
+<p class="lead">今回116件を9月シートへ移動したことにより、<strong>一部、同じお名前が2行並ぶ箇所が生じております</strong>。すでに9月シートにあった方の行と重なったものです。あわせてご確認をお願いいたします。</p>
+
+<div class="box">
+  <p class="ttl">【最優先】両方に「重複」チェックが入っている方が1名います</p>
+  <p style="margin:0 0 6px"><strong>鹿児島｜ふくどめみゆき</strong></p>
+  <p style="margin:0">2行とも「重複」にチェックが入っているため、この方が問合せ件数・予約件数・来店・契約の<strong>すべてから外れています</strong>。どちらか一方のチェックを外してください。</p>
+  <p class="note" style="margin-top:8px">「重複」チェックは、余分なほうの1行だけにお願いいたします。両方に付けますと、その方が丸ごと集計から消えてしまいます。</p>
+</div>
+
+<h3>① 同じ日に2件入っています（5名）</h3>
+<div class="tw"><table>
+  <thead><tr><th>店舗</th><th>お客様名</th><th>状況</th></tr></thead>
+  <tbody>
+    <tr><td class="store">鹿児島</td><td class="name">ふくどめみゆき</td><td>8/29問合せ・9/1予約が2行（<strong>両方にチェック済み</strong>）</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">うえのりあき</td><td>8/29問合せ・9/9予約が2行（チェックなし）</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">まつしたみさき</td><td>8/29問合せ・9/14予約が2行（片方にチェック済み・正しい状態）</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">せきしほ</td><td>8/29問合せ・予約が9/14と9/15</td></tr>
+    <tr><td class="store">栃木藤岡</td><td class="name">おおはしさおり</td><td>9/2問合せが2行</td></tr>
+  </tbody>
+</table></div>
+
+<h3>② 問合せ日が入っていない行があります（5名）</h3>
+<p class="small">片方の行に<strong>問合せ日（日にち）が入っていない</strong>ため、同じお問合せなのか別のお問合せなのか判断ができません。<br>
+ご予約日を並べておりますので、あわせてご確認ください。<strong>ご予約日が同じ場合は、同じお客様の同じご予約が2行になっている可能性が高い</strong>と思われます。</p>
+<div class="tw"><table>
+  <thead><tr><th>店舗</th><th>お客様名</th><th>問合せ日</th><th>ご予約日</th><th></th></tr></thead>
+  <tbody>
+    <tr><td class="store">鹿児島</td><td class="name">たじまさやか</td><td>8/24　／　8月（空欄）</td><td>9/1　／　9/1</td><td>予約日が同じ</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">まつもとじゅり</td><td>8/29　／　8月（空欄）</td><td>9/6　／　9/6</td><td>予約日が同じ</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">こうせゆき</td><td>8/29　／　8月（空欄）</td><td>9/12　／　9/12</td><td>予約日が同じ</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">ほんだひでみ</td><td>8/27　／　8/27　／　8月（空欄）<br><strong>＝3行</strong></td><td>9/6　／　9/6　／　9/6</td><td>予約日が同じ<br>（2行にチェック済み）</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">なかむらももか</td><td>8/26　／　8月（空欄）</td><td>9/5　／　<strong>9/8</strong></td><td><strong>予約日が違います</strong><br>別のご予約かもしれません</td></tr>
+  </tbody>
+</table></div>
+</section>
+
+<!-- 3-3 -->
+<section>
+<h2>3-③　別の日にお問合せいただいている方（8名）</h2>
+<p class="lead"><strong>方針のご確認をお願いいたします。</strong>同じお客様が、別々の日に複数回お問合せされています。</p>
+<div class="tw"><table>
+  <thead><tr><th>店舗</th><th>お客様名</th><th>1回目</th><th>2回目</th></tr></thead>
+  <tbody>
+    <tr><td class="store">鹿児島</td><td class="name">しもはえあきこ</td><td>8/24問合せ → 9/1予約・来店</td><td>9/1問合せ（予約なし）</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">たいらりんか</td><td>8/25問合せ → 9/2予約</td><td>9/1問合せ → 9/9予約</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">よしむらみお</td><td>8/25問合せ → 9/3予約</td><td>8/24問合せ → 9/3予約・来店</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">さとうさとみ</td><td>8/27問合せ → 9/6予約</td><td>8/24問合せ → 9/6予約</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">ふじいてつま</td><td>8/29問合せ → 9/6予約</td><td>9/2問合せ（予約なし）</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">やましたみほ</td><td>8/30問合せ → 9/9予約</td><td>9/2問合せ（予約なし）</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">ふかみずさき</td><td>8/30問合せ → 9/3予約</td><td>9/1問合せ（予約なし）</td></tr>
+    <tr><td class="store">鹿児島</td><td class="name">つるだまほ</td><td>9/2問合せ（予約なし）</td><td>9/3問合せ → 9/7予約</td></tr>
+  </tbody>
+</table></div>
+
+<div class="box" style="margin-top:16px">
+  <p class="ttl">問合せ件数の数え方をお決めください</p>
+  <div class="tw"><table style="margin-bottom:10px">
+    <thead><tr><th>方針</th><th>お願いすること</th></tr></thead>
+    <tbody>
+      <tr><td><strong>2件</strong>と数える</td><td>そのままで結構です</td></tr>
+      <tr><td><strong>1件</strong>（同一のお客様）と数える</td><td>後のほうの行に「重複」チェックをお願いします</td></tr>
+    </tbody>
+  </table></div>
+  <p style="margin:0 0 8px">来店率・契約率の<strong>分母が変わる</strong>ため、店舗ごとの数字に影響します。</p>
+  <div class="card">
+    <dl>
+      <dt>例</dt><dd>鹿児島｜しもはえあきこ様</dd>
+      <dt>8月24日</dt><dd>お問合せ → 9月1日 ご予約・ご来店</dd>
+      <dt>9月1日</dt><dd>お問合せ → ご予約なし</dd>
+      <dt>現在の集計</dt><dd>問合せ2件・来店1件 ＝ <strong>来店率50%</strong></dd>
+    </dl>
+  </div>
+</div>
+</section>
+
+<!-- 4 -->
+<section>
+<h2>4. 日報とシフト表で内容が違うもの（4件）</h2>
+<p class="lead">シフト表にすでにご入力があるため、日報の値で<strong>上書きはしておりません</strong>。どちらが正しいかご確認をお願いいたします。</p>
+<div class="tw"><table>
+  <thead><tr><th>店舗</th><th>お客様名</th><th>項目</th><th>日報</th><th>シフト表</th></tr></thead>
+  <tbody>
+    <tr><td class="store">つくば</td><td class="name">ふるいみか</td><td><strong>担当者</strong></td><td>谷田部　純代</td><td>OL片桐　未来</td></tr>
+    <tr><td class="store">前橋</td><td class="name">しらいしみほ</td><td><strong>担当者</strong></td><td>OL吹越　美沙貴</td><td>市川　絵理</td></tr>
+    <tr><td class="store">秋田</td><td class="name">なかのゆい</td><td>来店</td><td>〇</td><td>✕</td></tr>
+    <tr><td class="store">郡山大槻</td><td class="name">いけだひなた</td><td>来店</td><td>〇</td><td>✕</td></tr>
+  </tbody>
+</table></div>
+<p class="note">担当者が異なりますと、実績の集計先が変わります。</p>
+</section>
+
+<!-- 5 -->
+<section>
+<h2>5. お名前が2名分入っている行（1件）</h2>
+<p class="lead">9月度シフト表 → 9月脱毛新規問合せ → <strong>つくば店</strong></p>
+<div class="tw"><table>
+  <tr><th style="width:130px">お客様名</th><td><strong>いしづせつこチョン ソティー　39歳</strong></td></tr>
+  <tr><th>年齢</th><td>33</td></tr>
+  <tr><th>問合せ日</th><td>8月24日</td></tr>
+  <tr><th>予約</th><td>9月5日 10:00（予約確定）</td></tr>
+  <tr><th>担当者</th><td>OL山本　晴香</td></tr>
+</table></div>
+<p>年齢の欄は33ですが、お名前の欄に「39歳」と記載されております。<strong>いしづせつこ様（33歳）の行に、チョン ソティー様（39歳）が追記された</strong>ものと思われます。分けてご入力をお願いいたします。</p>
+<p class="note">9月からは1名につき1行でご入力いただいておりますので、8月分のこの1件のみです。</p>
+</section>
+
+<!-- 補足 -->
+<section>
+<h2>補足</h2>
+<ul>
+  <li>顧客分類が「既存」の行、クーリングオフ・解約の行は、新規問合せシートには載らないため対象外としております</li>
+  <li>日報からシフト表への反映は<strong>毎朝7時台</strong>に自動で動きます。シフト表を修正いただければ、翌朝には自動で入ります</li>
+  <li>すでにご入力のある欄は、日報の値で上書きしない仕様です（現場で手直しされた内容が消えないようにしております）</li>
+</ul>
+</section>
+
+</body>
+</html>
