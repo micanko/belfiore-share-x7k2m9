@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>来店率・契約率の出どころと、実際の数字</title>
+<style>
+:root{--rose:#C9898E;--rose-d:#A96B70;--rose-l:#EDD5D7;--rose-xl:#F7ECEC;
+ --bg:#FDF8F6;--ink:#000;--line:#000;--gray:#CCCCCC;--gray-l:#F3F3F3;
+ --green:#D9EAD3;--pink:#F4CCCC;--yellow:#FFF2CC;--blue:#CFE2F3;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+ font-family:"游ゴシック体","Yu Gothic","YuGothic","Hiragino Sans","Meiryo",sans-serif;
+ font-size:15px;line-height:1.85;-webkit-text-size-adjust:100%}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px 80px}
+header{background:#000;color:#fff;margin:0 -20px 32px;padding:30px 20px 26px}
+header .ttl{font-size:25px;font-weight:700;line-height:1.4}
+header .sub{font-size:14px;margin-top:10px;color:#E8DDDE}
+header .meta{font-size:13px;margin-top:14px;color:#BFB2B3}
+h2{font-size:19px;font-weight:700;margin:44px 0 14px;padding:9px 14px;
+ background:var(--rose);color:#fff;border:1px solid var(--line)}
+h3{font-size:16px;font-weight:700;margin:28px 0 10px;padding-left:11px;border-left:5px solid var(--rose)}
+p{margin:11px 0}
+table{border-collapse:collapse;width:100%;margin:14px 0;background:#fff;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:middle}
+th{background:var(--gray);font-weight:700;white-space:nowrap;font-size:12.5px;line-height:1.35}
+td.n,th.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+td.c,th.c{text-align:center;white-space:nowrap}
+tr.total th,tr.total td{background:#000;color:#fff;font-weight:700}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.stbl td:first-child{white-space:nowrap}
+.box{background:#fff;border:1px solid var(--line);padding:16px 18px;margin:16px 0}
+.box.key{background:var(--rose-xl);border-color:var(--rose-d)}
+.box .bt{font-weight:700;margin-bottom:7px}
+.flow{background:#fff;border:1px solid var(--line);padding:20px 18px;margin:16px 0}
+.step{display:flex;align-items:flex-start;gap:12px;margin:0 0 4px}
+.step .no{flex:0 0 26px;height:26px;line-height:26px;text-align:center;
+ background:var(--rose);color:#fff;font-weight:700;font-size:13px;border-radius:50%}
+.step .bd{flex:1;padding-top:1px}
+.step .bd b{display:block}
+.step .bd span{font-size:13px;color:#5a4a4b}
+.arw{margin:2px 0 2px 12px;color:var(--rose-d);font-weight:700;line-height:1.1}
+.kpi{display:flex;gap:0;border:1px solid var(--line);background:#fff;margin:16px 0;flex-wrap:wrap}
+.kpi>div{flex:1 1 200px;padding:15px 16px;border-right:1px solid var(--line)}
+.kpi>div:last-child{border-right:none}
+.kpi h4{margin:0 0 8px;font-size:13px;font-weight:700;letter-spacing:.03em;color:#5a4a4b}
+.kpi .big{font-size:29px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums}
+.kpi .u{font-size:14px;font-weight:400;margin-left:2px}
+.kpi .cap{font-size:12.5px;color:#5a4a4b;margin-top:6px}
+.kpi .hit{background:var(--rose-xl)}
+.bar{height:18px;background:var(--gray-l);border:1px solid var(--line)}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--rose-d),var(--rose-l))}
+ul,ol{margin:11px 0;padding-left:1.4em}
+li{margin:5px 0}
+.note{font-size:13px;color:#5a4a4b}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border:1px solid var(--line);background:#fff;white-space:nowrap}
+.tag.ok{background:var(--green)} .tag.na{background:var(--pink)} .tag.ck{background:var(--yellow)}
+footer{margin-top:52px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:#5a4a4b}
+@media (max-width:640px){header .ttl{font-size:22px}.kpi>div{border-right:none;border-bottom:1px solid var(--line)}
+ .kpi>div:last-child{border-bottom:none}.kpi .big{font-size:26px}}
+@media print{body{background:#fff}header{margin:0 0 20px}h2{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="ttl">来店率・契約率の出どころと、実際の数字</div>
+  <div class="sub">いま画面に出ている来店数・契約数がどこから来ていて、日報から数えるとどうなるか</div>
+  <div class="meta">2026年9月8日／根本　実花</div>
+</header>
+
+<div class="box key">
+  <div class="bt">はじめに</div>
+  <ol style="margin:0">
+    <li>いま出ている<b>来店者数・契約者数は、オンラインシフト表の問合せシートの〇を数えたもの</b>です。その〇は現場で手入力していただくもので、入っているのは半分ほどです。</li>
+    <li>同じ数字を<b>日報の1日シートから数え直し、柿崎さんの集計表と7月・8月の全店で突き合わせました。来店・契約とも、ほぼ一致しました。</b>8月の契約率は柿崎さんと同じ 51.7% でした。</li>
+    <li>日報から取る形に切り替えれば、<b>問合せシートへの〇の入力も、柿崎さんの手集計も不要になります。</b>売上・契約金額は今も正しいので、変わりません。</li>
+  </ol>
+</div>
+
+<h2>1　いまの仕組み</h2>
+<p>来店者数と契約者数だけ、他の項目と出どころが違います。</p>
+<div class="flow">
+  <div class="step"><div class="no">1</div><div class="bd"><b>オンラインシフト表の問合せシート</b>
+    <span>「来店」「契約」の欄に、現場で〇✕を入力していただいています。<br>
+    ※9月から3択（予約確定／予約／キャンセル）に変わったのは「予約状況」の欄です。来店・契約は従来どおり〇✕です</span></div></div>
+  <div class="arw">↓</div>
+  <div class="step"><div class="no">2</div><div class="bd"><b>日報「全体実績／計画」の実績内訳</b>
+    <span>〇の数をそのまま来店者数・契約者数として書き込んでいます。契約率＝契約者数 ÷ 来店者数</span></div></div>
+  <div class="arw">↓</div>
+  <div class="step"><div class="no">3</div><div class="bd"><b>BLOOM／ランキング</b>
+    <span>日報の実績内訳を読んで、来店率・契約率を出しています</span></div></div>
+</div>
+<div class="box">
+  <div class="bt">同じ行の中で、出どころが分かれています</div>
+  <div class="scroll"><table>
+    <tr><th>項目</th><th>出どころ</th><th class="c">状態</th></tr>
+    <tr><td>契約金額・契約単価</td><td>日報の1日シート</td><td class="c"><span class="tag ok">正しい</span></td></tr>
+    <tr><td>全契約数</td><td>日報の1日シート</td><td class="c"><span class="tag ok">正しい</span></td></tr>
+    <tr><td>問合せ件数・予約件数</td><td>問合せシート</td><td class="c"><span class="tag ok">正しい</span></td></tr>
+    <tr><td><b>来店者数</b></td><td><b>問合せシートの〇</b></td><td class="c"><span class="tag na">実態より少ない</span></td></tr>
+    <tr><td><b>契約者数</b></td><td><b>問合せシートの〇</b></td><td class="c"><span class="tag na">実態より少ない</span></td></tr>
+    <tr><td><b>来店率・契約率</b></td><td>上の2つの割り算</td><td class="c"><span class="tag na">実態より少ない</span></td></tr>
+  </table></div>
+  <p class="note">契約金額と全契約数は、以前に日報から取る形へ切り替え済みです。来店者数と契約者数だけが残っています。</p>
+</div>
+
+<h2>2　3つの数え方を突き合わせました</h2>
+<p>7月と8月について、同じ「新規脱毛の来店・契約」を、3つのやり方で数えて並べました。</p>
+<div class="scroll"><table>
+  <tr><th>数え方</th><th>だれが</th><th>もとになるもの</th></tr>
+  <tr><td><b>柿崎さんの集計表</b></td><td>柿崎さんが手作業</td><td>日報とLINEのカウンセリング報告</td></tr>
+  <tr><td><b>日報から自動で数える</b></td><td>今回の検証</td><td>日報の1日シート（顧客分類・契約種別）</td></tr>
+  <tr><td><b>いま画面に出ている値</b></td><td>現行のしくみ</td><td>問合せシートの〇</td></tr>
+</table></div>
+<p><b>柿崎さんの集計は、こちらのしくみとは独立した手作業です。</b>その数字と合うかどうかが、いちばん確かな確認になります。</p>
+
+<h3>7月（20店）</h3>
+<div class="kpi">
+  <div><h4>来店</h4><div class="big">896 → 938</div><div class="cap">柿崎さん → 日報　差 +4.7%<br>問合せシートは 591</div></div>
+  <div><h4>契約</h4><div class="big">418 → 449</div><div class="cap">柿崎さん → 日報　差 +7.4%</div></div>
+  <div class="hit"><h4>契約率</h4><div class="big">46.7 → 47.9<span class="u">%</span></div><div class="cap">差 1.2ポイント</div></div>
+</div>
+<div class="scroll"><table class="stbl"><tr><th>店舗</th><th class="n">柿崎さん<br>来店</th><th class="n">日報<br>来店</th><th class="n">差</th><th class="n">問合せ<br>来店</th><th class="n">柿崎さん<br>契約</th><th class="n">日報<br>契約</th><th class="n">差</th><th class="n">入力率</th></tr><tr><td>一関</td><td class="n">19</td><td class="n">20</td><td class="n">+1</td><td class="n">11</td><td class="n">10</td><td class="n">8</td><td class="n">-2</td><td class="n">41%</td></tr><tr><td>福島</td><td class="n">21</td><td class="n">21</td><td class="n">+0</td><td class="n">13</td><td class="n">9</td><td class="n">10</td><td class="n">+1</td><td class="n">50%</td></tr><tr><td>北上</td><td class="n">29</td><td class="n">30</td><td class="n">+1</td><td class="n">23</td><td class="n">15</td><td class="n">16</td><td class="n">+1</td><td class="n">64%</td></tr><tr><td>盛岡</td><td class="n">34</td><td class="n">35</td><td class="n">+1</td><td class="n">24</td><td class="n">20</td><td class="n">20</td><td class="n">+0</td><td class="n">58%</td></tr><tr><td>仙台八木山</td><td class="n">20</td><td class="n">22</td><td class="n">+2</td><td class="n">11</td><td class="n">10</td><td class="n">10</td><td class="n">+0</td><td class="n">41%</td></tr><tr><td>いわき小名浜</td><td class="n">25</td><td class="n">25</td><td class="n">+0</td><td class="n">18</td><td class="n">8</td><td class="n">5</td><td class="n">-3</td><td class="n">44%</td></tr><tr><td>日立</td><td class="n">18</td><td class="n">18</td><td class="n">+0</td><td class="n">12</td><td class="n">9</td><td class="n">11</td><td class="n">+2</td><td class="n">48%</td></tr><tr><td>八王子</td><td class="n">27</td><td class="n">29</td><td class="n">+2</td><td class="n">20</td><td class="n">10</td><td class="n">13</td><td class="n">+3</td><td class="n">60%</td></tr><tr><td>会津若松</td><td class="n">23</td><td class="n">22</td><td class="n">-1</td><td class="n">15</td><td class="n">10</td><td class="n">9</td><td class="n">-1</td><td class="n">52%</td></tr><tr><td>太田</td><td class="n">50</td><td class="n">47</td><td class="n">-3</td><td class="n">30</td><td class="n">19</td><td class="n">20</td><td class="n">+1</td><td class="n">49%</td></tr><tr><td>つくば</td><td class="n">62</td><td class="n">66</td><td class="n">+4</td><td class="n">36</td><td class="n">31</td><td class="n">30</td><td class="n">-1</td><td class="n">55%</td></tr><tr><td>秋田</td><td class="n">23</td><td class="n">23</td><td class="n">+0</td><td class="n">18</td><td class="n">16</td><td class="n">17</td><td class="n">+1</td><td class="n">64%</td></tr><tr><td>宇都宮東</td><td class="n">65</td><td class="n">63</td><td class="n">-2</td><td class="n">43</td><td class="n">28</td><td class="n">32</td><td class="n">+4</td><td class="n">51%</td></tr><tr><td>山形北</td><td class="n">20</td><td class="n">22</td><td class="n">+2</td><td class="n">13</td><td class="n">10</td><td class="n">11</td><td class="n">+1</td><td class="n">41%</td></tr><tr><td>郡山大槻</td><td class="n">31</td><td class="n">33</td><td class="n">+2</td><td class="n">18</td><td class="n">11</td><td class="n">10</td><td class="n">-1</td><td class="n">46%</td></tr><tr><td>栃木藤岡</td><td class="n">31</td><td class="n">33</td><td class="n">+2</td><td class="n">19</td><td class="n">20</td><td class="n">21</td><td class="n">+1</td><td class="n">56%</td></tr><tr><td>岡山高屋</td><td class="n">25</td><td class="n">28</td><td class="n">+3</td><td class="n">19</td><td class="n">15</td><td class="n">14</td><td class="n">-1</td><td class="n">43%</td></tr><tr><td>熊本中央</td><td class="n">58</td><td class="n">73</td><td class="n">+15</td><td class="n">30</td><td class="n">31</td><td class="n">36</td><td class="n">+5</td><td class="n">55%</td></tr><tr><td>前橋</td><td class="n">109</td><td class="n">117</td><td class="n">+8</td><td class="n">70</td><td class="n">46</td><td class="n">56</td><td class="n">+10</td><td class="n">44%</td></tr><tr><td>新潟青山</td><td class="n">206</td><td class="n">211</td><td class="n">+5</td><td class="n">148</td><td class="n">90</td><td class="n">100</td><td class="n">+10</td><td class="n">60%</td></tr><tr class="total"><td>合計（20店）</td><td class="n">896</td><td class="n">938</td><td class="n">+42</td><td class="n">591</td><td class="n">418</td><td class="n">449</td><td class="n">+31</td><td class="n">51%</td></tr></table></div>
+<p class="note">日報の契約は「契約種別が入っている行 − 月内のクーリングオフ件数」。柿崎さんの数え方に合わせています。<br>
+20店中16店が、来店・契約とも差3件以内でした。</p>
+
+<h3>8月（21店）</h3>
+<div class="kpi">
+  <div><h4>来店</h4><div class="big">843 → 903</div><div class="cap">柿崎さん → 日報　差 +7.1%<br>問合せシートは 519</div></div>
+  <div><h4>契約</h4><div class="big">436 → 467</div><div class="cap">柿崎さん → 日報　差 +7.1%</div></div>
+  <div class="hit"><h4>契約率</h4><div class="big">51.7 → 51.7<span class="u">%</span></div><div class="cap">完全に一致</div></div>
+</div>
+<div class="scroll"><table class="stbl"><tr><th>店舗</th><th class="n">柿崎さん<br>来店</th><th class="n">日報<br>来店</th><th class="n">差</th><th class="n">問合せ<br>来店</th><th class="n">柿崎さん<br>契約</th><th class="n">日報<br>契約</th><th class="n">差</th><th class="n">入力率</th></tr><tr><td>一関</td><td class="n">13</td><td class="n">14</td><td class="n">+1</td><td class="n">7</td><td class="n">7</td><td class="n">6</td><td class="n">-1</td><td class="n">37%</td></tr><tr><td>福島</td><td class="n">20</td><td class="n">23</td><td class="n">+3</td><td class="n">13</td><td class="n">11</td><td class="n">14</td><td class="n">+3</td><td class="n">47%</td></tr><tr><td>北上</td><td class="n">30</td><td class="n">32</td><td class="n">+2</td><td class="n">14</td><td class="n">22</td><td class="n">25</td><td class="n">+3</td><td class="n">33%</td></tr><tr><td>盛岡</td><td class="n">19</td><td class="n">22</td><td class="n">+3</td><td class="n">12</td><td class="n">12</td><td class="n">11</td><td class="n">-1</td><td class="n">55%</td></tr><tr><td>仙台八木山</td><td class="n">24</td><td class="n">29</td><td class="n">+5</td><td class="n">15</td><td class="n">11</td><td class="n">15</td><td class="n">+4</td><td class="n">41%</td></tr><tr><td>いわき小名浜</td><td class="n">17</td><td class="n">18</td><td class="n">+1</td><td class="n">11</td><td class="n">5</td><td class="n">11</td><td class="n">+6</td><td class="n">41%</td></tr><tr><td>日立</td><td class="n">13</td><td class="n">15</td><td class="n">+2</td><td class="n">9</td><td class="n">8</td><td class="n">8</td><td class="n">+0</td><td class="n">42%</td></tr><tr><td>八王子</td><td class="n">58</td><td class="n">61</td><td class="n">+3</td><td class="n">32</td><td class="n">25</td><td class="n">27</td><td class="n">+2</td><td class="n">37%</td></tr><tr><td>会津若松</td><td class="n">12</td><td class="n">13</td><td class="n">+1</td><td class="n">6</td><td class="n">4</td><td class="n">5</td><td class="n">+1</td><td class="n">25%</td></tr><tr><td>太田</td><td class="n">30</td><td class="n">31</td><td class="n">+1</td><td class="n">17</td><td class="n">17</td><td class="n">15</td><td class="n">-2</td><td class="n">39%</td></tr><tr><td>つくば</td><td class="n">42</td><td class="n">47</td><td class="n">+5</td><td class="n">30</td><td class="n">24</td><td class="n">24</td><td class="n">+0</td><td class="n">47%</td></tr><tr><td>秋田</td><td class="n">22</td><td class="n">22</td><td class="n">+0</td><td class="n">12</td><td class="n">15</td><td class="n">16</td><td class="n">+1</td><td class="n">40%</td></tr><tr><td>宇都宮東</td><td class="n">51</td><td class="n">54</td><td class="n">+3</td><td class="n">31</td><td class="n">29</td><td class="n">28</td><td class="n">-1</td><td class="n">44%</td></tr><tr><td>山形北</td><td class="n">9</td><td class="n">11</td><td class="n">+2</td><td class="n">6</td><td class="n">6</td><td class="n">8</td><td class="n">+2</td><td class="n">27%</td></tr><tr><td>郡山大槻</td><td class="n">23</td><td class="n">24</td><td class="n">+1</td><td class="n">16</td><td class="n">13</td><td class="n">13</td><td class="n">+0</td><td class="n">49%</td></tr><tr><td>栃木藤岡</td><td class="n">16</td><td class="n">17</td><td class="n">+1</td><td class="n">8</td><td class="n">7</td><td class="n">6</td><td class="n">-1</td><td class="n">53%</td></tr><tr><td>岡山高屋</td><td class="n">32</td><td class="n">36</td><td class="n">+4</td><td class="n">19</td><td class="n">14</td><td class="n">14</td><td class="n">+0</td><td class="n">45%</td></tr><tr><td>熊本中央</td><td class="n">8</td><td class="n">10</td><td class="n">+2</td><td class="n">4</td><td class="n">4</td><td class="n">4</td><td class="n">+0</td><td class="n">20%</td></tr><tr><td>前橋</td><td class="n">57</td><td class="n">68</td><td class="n">+11</td><td class="n">32</td><td class="n">35</td><td class="n">37</td><td class="n">+2</td><td class="n">41%</td></tr><tr><td>新潟青山</td><td class="n">102</td><td class="n">104</td><td class="n">+2</td><td class="n">64</td><td class="n">45</td><td class="n">44</td><td class="n">-1</td><td class="n">45%</td></tr><tr><td>松本あずみ野</td><td class="n">245</td><td class="n">252</td><td class="n">+7</td><td class="n">161</td><td class="n">122</td><td class="n">136</td><td class="n">+14</td><td class="n">51%</td></tr><tr class="total"><td>合計（21店）</td><td class="n">843</td><td class="n">903</td><td class="n">+60</td><td class="n">519</td><td class="n">436</td><td class="n">467</td><td class="n">+31</td><td class="n">41%</td></tr></table></div>
+<div class="box key">
+  <div class="bt">8月は、契約率が柿崎さんと完全に一致しました</div>
+  <p style="margin:0">来店も契約も同じ +7.1% でしたので、割り算した契約率はぴったり同じ 51.7% になりました。
+  日報のほうが7%ほど多く拾うのは、手作業では追いきれない分と考えられます。
+  <b>率で見るぶんには、日報から数えても柿崎さんの集計と変わりません。</b></p>
+</div>
+
+<h2>3　いま画面に出ている数字との差</h2>
+<div class="scroll"><table>
+  <tr><th></th><th class="n">7月 来店</th><th class="n">7月 契約率</th><th class="n">8月 来店</th><th class="n">8月 契約率</th></tr>
+  <tr><td>柿崎さんの集計表</td><td class="n">896</td><td class="n">46.7%</td><td class="n">843</td><td class="n">51.7%</td></tr>
+  <tr class="total"><td>日報から数える</td><td class="n">938</td><td class="n">47.9%</td><td class="n">903</td><td class="n">51.7%</td></tr>
+  <tr><td>いま画面に出ている値</td><td class="n">591</td><td class="n">62.3%</td><td class="n">519</td><td class="n">63.8%</td></tr>
+</table></div>
+<p>いまの画面は、<b>来店数が実態の6割ほどしか出ていません。</b>契約率が高めに出ているのは、契約された方のほうが〇を入力していただきやすいためと考えられます。</p>
+
+<h2>4　〇の入力状況</h2>
+<p>ご予約いただいた方のうち、来店実績まで入力されている割合です。</p>
+<div class="scroll"><table>
+  <tr><th>月</th><th style="width:55%">入力されている割合</th><th class="n">割合</th></tr>
+  <tr><td>4月</td><td><div class="bar"><i style="width:61%"></i></div></td><td class="n">61%</td></tr>
+  <tr><td>5月</td><td><div class="bar"><i style="width:65%"></i></div></td><td class="n">65%</td></tr>
+  <tr><td>6月</td><td><div class="bar"><i style="width:49%"></i></div></td><td class="n">49%</td></tr>
+  <tr><td>7月</td><td><div class="bar"><i style="width:51%"></i></div></td><td class="n">51%</td></tr>
+  <tr class="total"><td>8月</td><td><div class="bar"><i style="width:41%"></i></div></td><td class="n">41%</td></tr>
+</table></div>
+<p><b>7月から8月にかけて、18店中15店で下がりました。</b>特定の店の問題ではありません。日報にも問合せシートにも同じことを書いていただく運用に、無理が出ていると考えています。</p>
+<div class="box">
+  <div class="bt">入力していただいた分は、正確です</div>
+  <p style="margin:0">〇が付いている行を日報と突き合わせると、内容は一致します。八王子店6月では、〇が付いていた4件すべてが日報と一致していました（契約2名・体験のみ2名）。
+  <b>入力の正確さの問題ではなく、同じことを二度書く運用そのものに無理があります。</b></p>
+</div>
+<p>あわせて、<b>問合せシートを経由しないご来店（ご紹介・お立ち寄り）は、そもそも問合せシートに行がありません。</b>どれだけ丁寧に入力していただいても、この分は数に入りません。</p>
+
+<h2>5　日報から数えるときの定義</h2>
+<p>柿崎さんの集計表と突き合わせて確定した数え方です。</p>
+<div class="scroll"><table>
+  <tr><th style="width:110px">項目</th><th>数え方</th></tr>
+  <tr><td><b>来店</b></td><td>顧客分類が「新規」の行<br>
+    <span class="note">除く：新規:後日入金（入金だけの行）／新規:来店キャンセル／クレーム／解約／クーリングオフ／未入金CO／既存のお客様</span></td></tr>
+  <tr><td><b>契約</b></td><td>そのうち契約種別が入っている行　−　月内のクーリングオフ件数<br>
+    <span class="note">「カウンセリング・体験のみ」「契約不可（手付金有り）」は契約に数えません</span></td></tr>
+  <tr><td><b>契約率</b></td><td>契約 ÷ 来店</td></tr>
+</table></div>
+<p class="note">クーリングオフは、1件が2行になることがあるため、会員番号（無い場合はお名前）で名寄せして1件と数えています。</p>
+
+<h2>6　切り替えると、どうなるか</h2>
+<div class="scroll"><table>
+  <tr><th>画面・作業</th><th>いま</th><th>切り替え後</th></tr>
+  <tr><td>日報「全体実績／計画」の実績内訳</td><td>来店者数・契約者数が実態の6割</td><td>日報の入力どおりの数になる</td></tr>
+  <tr><td>BLOOM の来店率・契約率</td><td>同上</td><td>同上</td></tr>
+  <tr><td>ランキングの契約率</td><td>同上</td><td>同上。<b>日ごとに見られるようになります</b></td></tr>
+  <tr><td>問合せシートの「来店」「契約」欄</td><td>毎日入力していただいている</td><td><b>入力が不要になります</b></td></tr>
+  <tr><td>柿崎さんの手集計</td><td>毎週手で数えていらっしゃる</td><td><b>自動で出せるようになります</b></td></tr>
+  <tr><td>契約金額・売上・問合せ数・予約数</td><td>正しい</td><td>変わりません</td></tr>
+</table></div>
+<div class="box">
+  <div class="bt">先にお伝えしておきたいこと</div>
+  <p><b>「来店 ÷ 予約」の率が、100%を超える店舗が出ます。</b></p>
+  <p style="margin-bottom:0">予約件数は問合せシートから取っており、こちらは正しい数字です。一方で来店者数には、ご紹介やお立ち寄りなど<b>ご予約を経由しないご来店</b>も入ります。分子だけが増えるため、率が100%を超えます。<b>誤りではなく、そういうものとしてご覧いただく数字になります。</b></p>
+</div>
+
+<h2>7　進め方のご提案</h2>
+<div class="flow">
+  <div class="step"><div class="no">1</div><div class="bd"><b>日報の画面に、両方を並べて表示します</b>
+    <span>いまの数字は消さずに、日報から数えた数を隣に足します。BLOOM もランキングも、いまのままです</span></div></div>
+  <div class="arw">↓</div>
+  <div class="step"><div class="no">2</div><div class="bd"><b>1か月、見比べていただきます</b>
+    <span>柿崎さんの集計表とも、引き続き並べて確認します</span></div></div>
+  <div class="arw">↓</div>
+  <div class="step"><div class="no">3</div><div class="bd"><b>ご確認のうえ、切り替えます</b>
+    <span>切り替えたあと、問合せシートへの〇の入力をやめていただけます</span></div></div>
+  <div class="arw">↓</div>
+  <div class="step"><div class="no">4</div><div class="bd"><b>日ごとの契約率が見られるようになります</b>
+    <span>ランキングで日付を動かすと契約率も動く、という飯田さんのご要望にお応えできます</span></div></div>
+</div>
+
+<h2>8　ご確認・ご相談したいこと</h2>
+<div class="scroll"><table>
+  <tr><th style="width:34px" class="c">No</th><th>内容</th><th style="width:120px">どなたに</th></tr>
+  <tr><td class="c">1</td><td><b>契約からクーリングオフを引く形でよろしいでしょうか。</b>7月・8月の全店で柿崎さんの数字と一致しましたので、この定義で自動化してよいかのご確認です。</td><td>柿崎さん</td></tr>
+  <tr><td class="c">2</td><td><b>当日契約と後日契約を分ける必要はありますか。</b>日報のG列「後日契約」が全店で使われていないため、いまは総契約率のみ出せます。分ける場合は入力をお願いすることになります。</td><td>柿崎さん・飯田さん</td></tr>
+  
+  <tr><td class="c">3</td><td><b>新規痩身の契約率は、どこまで必要でしょうか。</b>8月は全社で来店31件・契約5件と少なく、契約があったのは4店舗のみです。ランキングの管轄別・店舗別からは既に外しています。</td><td>飯田さん・社長</td></tr>
+  <tr><td class="c">4</td><td><b>切り替えると、7月・8月の来店率・契約率も変わります。</b>過去にご報告した数字と食い違いますので、どの時点から新しい数字に切り替えるかを決めさせてください。</td><td>社長</td></tr>
+</table></div>
+
+<footer>
+出典：日報スクリプト v84／柿崎さん集計表（7月＝8月1日受領・8月＝8月31日受領）／各店の日報（2026年7月度・8月度）／問合せシート入力状況調査（7月24日実施・4〜6月分）。<br>
+7月は20店・8月は21店で比較しています。水戸店・鹿児島店は柿崎さんの集計表に欄がないため対象外です。<br>
+9月は集計途中のため、この資料には含めていません。
+</footer>
+</div>
+</body>
+</html>
