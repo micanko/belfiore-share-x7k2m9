@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>トレジャーボックス事前調査</title>
+<style>
+:root{
+  --bg:#f6f7f8; --panel:#ffffff; --ink:#1c2227; --muted:#5c676f; --line:#dfe4e8;
+  --accent:#1f4e6b; --accent-soft:#e6eef3; --ok:#2c6f4f; --ok-soft:#e5f1ea;
+  --warn:#8a5a12; --warn-soft:#f8efdd; --ng:#9b3a32; --ng-soft:#f7e4e2; --q:#455a86; --q-soft:#e8ecf6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15191c; --panel:#1e2428; --ink:#e6ecf0; --muted:#9fabb3; --line:#313a40;
+    --accent:#7fb6d6; --accent-soft:#1f3140; --ok:#79c79c; --ok-soft:#1b3328;
+    --warn:#dfb562; --warn-soft:#37301c; --ng:#e79086; --ng-soft:#3a2422; --q:#a3b6e0; --q-soft:#232b3d;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15191c; --panel:#1e2428; --ink:#e6ecf0; --muted:#9fabb3; --line:#313a40;
+  --accent:#7fb6d6; --accent-soft:#1f3140; --ok:#79c79c; --ok-soft:#1b3328;
+  --warn:#dfb562; --warn-soft:#37301c; --ng:#e79086; --ng-soft:#3a2422; --q:#a3b6e0; --q-soft:#232b3d;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.8;font-size:15px;
+     font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
+     line-break:strict;word-break:auto-phrase;overflow-wrap:break-word}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:36px 80px}
+header{border-bottom:3px double var(--accent);padding-bottom:14px;margin-bottom:8px}
+header .to{font-size:13px;color:var(--muted)}
+header h1{font-size:25px;margin:6px 0 8px;text-wrap:balance;letter-spacing:.02em}
+header .meta{font-size:12.5px;color:var(--muted);margin:0}
+section{margin:30px 0}
+h2{font-size:18px;margin:0 0 10px;padding:4px 0 4px 12px;border-left:4px solid var(--accent)}
+h3{font-size:15.5px;margin:18px 0 6px}
+p{margin:10px 0}
+li{word-break:auto-phrase}
+.sum{background:var(--accent-soft);border-radius:8px;padding:16px 20px;margin:18px 0}
+.sum ol{margin:6px 0 0;padding-left:20px}
+.sum li{margin:8px 0}
+.note{border-left:3px solid var(--warn);background:var(--warn-soft);padding:10px 14px;border-radius:0 6px 6px 0;margin:12px 0;font-size:14px}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:6px;background:var(--panel);margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.ok{background:var(--ok-soft);color:var(--ok)} .warn{background:var(--warn-soft);color:var(--warn)}
+.ng{background:var(--ng-soft);color:var(--ng)} .q{background:var(--q-soft);color:var(--q)}
+ul.tight,ol.tight{margin:8px 0;padding-left:22px}
+ul.tight li,ol.tight li{margin:4px 0}
+.small{font-size:12.5px;color:var(--muted)}
+a{color:var(--accent)}
+footer{margin-top:40px;border-top:1px solid var(--line);padding-top:14px}
+@media print{body{background:#fff} .wrap{padding-block:0}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>トレジャーボックス 事前調査のご報告</h1>
+  <p class="meta">2026年9月24日　／　次回打ち合わせ：9月30日（水）16:00</p>
+</header>
+
+<p>現時点で分かったことと、当日確認する事項を整理しました。</p>
+
+<div class="sum"><strong>結論</strong>
+<ol>
+  <li>月間分析（BLOOM）・営業日報の情報は、<strong>弊社が必要とする8項目のうち6項目は取得できる見込み</strong>です。残る2点（<strong>データをCSVなどのファイルで書き出せるか</strong>／会員番号を引き継げるか）が、当日いちばん重要な確認事項になります。</li>
+  <li>データ移行の労力は、<strong>移行のやり方（全面代行／様式に詰めて渡す／自社で取り込む／一部だけ移す）で相当変わります</strong>。いずれの場合も、<strong>項目の対応付けと移行後の照合は弊社の作業として残ります</strong>。</li>
+  <li>現時点の所見は<strong>ハイブリッド</strong>です。レジ・予約・顧客・契約はシステムに任せ、日報の独自項目と集計・分析は現行の仕組みを活かす形が、費用とリスクの両面で現実的と考えます。</li>
+</ol>
+</div>
+
+<section>
+<h2>1. 月間分析・営業日報の情報を、どこまで拾えるか</h2>
+
+<h3>前提：弊社が必要とする条件</h3>
+<p>「トレジャーボックスに何ができるか」を検討する前に、弊社が何を必要としているかを整理しました。現行の仕組みで使用している情報は、次の3つに分かれます。</p>
+
+<div class="scroll"><table>
+<tr><th>区分</th><th>内容</th></tr>
+<tr><td><strong>★ 必須</strong><br>（8項目）</td><td>店舗別の日別売上（入金ベース）／担当者（誰が契約したか）／契約・コース・役務残・前受金／解約・クーリングオフ／未収金／新規・既存の区分／会員番号／<strong>これらを弊社側のシステムに渡せること</strong>（画面で見るだけでなく、CSVファイルとして書き出せる、またはAPIで自動的に受け取れる）</td></tr>
+<tr><td><strong>○ 望ましい</strong></td><td>媒体別（反響）の集計／体験・消化の内訳／年代別・再来店率／電子カルテ</td></tr>
+<tr><td><strong>△ 要件から外す</strong></td><td>問合せ件数・予約獲得／審査中・審査落ち（信販）／カウンセリング形式／管轄（GM・MG・LD）／店舗・個人の月間目標／10日ごとの累計グラフ・ランキングの見せ方</td></tr>
+</table></div>
+
+<p>△の項目は、<strong>顧客管理システムには元々存在しない情報</strong>です（ペンギンにもありません）。これらを乗り換え先に求めると仕様が複雑になり費用も上がるため、現行の仕組みで保持する前提としています。これが、所見をハイブリッドとする理由でもあります。</p>
+
+<h3>取得可否の見立て</h3>
+<div class="scroll"><table>
+<tr><th>必須項目</th><th>見立て</th><th>根拠・補足</th></tr>
+<tr><td>店舗別の日別売上</td><td><span class="tag ok">取得できる見込み</span></td><td>日報・月報・店舗評価表。ただし入金ベース（解約・COのマイナス込み）で弊社の日報と同じ数字になるかは要確認</td></tr>
+<tr><td>担当者（個人実績）</td><td><span class="tag ok">取得できる見込み</span></td><td>スタッフ個人評価表・売上ランキング。1件を複数人で分ける機能あり</td></tr>
+<tr><td>契約・コース・役務残・前受金</td><td><span class="tag ok">取得できる見込み</span></td><td>コースチケット機能。役務残高の自動計算・中途解約の処理あり</td></tr>
+<tr><td>解約・クーリングオフ</td><td><span class="tag ok">取得できる見込み</span></td><td>同上。集計帳票の形は当日確認</td></tr>
+<tr><td>未収金</td><td><span class="tag ok">取得できる見込み</span></td><td>前受け金・未収金管理に対応との記載</td></tr>
+<tr><td>新規・既存の区分</td><td><span class="tag ok">取得できる見込み</span></td><td>年代別分析に新規・既存の売上・人数あり</td></tr>
+<tr><td><strong>データの書き出し（CSV・API）</strong></td><td><span class="tag q">要確認（最重要）</span></td><td>店舗評価表などにCSV出力の記載はあるが、<strong>APIについては公開情報に記載なし</strong>。必要なデータをすべて書き出せるか、24店舗分を一括で出せるかを確認します</td></tr>
+<tr><td><strong>会員番号の引き継ぎ</strong></td><td><span class="tag q">要確認（最重要）</span></td><td>日報・問合せシート・未入金管理・MiiTelが、現在この番号で連携しています。移行時に引き継げるかを確認します</td></tr>
+</table></div>
+
+<div class="note"><strong>当日確認したい3点</strong>　①入金ベースの売上（解約・COのマイナスを含めて弊社の日報と一致するか）　②管轄（GM・MG・LD）別の集計　③オンライン担当を個人ごとに記録し、店舗とは別に成績を出せるか。いずれも弊社の運用に固有の部分です。</div>
+</section>
+
+<section>
+<h2>2. ペンギンから乗り換えた場合の移行の労力</h2>
+
+<p><strong>移行のやり方によって、弊社の作業量が大きく変わります。</strong>一般に、次の型があります。</p>
+
+<div class="scroll"><table>
+<tr><th>やり方</th><th>中身</th><th>弊社の作業</th><th>費用</th></tr>
+<tr><td><strong>A. 全面代行</strong></td><td>ペンギンから出したデータを渡し、変換・投入まで先方が行う</td><td>抽出の依頼、項目の確認、検収</td><td>有償</td></tr>
+<tr><td><strong>B. 様式に詰めて渡す</strong></td><td>先方指定のExcel・CSVの様式に、弊社がデータを詰める。投入は先方</td><td>詰め替え作業が最も重い</td><td>有償（Aより安い場合が多い）</td></tr>
+<tr><td><strong>C. 自社で取り込む</strong></td><td>管理画面の取り込み機能で弊社が投入</td><td>すべて自社。<strong>何度でも試せる</strong>のが利点</td><td>無償のことが多い</td></tr>
+<tr><td><strong>D. 部分移行</strong></td><td>顧客・<strong>有効な役務・未収金だけ</strong>を移し、過去の来店履歴は移さない（旧システムを閲覧用に残す）</td><td>移す範囲が減るぶん軽い</td><td>—</td></tr>
+<tr><td><strong>E. 併走</strong></td><td>既存のお客様は旧システムで消化しきり、新規のみ新システム</td><td>移行作業はほぼ無い</td><td>旧システムの月額が続く</td></tr>
+</table></div>
+
+<p>公式サイトのFAQに「管理できる項目と、現在のシステムの一致する情報を合わせて移行できる」「データ移行は別途費用」とあることから、<strong>AまたはBの有償代行がある</strong>と見ています。どの型になるかで費用と期間が決まります。</p>
+
+<div class="note"><strong>どの型を選んでも、弊社に必ず残る作業が2つあります。</strong>　①<strong>項目の対応付け</strong>（ペンギンの項目 → 新システムの項目。正しい対応を判断できるのは弊社だけです）　②<strong>検収</strong>（移行後に役務残・前受金・未収金・契約件数が合っているかの照合）。この2つは代行してもらえません。</div>
+
+<h3>移行するデータの量</h3>
+<p>つくば店のみで、状態が「提供中」のコース契約が<strong>約1,270行</strong>（2020年8月〜2026年9月／9月19日にペンギンの契約一覧で確認）。同じ規模とすれば、24店舗で<strong>3万行前後</strong>（各店の規模は異なるため目安）。顧客・来店明細・未収金を含めると、さらに増えます。</p>
+
+<h3>特に慎重を要する部分</h3>
+<div class="scroll"><table>
+<tr><th>項目</th><th>理由</th></tr>
+<tr><td><strong>コースの残回数・有効期限・前受金</strong></td><td>施術途中のお客様の契約をそのまま引き継ぐ必要があります。1件でも相違があると、お客様とのトラブル、および前受金の会計上のずれに直結します</td></tr>
+<tr><td><strong>信販（ローン）・分割</strong></td><td>支払い方法ごとの残高を引き継げるか。公開情報に記載がないため当日確認します（未収金・前受金の管理については「対応」との記載あり）</td></tr>
+<tr><td><strong>会員番号</strong></td><td>日報・問合せシート・未入金管理・MiiTelが、現在この番号で連携しています。番号が変わる場合、すべてに変換表が必要になります</td></tr>
+<tr><td>メニュー・コースのマスタ</td><td>分類の付け方によって、BLOOMの集計と一致するかが決まります</td></tr>
+</table></div>
+
+<h3>進め方の案</h3>
+<p>月初に切り替え（前月末までをペンギンで締める）→ <strong>1店舗で試験移行</strong>し、役務残・前受金・未収金・契約件数をペンギンと突き合わせ → 一致を確認のうえ全店 → 切り替え後しばらくはペンギンを閲覧用に残す。顧客・契約・役務残・売掛金残・解約は、<strong>いずれもペンギンからCSVで出せることを確認済み</strong>です。照合は現在の個人実績の照合と同じ方法で自動化できます。</p>
+
+<div class="note"><strong>当日確認する事項</strong>　①上のどの型になるか、費用と期間　②<strong>部分移行（D）が可能か</strong>　③引き継げない項目（特に役務残・前受金・未収金・信販・会員番号）　④<strong>試験移行を何回できるか、テスト環境をもらえるか</strong>　⑤切り替え時にレジを止める時間　⑥移行後に数字が合わなかった場合、どちらが対応するか</div>
+</section>
+
+<section>
+<h2>3. トレジャーボックスについて</h2>
+
+<div class="scroll"><table>
+<tr><th>項目</th><th>内容（公開情報）</th></tr>
+<tr><td>会社</td><td>株式会社プロ・フィールド（東京都中央区・2001年設立）。美容クリニック向け電子カルテ「ACUSIS」等を手がける</td></tr>
+<tr><td>規模</td><td>導入1,027店舗（2026年5月に1,000店舗突破を発表）。継続率97.2%（閉店を除く）</td></tr>
+<tr><td>形態</td><td>クラウド型。PC・iPad対応。月1回のバージョンアップ</td></tr>
+<tr><td>契約</td><td><strong>契約の縛りなし・途中解約の違約金なし</strong>。サポートは電話・メール・Zoomとも無料と記載。トライアル発行あり。最短5営業日で導入</td></tr>
+<tr><td>主な機能</td><td>予約（ホットペッパー連携）／顧客管理・電子カルテ／コースチケット（役務残・解約処理）／支払い（未収金・前受金）／店舗売上管理（店舗評価表・CSV出力）／分析（媒体・年代・再来店率）／スタッフ売上管理（個人評価表・ランキング）</td></tr>
+</table></div>
+
+<h3>料金（公式サイトの記載）</h3>
+<div class="scroll"><table>
+<tr><th>プラン</th><th class="num">月額（税込）</th><th>内容</th></tr>
+<tr><td>スタンダード</td><td class="num">13,200円</td><td>予約・顧客・メール/DM・店舗売上・分析</td></tr>
+<tr><td>＋オプション3機能</td><td class="num">17,600円</td><td>勤怠・在庫・LINE連携などから3つ</td></tr>
+<tr><td>＋オプション5機能</td><td class="num">19,800円</td><td>最も選ばれているプランとの記載</td></tr>
+<tr><td>フルオプション</td><td class="num">32,780円</td><td>勤怠・スタッフ売上・在庫・アンケート・サイン・書類・画像・LINE連携</td></tr>
+<tr><td>初期費用</td><td class="num">22,000円〜</td><td>初期設定・操作レクチャー込み</td></tr>
+<tr><td>データ移行</td><td class="num">別途費用</td><td>「管理できる項目と、現在のシステムの一致する情報を合わせて移行できる」（FAQ）</td></tr>
+</table></div>
+
+<div class="note"><strong>料金が1店舗単位か法人単位か、公式サイトに記載がありません。</strong>仮に1店舗単位の場合、24店舗×19,800円＝月475,200円（年約570万円）、フルオプションでは24店舗×32,780円＝月786,720円（年約944万円）となります。法人単位であれば大幅に下がります。<strong>当日の最重要確認事項の一つ</strong>です。<br>なお、IT導入補助金（2026年度から「デジタル化・AI導入補助金」）の対象で、最大4分の3・導入費＋月額最大2年分が対象と記載されています。申請には、ベンダーがIT導入支援事業者として登録されている必要があります。</div>
+
+<h3>電子カルテについて</h3>
+<p>弊社は現在、電子カルテを導入しておらず、今後の導入を検討している状況です。トレジャーボックスは<strong>顧客カルテ・施術写真・手書きシェーマ・WEB問診を標準機能として備えています</strong>。ペンギンで同等の機能を使う場合はペンギンカルテを別途契約することになるため、<strong>この点は乗り換え側の利点になります</strong>。</p>
+</section>
+
+<section>
+<h2>4. 4つの案の比較と所見</h2>
+<div class="scroll"><table>
+<tr><th></th><th>A. 独自開発</th><th>B. 完全乗り換え</th><th>C. ハイブリッド</th><th>D. ペンギン継続</th></tr>
+<tr><td>中身</td><td>レジ・予約・顧客・契約・分析まで自社で開発</td><td>レジ〜分析までトレジャーボックス。現行のGASは停止</td><td>レジ・予約・顧客・契約はシステム。日報の独自項目と集計は現行のGAS</td><td>現状のまま</td></tr>
+<tr><td>費用</td><td>開発費が大きい。月額はほぼ無し</td><td>月額＋初期＋移行費</td><td>Bと同じ＋付け替え作業</td><td>現在の月額のみ</td></tr>
+<tr><td>期間</td><td>長期（未算出）</td><td>移行の進め方による</td><td>Bと同様＋付け替え作業</td><td>—</td></tr>
+<tr><td>拾える情報</td><td>すべて（作れば）</td><td>日報の独自項目が落ちる見込み</td><td>すべて</td><td>現状どおり</td></tr>
+<tr><td>リスク</td><td>特商法・決済・予約の安定稼働を自社で背負う。<strong>保守体制が必要</strong></td><td>現在の集計・見せ方が失われ、手作業に戻る部分が出る</td><td>データを取り出せないと成立しない</td><td>料金交渉ができない</td></tr>
+</table></div>
+
+<h3>所見</h3>
+<ul class="tight">
+  <li><strong>A（独自開発）は現実的ではないと考えます。</strong>レジと予約は24店舗が毎日使う業務システムで、停止すれば営業が止まります。作ること自体よりも、止まったときに直せる人が常にいる体制を維持することが課題で、現状その担当は1名です。選択する場合は増員が前提になります。</li>
+  <li><strong>Bは、日報にしかない情報（問合せ・審査・オンラインの個人成績など）が手作業に戻る可能性が高い</strong>と見ています。</li>
+  <li><strong>Cが現実的</strong>です。ただし成立条件は「<strong>データを弊社側に渡せること</strong>」の一点に尽きます。書き出せなければ、現在の集計・分析は手作業に戻ります。</li>
+  <li><strong>Dは判断の基準</strong>として置いています。ペンギンにもAPIがあり有償オプションとの情報があるため、費用しだいでは、乗り換えずに自動化を進める選択肢も残ります。</li>
+</ul>
+</section>
+
+<section>
+<h2>5. 乗り換えた場合に、弊社側で発生する作業</h2>
+<p>移行作業とは別に、日報・BLOOM・営業日報グラフ・ランキングを新しいシステムにつなぎ直す作業が発生します。期間は、データの受け取り方（CSVかAPIか）と項目が固まってから算出します。</p>
+<ul class="tight">
+  <li>新しいシステムからデータを受け取る仕組みの作成</li>
+  <li>項目の対応付け（相手の項目 → 現行のマスタ。店舗名・スタッフ名・会員番号の突き合わせ）</li>
+  <li>日報の作り替え（自動で入る欄と、手入力が残る欄の切り分け）とマニュアルの改訂</li>
+  <li>BLOOM・営業日報グラフ・ランキング・未入金管理の読み取り先の付け替え</li>
+  <li>並行運用による検算（旧・新で数字を突き合わせ）</li>
+</ul>
+<p class="small">着手には仕様書とテスト環境が必要なため、提供可否も当日確認します。</p>
+</section>
+
+<section>
+<h2>6. 9月30日に確認する事項</h2>
+
+<h3>費用</h3>
+<ol class="qlist tight">
+  <li>24店舗の月額・初期費用。<strong>1店舗単位か法人単位か</strong>。店舗が増えるたびの費用</li>
+  <li>弊社が必要とする機能が<strong>標準プランに含まれるか、オプションか</strong></li>
+  <li>移行の費用</li>
+</ol>
+
+<h3>データの受け渡し（最重要）</h3>
+<ol class="qlist tight" start="4">
+  <li>トレジャーボックスに入ったデータを、弊社のシステムに渡す方法があるか。<strong>API／決まった時刻の自動出力／画面から手動でCSV</strong>のどれが可能か<br>
+  <span class="small">ここが無い場合、システムに数字があっても弊社の日報に打ち直すことになり、現在と同じ状態が続きます。</span></li>
+</ol>
+
+<h3>移行</h3>
+<ol class="qlist tight" start="5">
+  <li>移行は<strong>どの型になるか</strong>（全面代行／様式に詰めて渡す／自社で取り込む／一部だけ移す）。費用と期間。<strong>試験移行は何回できるか、テスト環境は用意してもらえるか</strong></li>
+  <li><strong>引き継げない項目</strong>（特に役務残・前受金・未収金・信販・会員番号）</li>
+</ol>
+
+<p class="small">管轄別の集計、独自項目の追加、権限、研修などは、導入を検討する段階で改めて確認します。</p>
+</section>
+
+<footer>
+<p class="small">本資料の見立ては、2026年9月24日時点の公開情報と、ペンギンの画面で確認した内容にもとづきます。</p>
+</footer>
+</div>
+
+</body>
+</html>
