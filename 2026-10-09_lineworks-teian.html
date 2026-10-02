@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LINE WORKS 導入のご提案</title>
+<style>
+  :root{
+    --ink:#000; --sub:#666; --faint:#999; --pale:#ccc;
+    --bg:#f5f5f5; --card:#fff; --line:#e6e6e6; --line2:#eee;
+    --pink:#C9898E; --pink-bg:#FDF0F2; --pink-line:#EDD5D8;
+    --gold:#C4A882; --sage:#8FAF9F; --sage-bg:#F4F9F6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP",Arial,sans-serif;
+    line-height:1.85;font-size:14px;font-weight:400;-webkit-font-smoothing:antialiased}
+
+  /* 黒帯ヘッダー（B案） */
+  .topbar{background:#000;color:#fff;padding:20px 0}
+  .topbar .in{max-width:1120px;margin:0 auto;padding:0 20px}
+  .topbar .en{font-size:9px;letter-spacing:.24em;color:#999;font-style:italic;margin:0 0 6px}
+  .topbar h1{font-size:21px;margin:0;font-weight:600;letter-spacing:.06em;color:#fff}
+  .topbar .lead{margin:6px 0 0;font-size:11px;color:#999;letter-spacing:.06em}
+
+  .layout{max-width:1120px;margin:0 auto;padding:34px 20px 90px;display:grid;grid-template-columns:200px 1fr;gap:40px}
+  nav{position:sticky;top:20px;align-self:start;font-size:12.5px;max-height:calc(100vh - 40px);overflow-y:auto}
+  nav .navtitle{font-size:9px;letter-spacing:.24em;color:var(--faint);font-style:italic;margin:0 0 12px}
+  nav a{display:block;color:var(--sub);text-decoration:none;padding:5px 0 5px 10px;border-left:1px solid var(--line)}
+  nav a:hover{color:#000;border-left-color:#000}
+  main{min-width:0}
+
+  /* 見出し：英字ラベル＋黒の左線（B案） */
+  h2{font-size:15px;margin:48px 0 14px;font-weight:600;letter-spacing:.06em;
+     border-left:3px solid #000;padding-left:9px;scroll-margin-top:20px}
+  h2 .num{font-size:9px;letter-spacing:.15em;color:var(--faint);
+     font-style:italic;font-weight:400;margin-right:10px}
+  h3{font-size:13px;margin:28px 0 8px;font-weight:600;letter-spacing:.04em;color:var(--sub)}
+  p{margin:11px 0}
+  a{color:var(--pink)}
+
+  table{width:100%;border-collapse:collapse;background:var(--card);
+    border:1px solid var(--line);margin:14px 0;font-size:13.5px}
+  th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--line2);vertical-align:top}
+  th{background:#fafafa;font-weight:500;font-size:10px;color:var(--faint);
+     letter-spacing:.14em;white-space:nowrap;font-style:italic}
+  tr:last-child td{border-bottom:0}
+  th:not(:last-child),td:not(:last-child){border-right:1px solid var(--line2)}
+  td.k{white-space:nowrap;color:#000}
+  code{background:#f0f0f0;padding:1px 6px;font-size:12.5px;
+    font-family:"SF Mono",Menlo,Consolas,monospace}
+
+  /* 注意書き：地は白。色は左の線だけ */
+  .note,.warn,.ok,.menu{padding:13px 17px;margin:15px 0;font-size:13.5px;
+    background:var(--card);border:1px solid var(--line);border-left:3px solid #000}
+  .warn{border-left-color:var(--pink);background:var(--pink-bg);border-color:var(--pink-line)}
+  .ok{border-left-color:var(--sage);background:var(--sage-bg);border-color:#e2ece6}
+  .menu{border-left-color:var(--gold)}
+  .lbl{display:block;font-size:10px;letter-spacing:.16em;margin-bottom:5px;color:var(--sub)}
+  .warn .lbl{color:var(--pink)} .ok .lbl{color:var(--sage)} .menu .lbl{color:var(--gold)}
+
+  .menulist{margin:0}
+  .menulist dt{color:#000;margin-top:13px;font-size:13.5px}
+  .menulist dt:first-of-type{margin-top:2px}
+  .menulist dd{margin:1px 0 0;color:var(--sub);font-size:13px;line-height:1.7}
+  ol,ul{margin:11px 0;padding-left:1.4em}
+  li{margin:5px 0}
+  ol.steps{counter-reset:s;list-style:none;padding:0}
+  ol.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);
+    padding:13px 17px 13px 48px;position:relative;margin-bottom:8px}
+  ol.steps li::before{content:counter(s);position:absolute;left:17px;top:13px;
+    color:var(--pale);font-size:13px;font-style:italic}
+  ol.steps li a{color:#000;text-decoration:none;border-bottom:1px solid var(--pink)}
+  ol.steps li a:hover{color:var(--pink)}
+  .stepref{color:var(--pink)}
+  ol.legend{list-style:none;padding:0;margin:14px 0 0;counter-reset:lg}
+  ol.legend li{counter-increment:lg;position:relative;padding-left:30px;margin:8px 0;font-size:13.5px}
+  ol.legend li::before{content:counter(lg);position:absolute;left:0;top:3px;
+    background:var(--pink);color:#fff;width:18px;height:18px;border-radius:50%;
+    font-size:11px;display:flex;align-items:center;justify-content:center;line-height:1}
+
+  .shotwrap{position:relative;display:inline-block;max-width:100%;
+    border:1px solid var(--line);background:#fff;margin:12px 0 0}
+  .shotwrap img{display:block;width:100%;height:auto}
+  .bx{position:absolute;left:var(--l);top:var(--t);width:var(--w);height:var(--h);
+    border:2px solid var(--pink);box-shadow:0 0 0 2px rgba(201,137,142,.16)}
+  .bx i{position:absolute;left:3px;top:3px;background:var(--pink);color:#fff;
+    width:18px;height:18px;border-radius:50%;font-style:normal;font-size:11px;
+    display:flex;align-items:center;justify-content:center;line-height:1}
+  figure{margin:14px 0 0}
+  ol.steps figure{margin:12px 0 4px}
+  ol.steps .shotwrap{max-width:100%}
+  figcaption{font-size:12.5px;color:var(--faint);margin-top:9px}
+
+  .tag{display:inline-block;padding:1px 8px;font-size:11px;white-space:nowrap;border:1px solid #ccc;color:var(--sub)}
+  footer{margin-top:60px;padding-top:16px;border-top:1px solid var(--line);
+    font-size:11px;color:var(--faint);letter-spacing:.04em}
+  @media (max-width:820px){
+    .layout{grid-template-columns:1fr;padding:24px 16px 60px;gap:18px}
+    nav{position:static;max-height:none;border-bottom:1px solid var(--line);padding-bottom:12px}
+    nav a{display:inline-block;margin:2px 6px 2px 0;border-left:0;padding:3px 0}
+    .tablewrap{overflow-x:auto}
+    th{white-space:normal}
+  }
+  @media print{body{background:#fff}.topbar{background:#000 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .layout{display:block;padding:0}nav{display:none}h2{page-break-after:avoid}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="in">
+  <p class="en">BELLFIORE</p>
+  <h1>LINE WORKS 導入のご提案</h1>
+  <p class="lead">社内の連絡と予定共有の仕組みづくり　2026年10月2日</p>
+</div></div>
+<div class="layout">
+
+<nav>
+  <p class="navtitle">もくじ</p>
+  <a href="#s1">1. 要旨</a>
+  <a href="#s2">2. 現状の課題</a>
+  <a href="#s3">3. 導入後に変わること</a>
+  <a href="#s4">4. 退職時の情報管理</a>
+  <a href="#s5">5. 費用</a>
+  <a href="#s6">6. 他のツールとの比較</a>
+  <a href="#s7">7. 進め方</a>
+  <a href="#s8">8. ご判断いただきたいこと</a>
+</nav>
+
+<main>
+
+<h2 id="s1"><span class="num">01</span>要旨</h2>
+<p>業務用の連絡アプリ「LINE WORKS」を導入し、社内の連絡・予定・ビデオ会議を1つにまとめることをご提案します。</p>
+<div class="tablewrap"><table>
+<tr><td class="k">内容</td><td>業務の連絡を、個人のLINEから業務専用のLINE WORKSに移す。あわせて全員の予定を共有し、ビデオ会議もLINE WORKSで行う</td></tr>
+<tr><td class="k">費用</td><td>1人あたり月450円（税抜・年額契約）。100名の場合、月45,000円・年540,000円（税抜）<br>初期費用はかかりません</td></tr>
+<tr><td class="k">進め方</td><td>無料プランで本部メンバーが2週間ほど試す → 全社に広げる</td></tr>
+<tr><td class="k">ご判断いただきたいこと</td><td>導入するか／使う範囲（本部のみか、店舗スタッフも含めるか）／試用を始める時期</td></tr>
+</table></div>
+
+<h2 id="s2"><span class="num">02</span>現状の課題</h2>
+
+<h3>連絡手段がばらばらで、決まりがない</h3>
+<p>個人のLINEのグループ、個別のLINE、Zoomが、使い分けの決まりがないまま混在しています。どこで何を伝えたかが追いにくく、依頼や確認が抜けやすい状態です。</p>
+
+<h3>予定が共有されていない</h3>
+<p>誰が・いつ・どこで何をしているかを一覧で見る仕組みがありません。予定や空き時間は、電話やLINEで本人に個別に確認しています。</p>
+
+<h3>個人のLINEで業務の連絡をしている</h3>
+<ul>
+<li>退職した後も、本人のスマホに業務のやり取りやお客様に関わる情報が残ります。会社の側から消す手段がありません</li>
+<li>夜間や休日にも、業務の連絡が個人のLINEに届きます</li>
+<li>グループでは既読の人数しか分からず、誰が読んでいないかが分かりません</li>
+<li>トークの写真や動画は、一定期間を過ぎると見られなくなります（LINEの公式ヘルプより。期間は公表されていません）</li>
+</ul>
+
+<h3>Zoomの容量がすぐいっぱいになる</h3>
+<p>担当者が毎日、不要なデータを削除して対応しています（10月2日の朝礼より）。</p>
+
+<h2 id="s3"><span class="num">03</span>導入後に変わること</h2>
+<div class="tablewrap"><table>
+<tr><th>項目</th><th>導入後</th></tr>
+<tr><td class="k">連絡</td><td>業務の連絡はLINE WORKSに一本化します。個人のLINEとは別のアプリなので、個人のLINEアカウントや電話番号を交換する必要がありません。画面と使い方はLINEとほぼ同じです</td></tr>
+<tr><td class="k">予定</td><td>全員の予定を、スマホでも一覧で見られます。会議室などの共有設備の予約も、同じ画面で行えます</td></tr>
+<tr><td class="k">既読</td><td>誰が読んで、誰が読んでいないかが名前で分かります</td></tr>
+<tr><td class="k">通知</td><td>通知を受け取る曜日と時間帯を、各自が設定できます。夜間や休日は通知しない設定にできます</td></tr>
+<tr><td class="k">退職・紛失</td><td>退職したときは、管理者がアカウントを削除すれば、本人は過去のやり取りも含めて見られなくなります（詳しくは「4. 退職時の情報管理」）。スマホを紛失したときは、そのスマホのアプリのデータを遠隔で削除できます</td></tr>
+<tr><td class="k">ビデオ会議</td><td>最大200名・時間制限なしのビデオ通話が使えます。Zoomの容量の問題がなくなり、Zoomの契約も見直せます</td></tr>
+<tr><td class="k">保存</td><td>トークとファイルは、最長3年まで保存できます（期間は管理者が決めます）</td></tr>
+<tr><td class="k">他のシステムとの連携</td><td>日報やスプレッドシートとつなげられます。たとえば、朝礼で出た依頼の進み具合を担当者に自動で知らせる、AIコーチングの結果をスタッフに自動で届ける、といった仕組みの土台になります</td></tr>
+</table></div>
+
+<h2 id="s4"><span class="num">04</span>退職時の情報管理</h2>
+<p>「辞めた人を業務グループから退会させれば大丈夫」と考えがちですが、個人のLINEでは、退会させても過去のやり取りは本人のスマホに残ります。止まるのは、新しいメッセージが届くことだけです。</p>
+
+<h3>個人のLINEのままで起きうること</h3>
+<ul>
+<li>会社の情報の持ち出し：業務グループで共有した資料・数字・マニュアル・お客様に関わる情報を、退職後も見返せます</li>
+<li>お客様の引き抜き：個人のLINEでお客様とつながっている場合、退職後も直接連絡を取れます。会社は把握することも止めることもできません</li>
+<li>1対1のやり取りが見えない：社員同士やお客様との1対1のやり取りは、会社からは見ることも消すこともできません</li>
+</ul>
+
+<h3>個人のLINEとLINE WORKSの違い</h3>
+<div class="tablewrap"><table>
+<tr><th>場面</th><th>個人のLINE</th><th>LINE WORKS</th></tr>
+<tr><td class="k">退職したとき</td><td>グループから退会させても、過去のトーク・写真・ファイルは本人のスマホで見られる</td><td>管理者がアカウントを削除すると、本人はログアウトされ、再びログインできない。過去のトークも見られなくなる</td></tr>
+<tr><td class="k">1対1のやり取り</td><td>会社からは見ることも消すこともできない</td><td>アカウントを削除すれば本人は見られなくなる。会社に残る側の画面には、やり取りが残る</td></tr>
+<tr><td class="k">お客様とのやり取り</td><td>本人の個人アカウントでつながっているため、退職後も連絡できる</td><td>会社のアカウントでつながっているため、削除すれば本人からは連絡できなくなる</td></tr>
+<tr><td class="k">会社が内容を確認できるか</td><td>できない</td><td>できる（スタンダード以上で、管理者がトークを確認できる）</td></tr>
+</table></div>
+
+<div class="warn"><span class="lbl">LINE WORKSでも防げないこと</span>
+<dl class="menulist">
+<dt>スマホに保存したものは消せません</dt>
+<dd>在職中に端末へダウンロードしたファイルや、撮ったスクリーンショットは、アカウントを削除しても端末から消えません（LINE WORKS公式ヘルプより）。文字のコピー禁止などの設定は、有償プランで変えられます。</dd>
+<dt>お客様とのやり取りは、担当者1人にしない</dt>
+<dd>担当者のアカウントを削除すると、その人の画面からはやり取りが消えます。お客様とのトークは店舗の複数人が入る形にしておけば、担当者が辞めても、残ったメンバーにやり取りが残ります。</dd>
+</dl>
+</div>
+
+<h2 id="s5"><span class="num">05</span>費用</h2>
+
+<h3>プラン</h3>
+<div class="tablewrap"><table>
+<tr><th>プラン</th><th>1人あたり月額（税抜）</th><th>人数</th><th>主な違い</th></tr>
+<tr><td class="k">フリー</td><td>0円</td><td>30名まで</td><td>複数人のビデオ通話は4人・60分まで。保存容量は全体で5GB。管理者がトークの設定を変えられない</td></tr>
+<tr><td class="k">スタンダード（おすすめ）</td><td>年額契約 450円<br>月額契約 540円</td><td>制限なし</td><td>ビデオ通話は200名・時間制限なし。保存容量は1TB＋1人1GB。管理者がトークを確認できる</td></tr>
+<tr><td class="k">アドバンスト</td><td>年額契約 800円<br>月額契約 960円</td><td>制限なし</td><td>スタンダードに加え、メールとファイル保管の機能。保存容量は100TB＋1人1GB</td></tr>
+</table></div>
+
+<h3>人数ごとの費用（スタンダード）</h3>
+<p>年額契約（1年分をまとめて払う・1人あたり月450円）</p>
+<div class="tablewrap"><table>
+<tr><th>人数</th><th>月あたり（税抜）</th><th>年額（税抜）</th><th>年額（税込）</th></tr>
+<tr><td class="k">30名</td><td>13,500円</td><td>162,000円</td><td>178,200円</td></tr>
+<tr><td class="k">50名</td><td>22,500円</td><td>270,000円</td><td>297,000円</td></tr>
+<tr><td class="k">100名</td><td>45,000円</td><td>540,000円</td><td>594,000円</td></tr>
+</table></div>
+<p>月額契約（毎月払う・1人あたり月540円）</p>
+<div class="tablewrap"><table>
+<tr><th>人数</th><th>月額（税抜）</th><th>1年分（税抜）</th><th>1年分（税込）</th></tr>
+<tr><td class="k">30名</td><td>16,200円</td><td>194,400円</td><td>213,840円</td></tr>
+<tr><td class="k">50名</td><td>27,000円</td><td>324,000円</td><td>356,400円</td></tr>
+<tr><td class="k">100名</td><td>54,000円</td><td>648,000円</td><td>712,800円</td></tr>
+</table></div>
+<p>年額契約のほうが、1年あたり2割安くなります（30名で年32,400円、100名で年108,000円の差・税抜）。</p>
+
+<div class="note"><span class="lbl">費用について</span>
+<dl class="menulist">
+<dt>利用する人数はまだ決まっていません</dt>
+<dd>100名は仮の人数です。使う範囲が決まれば、費用が確定します。</dd>
+<dt>年額契約は、途中で人数を減らせません</dt>
+<dd>人数を減らせるのは更新のときだけです。月額契約（1人540円）なら途中でも減らせます（日割り）。</dd>
+<dt>追加でかかる可能性がある費用</dt>
+<dd>トークを3年より長く（最長10年）保存したい場合は、1人あたり月300円（税抜）が加わります。100名で月30,000円です。</dd>
+<dt>Zoomの契約</dt>
+<dd>ビデオ会議をLINE WORKSに移せば、Zoomの契約を減らすか解約できる可能性があります。今のZoomの契約内容を確認したうえで判断します。</dd>
+</dl>
+</div>
+
+<h2 id="s6"><span class="num">06</span>他のツールとの比較</h2>
+<p>100名・年払いの場合の月額です。</p>
+<div class="tablewrap"><table>
+<tr><th>ツール</th><th>1人あたり月額</th><th>100名の月額</th></tr>
+<tr><td class="k">LINE WORKS スタンダード</td><td>450円</td><td>45,000円</td></tr>
+<tr><td class="k">Microsoft Teams Essentials</td><td>599円</td><td>59,900円</td></tr>
+<tr><td class="k">Chatwork スタンダード</td><td>700円</td><td>70,000円</td></tr>
+<tr><td class="k">Slack プロ</td><td>925円</td><td>92,500円</td></tr>
+</table></div>
+<h3>機能の比較</h3>
+<div class="tablewrap"><table>
+<tr><th>項目</th><th>LINE WORKS<br>スタンダード</th><th>Slack<br>プロ</th><th>Chatwork<br>スタンダード</th><th>Microsoft Teams<br>Essentials</th></tr>
+<tr><td class="k">1人あたり月額（税抜）</td><td>年払い 450円<br>月払い 540円</td><td>年払い 925円<br>月払い 1,050円</td><td>年払い 700円<br>月払い 840円</td><td>年払い 599円</td></tr>
+<tr><td class="k">全員の予定の共有</td><td>あり</td><td>記載なし</td><td>なし（他社カレンダーとの連携のみ）</td><td>単体ではなし（Outlook・Googleの予定表と同期）</td></tr>
+<tr><td class="k">会議室などの設備予約</td><td>あり</td><td>記載なし</td><td>記載なし</td><td>記載なし</td></tr>
+<tr><td class="k">ビデオ会議</td><td>200人まで・時間制限なし</td><td>50人まで（映像は25人）</td><td>14人まで</td><td>300人まで・1回30時間まで</td></tr>
+<tr><td class="k">誰が読んだかを名前で確認</td><td>できる</td><td>記載なし</td><td>できない（既読の機能がない）</td><td>できる（20人以下のグループ）</td></tr>
+<tr><td class="k">個人のLINEの人とのやり取り</td><td>できる</td><td>記載なし</td><td>記載なし</td><td>記載なし</td></tr>
+<tr><td class="k">管理者がやり取りの内容を確認・書き出し</td><td>できる</td><td>公開チャンネルのみ</td><td>できない（上位プランのみ）</td><td>記載なし</td></tr>
+<tr><td class="k">紛失したスマホのアプリのデータを遠隔で削除</td><td>できる</td><td>できない（最上位プランで遠隔ログアウトのみ）</td><td>できない（全端末の強制ログアウトは可）</td><td>記載なし</td></tr>
+<tr><td class="k">日本語の電話サポート</td><td>あり（平日9時〜18時）</td><td>記載なし</td><td>なし（メールのみ）</td><td>電話サポートあり（日本語かは記載なし）</td></tr>
+<tr><td class="k">やり取りの保存期間</td><td>最長3年（追加料金で10年）</td><td>期限なし</td><td>制限なし</td><td>記載なし</td></tr>
+</table></div>
+<p style="color:var(--sub);font-size:12.5px">「記載なし」は、各社の公式サイト・公式ヘルプで確認できなかった項目です。いずれも2026年10月2日時点の各社公式サイトの情報です。</p>
+
+<h3>LINE WORKSを選ぶ理由</h3>
+<ul>
+<li>4つの中でもっとも安い</li>
+<li>予定の共有・設備の予約・ビデオ会議・誰が読んだかの確認まで、1つで使える</li>
+<li>退職時や紛失時に、会社の側でやり取りを止められる</li>
+<li>画面と使い方がLINEとほぼ同じで、スタッフが覚えることが少ない</li>
+<li>日本語の電話サポートがある</li>
+</ul>
+<p>弱い点は、やり取りの保存期間が最長3年であることです（SlackとChatworkは期限なし）。3年より長く残す場合は、1人あたり月300円の追加料金がかかります。</p>
+
+<h2 id="s7"><span class="num">07</span>進め方</h2>
+<ol class="steps">
+<li>無料プランで、本部のメンバーが試す（2週間ほど）<br>予定の共有、通知の設定、ビデオ会議の使い勝手を確かめる</li>
+<li>有償プランに切り替え、全員のアカウントを作る<br>社員名簿から一括で登録する</li>
+<li>全社に案内し、決めた日から業務の連絡と予定をLINE WORKSに移す</li>
+</ol>
+
+<div class="warn"><span class="lbl">移行について</span>
+個人のLINEの過去のやり取りは、LINE WORKSに移せません。今のグループは「見るだけ」として残し、今後も使うファイルやマニュアルだけをLINE WORKSに入れ直します。
+</div>
+
+<h2 id="s8"><span class="num">08</span>ご判断いただきたいこと</h2>
+<div class="tablewrap"><table>
+<tr><th>項目</th><th>内容</th></tr>
+<tr><td class="k">導入するか</td><td>まず無料プランで試すことから始めてよいか</td></tr>
+<tr><td class="k">使う範囲</td><td>本部のみか、店舗スタッフも含めるか。これで人数と費用が決まります</td></tr>
+<tr><td class="k">試用を始める時期</td><td>本部メンバーでの試用をいつから始めるか</td></tr>
+</table></div>
+
+<footer>
+2026年10月2日<br>
+参照元：
+<a href="https://line-works.com/pricing/" target="_blank" rel="noopener">LINE WORKS 料金プラン</a> ／
+<a href="https://help.worksmobile.com/ja/faqs/services/line-works/free-plan/compare-features/message-free-plan-and-paid-plan/" target="_blank" rel="noopener">LINE WORKS トーク機能のプラン比較</a> ／
+<a href="https://help.worksmobile.com/ja/use-guides/settings/delete-mobile-app-data/" target="_blank" rel="noopener">LINE WORKS アプリのデータ削除</a> ／
+<a href="https://help.worksmobile.com/ja/handle-member-resignation/" target="_blank" rel="noopener">LINE WORKS メンバーのアカウントを安全に削除する方法</a> ／
+<a href="https://help.worksmobile.com/ja/faqs/all-services/administrator/member/operating-of-each-service-after-deleting-members/" target="_blank" rel="noopener">LINE WORKS メンバー削除後の各サービスの動作</a> ／
+<a href="https://help.worksmobile.com/ja/use-guides/settings/notification/notification-time/" target="_blank" rel="noopener">LINE WORKS 通知の受信時間帯</a> ／
+<a href="https://help.line.me/line/smartphone?contentId=20000236&lang=ja" target="_blank" rel="noopener">LINE 画像・動画の保存期間</a> ／
+<a href="https://help.worksmobile.com/ja/faqs/services/line-works/shoot-troubles/how-to-contact-supports/" target="_blank" rel="noopener">LINE WORKS 問い合わせ窓口</a> ／
+<a href="https://slack.com/intl/ja-jp/pricing" target="_blank" rel="noopener">Slack 料金</a> ／
+<a href="https://slack.com/intl/ja-jp/help/articles/4402059015315" target="_blank" rel="noopener">Slack ハドルミーティング</a> ／
+<a href="https://slack.com/intl/ja-jp/help/articles/201658943" target="_blank" rel="noopener">Slack データのエクスポート</a> ／
+<a href="https://slack.com/intl/ja-jp/help/articles/360041717053" target="_blank" rel="noopener">Slack 遠隔サインアウト</a> ／
+<a href="https://go.chatwork.com/ja/price/" target="_blank" rel="noopener">Chatwork 料金</a> ／
+<a href="https://help.chatwork.com/hc/ja/articles/203126364" target="_blank" rel="noopener">Chatwork 既読機能</a> ／
+<a href="https://help.chatwork.com/hc/ja/articles/900004201383" target="_blank" rel="noopener">Chatwork チャットログのエクスポート</a> ／
+<a href="https://go.chatwork.com/ja/law/" target="_blank" rel="noopener">Chatwork 特定商取引法に基づく表記</a> ／
+<a href="https://www.microsoft.com/ja-jp/microsoft-teams/essentials" target="_blank" rel="noopener">Microsoft Teams Essentials</a> ／
+<a href="https://www.microsoft.com/ja-jp/microsoft-teams/compare-microsoft-teams-business-options" target="_blank" rel="noopener">法人向けTeamsの比較</a> ／
+<a href="https://learn.microsoft.com/ja-jp/microsoftteams/get-started-with-teams-essentials" target="_blank" rel="noopener">Teams Essentials の始め方</a> ／
+<a href="https://support.microsoft.com/ja-jp/teams/chat/use-read-receipts-for-messages-in-microsoft-teams" target="_blank" rel="noopener">Teams 開封確認</a>
+</footer>
+
+</main>
+</div>
+</body>
+</html>
